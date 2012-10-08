@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="17" version="2.0">
+<workbench progressCount="19" version="2.0">
 <workbenchAdvisor/>
 <window height="933" width="1590" x="35" y="49">
 <fastViewData fastViewLocation="1024"/>
+<intro standby="true"/>
 <perspectiveBar>
 <itemSize x="160"/>
 </perspectiveBar>
@@ -16,14 +17,14 @@
 <coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="100" y="22"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="62" y="22"/>
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="62" y="22"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="98" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="54" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="152" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="com.android.ide.eclipse.editors.CommonXmlEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="com.android.ide.eclipse.editors.CommonXmlEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
@@ -32,38 +33,10 @@
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-<part id="2"/>
-<part id="3"/>
-<part id="4"/>
-<part id="5"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </editorArea>
-<editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="upload.xml" partName="upload.xml" path="/Volumes/Macintosh HD/Users/Casey Feldman/Documents/School/College/Senior Year/Intro to Software/Beanstalk/g.r.tech.Intro/res/layout/upload.xml" title="upload.xml" tooltip="g.r.tech.Intro/res/layout/upload.xml" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/g.r.tech.Intro/res/layout/upload.xml"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="UploadScreen.java" partName="UploadScreen.java" path="/Volumes/Macintosh HD/Users/Casey Feldman/Documents/School/College/Senior Year/Intro to Software/Beanstalk/g.r.tech.Intro/src/g/r/tech/UploadScreen.java" title="UploadScreen.java" tooltip="g.r.tech.Intro/src/g/r/tech/UploadScreen.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/g.r.tech.Intro/src/g/r/tech/UploadScreen.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="332" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Home.java" partName="Home.java" path="/Volumes/Macintosh HD/Users/Casey Feldman/Documents/School/College/Senior Year/Intro to Software/Beanstalk/g.r.tech.Intro/src/g/r/tech/Home.java" title="Home.java" tooltip="g.r.tech.Intro/src/g/r/tech/Home.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/g.r.tech.Intro/src/g/r/tech/Home.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="599" selectionTopPixel="407"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Intro.java" partName="Intro.java" path="/Volumes/Macintosh HD/Users/Casey Feldman/Documents/School/College/Senior Year/Intro to Software/Beanstalk/g.r.tech.Intro/src/g/r/tech/Intro.java" title="Intro.java" tooltip="g.r.tech.Intro/src/g/r/tech/Intro.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/g.r.tech.Intro/src/g/r/tech/Intro.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="387" selectionTopPixel="0"/>
-</editor>
-<editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="strings.xml" partName="strings.xml" path="/Volumes/Macintosh HD/Users/Casey Feldman/Documents/School/College/Senior Year/Intro to Software/Beanstalk/g.r.tech.Intro/res/values/strings.xml" title="strings.xml" tooltip="g.r.tech.Intro/res/values/strings.xml" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/g.r.tech.Intro/res/values/strings.xml"/>
-</editor>
-<editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="screen2.xml" partName="screen2.xml" path="/Volumes/Macintosh HD/Users/Casey Feldman/Documents/School/College/Senior Year/Intro to Software/Beanstalk/g.r.tech.Intro/res/layout/screen2.xml" title="screen2.xml" tooltip="g.r.tech.Intro/res/layout/screen2.xml" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/g.r.tech.Intro/res/layout/screen2.xml"/>
-</editor>
 </editors>
 <views>
 <view id="com.android.ide.eclipse.ddms.views.LogCatView" partName="LogCat">
@@ -74,6 +47,9 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
+<expanded>
+<category IMemento.internal.id="Warnings (3 items)"/>
+</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="84" org.eclipse.ui.ide.markerType="114" org.eclipse.ui.ide.pathField="179" org.eclipse.ui.ide.resourceField="114" org.eclipse.ui.ide.severityAndDescriptionField="704"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -112,6 +88,12 @@
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.SyntheticMembersFilter" isEnabled="true"/>
 </xmlDefinedFilters>
 </customFilters>
+</viewState>
+</view>
+<view id="org.eclipse.ui.internal.introview" partName="Welcome">
+<viewState>
+<presentation currentPage="root" restore="true"/>
+<standbyPart/>
 </viewState>
 </view>
 <view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
@@ -188,6 +170,7 @@
 <view id="com.android.ide.eclipse.ddms.views.LogCatView"/>
 <view id="org.eclipse.ui.views.PropertySheet"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
+<view id="org.eclipse.ui.internal.introview"/>
 <fastViewBars/>
 <layout>
 <mainWindow>
@@ -204,16 +187,18 @@
 </folder>
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@69ddad02" ratio="0.75" ratioLeft="762" ratioRight="254" relationship="2" relative="left">
-<folder appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.internal.introview" appearance="2" expanded="2">
+<page content="org.eclipse.ui.internal.introview" label="Welcome"/>
 <page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
-<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.25" ratioLeft="254" ratioRight="762" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.7278178" ratioLeft="607" ratioRight="227" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ProblemView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
@@ -248,116 +233,19 @@
 </perspective>
 </perspectives>
 <workingSets/>
-<navigationHistory>
-<editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" path="/g.r.tech.Intro/res/layout/upload.xml"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" path="/g.r.tech.Intro/res/layout/screen2.xml"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" path="/g.r.tech.Intro/res/layout/screen1.xml"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/g.r.tech.Intro/src/g/r/tech/UploadScreen.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/g.r.tech.Intro/src/g/r/tech/Home.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/g.r.tech.Intro/src/g/r/tech/Intro.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" path="/g.r.tech.Intro/res/values/strings.xml"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/g.r.tech.Intro/src/g/r/tech/UploadScreen.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/g.r.tech.Intro/src/g/r/tech/Home.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" path="/g.r.tech.Intro/res/layout/screen2.xml"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/g.r.tech.Intro/src/g/r/tech/SaveScreen.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/g.r.tech.Intro/src/g/r/tech/DropboxLog.java"/>
-</editors>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="screen2.xml" index="1"/>
-<item historyLabel="screen1.xml" index="2"/>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="screen1.xml" index="2"/>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="screen1.xml" index="2"/>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="screen1.xml" index="2"/>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="UploadScreen.java" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Home.java" index="4">
-<position info="not_deleted" x="471" y="139"/>
-</item>
-<item historyLabel="UploadScreen.java" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="UploadScreen.java" index="3">
-<position info="not_deleted" x="332" y="0"/>
-</item>
-<item historyLabel="UploadScreen.java" index="3">
-<position info="not_deleted" x="310" y="0"/>
-</item>
-<item historyLabel="Home.java" index="4">
-<position info="not_deleted" x="471" y="139"/>
-</item>
-<item historyLabel="Intro.java" index="5">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Home.java" index="4">
-<position info="not_deleted" x="471" y="139"/>
-</item>
-<item historyLabel="Intro.java" index="5">
-<position info="not_deleted" x="387" y="0"/>
-</item>
-<item historyLabel="Home.java" index="4">
-<position info="not_deleted" x="599" y="0"/>
-</item>
-<item historyLabel="UploadScreen.java" index="3">
-<position info="not_deleted" x="324" y="0"/>
-</item>
-<item historyLabel="upload.xml" index="0">
-<position info="not_deleted" x="987" y="17"/>
-</item>
-<item historyLabel="strings.xml" index="6"/>
-<item historyLabel="upload.xml" index="0">
-<position info="not_deleted" x="987" y="17"/>
-</item>
-<item historyLabel="strings.xml" index="6"/>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="strings.xml" index="6"/>
-<item historyLabel="UploadScreen.java" index="7">
-<position info="not_deleted" x="324" y="0"/>
-</item>
-<item historyLabel="Home.java" index="8">
-<position info="not_deleted" x="599" y="0"/>
-</item>
-<item historyLabel="screen2.xml" index="9"/>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="UploadScreen.java" index="7">
-<position info="not_deleted" x="332" y="0"/>
-</item>
-<item historyLabel="upload.xml" index="0"/>
-<item historyLabel="Home.java" index="8">
-<position info="not_deleted" x="599" y="0"/>
-</item>
-<item historyLabel="UploadScreen.java" index="7">
-<position info="not_deleted" x="332" y="0"/>
-</item>
-<item historyLabel="SaveScreen.java" index="10">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="UploadScreen.java" index="7">
-<position info="not_deleted" x="332" y="0"/>
-</item>
-<item historyLabel="DropboxLog.java" index="11">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="UploadScreen.java" index="7">
-<position info="not_deleted" x="332" y="0"/>
-</item>
-<item historyLabel="Home.java" index="8">
-<position info="not_deleted" x="599" y="0"/>
-</item>
-<item active="true" historyLabel="UploadScreen.java" index="7">
-<position info="not_deleted" x="332" y="0"/>
-</item>
-</navigationHistory>
+<navigationHistory/>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
+<trimArea IMemento.internal.id="16384">
+<trimItem IMemento.internal.id="left"/>
+</trimArea>
+<trimArea IMemento.internal.id="131072">
+<trimItem IMemento.internal.id="right"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@69ddad02"/>
+</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
@@ -365,6 +253,7 @@
 <trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+<trimItem IMemento.internal.id="bottom"/>
 </trimArea>
 </trimLayout>
 </window>
