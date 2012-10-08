@@ -1,0 +1,15 @@
+!SESSION 2012-10-08 17:10:22.070 -----------------------------------------------
+eclipse.buildId=M20110210-1200
+java.version=1.6.0_35
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Volumes/Macintosh HD/Users/Casey Feldman/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Volumes/Macintosh HD/Users/Casey Feldman/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.ui.ide 4 4 2012-10-08 17:28:31.671
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 2 1 2012-10-08 17:28:31.675
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2012-10-08 17:28:31.675
+!MESSAGE The project description file (.project) for 'g.r.tech.Intro' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
