@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/background1"
@@ -7,20 +7,49 @@
     android:orientation="vertical" >
      
     <TextView
+        android:id="@+id/dropboxHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/dropbox"
+        
+    />
+    
+    <TextView
         android:id="@+id/tvHeader1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enter"
-        android:layout_gravity="center"
-        android:textSize = "25dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/dropboxHeader"
+        
     />
-    <TextView
-        android:id="@+id/tvHeader2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DropBox information"
-        android:layout_gravity="center"
-        android:textSize = "25dp"
+    
+    <EditText
+        android:id="@+id/dropboxEmail"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:textColor="#000000"
+        android:background="#FFFFFF"
+         />
+
+    <EditText
+      	android:layout_width="250dp"
+      	android:layout_height="35dp"
+      	android:id="@+id/dropboxPassword"
+      	android:hint="@string/password"
+      	android:inputType="textPassword"
+      	android:layout_below="@id/dropboxEmail"
+      	android:layout_centerHorizontal="true"
+      	android:textColor="#000000"
+      	android:background="#FFFFFF"
     />
 
     <Button
@@ -29,15 +58,18 @@
         android:layout_height="45dp"
         android:text="@string/login"
 		android:textSize="25dp"
-		android:layout_gravity="center"
+		android:layout_centerHorizontal="true"
+		android:layout_above="@id/bLogout"
         />
+
     <Button
         android:id="@+id/bLogout"
         android:layout_width="250dp"
         android:layout_height="45dp"
         android:text="@string/logout"
-		android:textSize="25dp"
-		android:layout_gravity="center"
+        android:textSize="25dp" 
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         />
 
-</LinearLayout>
+</RelativeLayout>

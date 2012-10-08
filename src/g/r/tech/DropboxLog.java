@@ -30,7 +30,6 @@ public class DropboxLog extends Activity {
         login = (Button) findViewById(R.id.bLogin);
         logout = (Button) findViewById(R.id.bLogout);
         header1 = (TextView) findViewById(R.id.tvHeader1);
-        header2 = (TextView) findViewById(R.id.tvHeader2);
         
         login.setOnClickListener(new View.OnClickListener() {
 			
