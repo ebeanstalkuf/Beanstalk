@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	android:id="@+id/widget32"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+<ImageView
+	android:id="@+id/search"
+	android:layout_width="35dp"
+	android:layout_height="35dp"
+	android:src="@drawable/search"
+	android:layout_alignParentBottom="true"
+	android:layout_alignParentRight="true" />
+<ImageView
+	android:id="@+id/settings"
+	android:layout_width="35dp"
+	android:layout_height="35dp"
+	android:src="@drawable/settings"
+	android:layout_alignParentBottom="true"
+	android:layout_alignParentLeft="true" />
+<TableRow
+	android:id="@+id/icontablerow"
+	android:layout_width="320dp"
+	android:layout_height="35dp"
+	android:background="#ff99ccff"
+	android:orientation="horizontal"
+	android:layout_alignParentTop="true"
+	android:layout_alignParentLeft="true">
+</TableRow>
+<ImageView
+	android:id="@+id/uploadcloud"
+	android:layout_width="100px"
+	android:layout_height="72px"
+	android:src="@drawable/empty_upload_cloud"
+	android:layout_above="@+id/search"
+	android:layout_centerHorizontal="true" />
+</RelativeLayout>
