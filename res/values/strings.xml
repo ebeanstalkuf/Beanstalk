@@ -3,5 +3,10 @@
 
     <string name="hello">Hello World, Home!</string>
     <string name="app_name">Beanstalk</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="enter">Enter your information:</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
 
 </resources>
