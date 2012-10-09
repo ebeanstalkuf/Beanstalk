@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 //HEY THERE
@@ -21,6 +22,9 @@ public class DropboxLog extends Activity {
 	Button logout;
 	TextView header1;
 	TextView header2;
+	TextView logo;
+	EditText email;
+	EditText password;
 	
 	
     @Override
@@ -30,6 +34,10 @@ public class DropboxLog extends Activity {
         login = (Button) findViewById(R.id.bLogin);
         logout = (Button) findViewById(R.id.bLogout);
         header1 = (TextView) findViewById(R.id.tvHeader1);
+        logo = (TextView) findViewById(R.id.dropboxHeader);
+        email = (EditText) findViewById(R.id.dropboxEmail);
+        password = (EditText) findViewById(R.id.dropboxPassword);
+        
         
         login.setOnClickListener(new View.OnClickListener() {
 			
