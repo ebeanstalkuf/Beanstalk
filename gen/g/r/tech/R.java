@@ -62,18 +62,26 @@ public final class R {
         public static final int Upcloud=0x7f050009;
         public static final int bLogin=0x7f050005;
         public static final int bLogout=0x7f050004;
+        public static final int dropbox=0x7f050011;
         public static final int dropboxEmail=0x7f050003;
         public static final int dropboxHeader=0x7f050000;
         public static final int dropboxPassword=0x7f050002;
+        public static final int icontablerow=0x7f050010;
+        public static final int nofile=0x7f050013;
+        public static final int search=0x7f05000e;
+        public static final int settings=0x7f05000f;
         public static final int textView1=0x7f05000b;
         public static final int textView2=0x7f05000c;
         public static final int tvHeader1=0x7f050001;
+        public static final int uploadcloud=0x7f050012;
+        public static final int widget32=0x7f05000d;
     }
     public static final class layout {
         public static final int intro=0x7f030000;
         public static final int main=0x7f030001;
         public static final int screen1=0x7f030002;
         public static final int screen2=0x7f030003;
+        public static final int upload=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
