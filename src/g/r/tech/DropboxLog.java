@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import com.dropbox.client2.session.Session.AccessType;
 
 //Sean Farrell changes test
 
@@ -18,6 +19,23 @@ public class DropboxLog extends Activity {
 	TextView header1;
 	TextView header2;
 	TextView logo;
+	
+    private static final String TAG = "DBRoulette";
+
+    ///////////////////////////////////////////////////////////////////////////
+    //                      Your app-specific settings.                      //
+    ///////////////////////////////////////////////////////////////////////////
+
+    // Replace this with your app key and secret assigned by Dropbox.
+    // Note that this is a really insecure way to do this, and you shouldn't
+    // ship code which contains your key & secret in such an obvious way.
+    // Obfuscation is good.
+    final static private String APP_KEY = "dhgel7d3dcsen3d";
+    final static private String APP_SECRET = "evnp2bxtokmy7yy";
+
+    // If you'd like to change the access type to the full Dropbox instead of
+    // an app folder, change this value.
+    final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
 	
 	
     @Override
