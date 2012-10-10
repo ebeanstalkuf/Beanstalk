@@ -65,6 +65,8 @@ public class DropboxLog extends Activity {
     final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 
 
+    //Testing Andrew's ignore file
+    
     DropboxAPI<AndroidAuthSession> mApi;
 
     private boolean mLoggedIn;
