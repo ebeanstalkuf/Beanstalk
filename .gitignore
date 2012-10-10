@@ -105,3 +105,5 @@ bin/classes/g/r/tech/R$string.class
 bin/classes/g/r/tech/R$layout.class
 
 bin/resources.ap_
+
+bin/AndroidManifest.xml
