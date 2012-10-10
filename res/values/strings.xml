@@ -8,5 +8,6 @@
     <string name="enter">Enter your information:</string>
     <string name="email">Email address</string>
     <string name="password">Password</string>
+    <string name="back">back</string>
 
 </resources>

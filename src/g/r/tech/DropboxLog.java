@@ -14,6 +14,7 @@ public class DropboxLog extends Activity {
 	
 	Button login;
 	Button logout;
+	Button back;
 	TextView header1;
 	TextView header2;
 	TextView logo;
@@ -25,6 +26,7 @@ public class DropboxLog extends Activity {
         setContentView(R.layout.screen1);
         login = (Button) findViewById(R.id.bLogin);
         logout = (Button) findViewById(R.id.bLogout);
+        back = (Button) findViewById(R.id.bBack);
         header1 = (TextView) findViewById(R.id.tvHeader1);
         logo = (TextView) findViewById(R.id.dropboxHeader);
         
@@ -40,6 +42,13 @@ public class DropboxLog extends Activity {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
+			}
+		});
+        back.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				DropboxLog.this.finish();
 				
 			}
 		});
