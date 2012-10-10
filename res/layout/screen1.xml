@@ -2,32 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background1"
-    android:gravity="center_horizontal"
-    android:orientation="vertical" >
-     
+    android:background="@drawable/background3"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_centerVertical="true" >
+
     <TextView
-        android:id="@+id/dropboxHeader"
-        android:layout_width="250dp"
+        android:id="@+id/whiteBox"
+        android:layout_width="300dp"
         android:layout_height="70dp"
-        android:text=""
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/dropboxtitle"
-        
-    />
-    
+        android:layout_marginTop="28dp"
+        android:background="#FFFFFF" />
+
+    <Button
+        android:id="@+id/bLogin"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="38dp"
+        android:background="@drawable/signin_box"
+        android:text="@string/signIn"
+        android:textSize="25dp" />
+
     <TextView
         android:id="@+id/tvHeader1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/enter"
+        android:layout_below="@+id/whiteBox"
         android:layout_centerHorizontal="true"
-        android:textSize="25dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="@string/enter"
         android:textColor="#FFFFFF"
-        android:layout_below="@id/dropboxHeader"
-        
-    />
+        android:textSize="25dp" />
 
+<<<<<<< HEAD
     <Button
         android:id="@+id/bLogout"
         android:layout_width="250dp"
@@ -35,10 +44,45 @@
         android:text="@string/logout"
         android:textSize="25dp" 
         android:layout_centerVertical="true"
+=======
+    <EditText
+        android:id="@+id/dropboxEmail"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/tvHeader1"
+        android:layout_centerVertical="true"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/dropboxPassword"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/dropboxEmail"
+        android:layout_below="@+id/dropboxEmail"
+        android:layout_marginTop="1dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:id="@+id/dropboxHeader"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/tvHeader1"
+>>>>>>> layout of login screen
         android:layout_centerHorizontal="true"
-        />
-    
+        android:src="@drawable/dropboxtitle" />
+
     <Button
+<<<<<<< HEAD
         android:id="@+id/bLogin"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -57,5 +101,16 @@
 		android:layout_centerHorizontal="true"
 		android:layout_below="@id/bLogout"
         />
+=======
+        android:id="@+id/bLogout"
+        android:layout_width="125dp"
+        android:layout_height="45dp"
+        android:layout_alignBaseline="@+id/bLogin"
+        android:layout_alignBottom="@+id/bLogin"
+        android:layout_alignRight="@+id/whiteBox"
+        android:background="@drawable/signout_box"
+        android:text="@string/signOut"
+        android:textSize="25dp" />
+>>>>>>> layout of login screen
 
 </RelativeLayout>
