@@ -11,7 +11,7 @@ public class Intro extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.screen1);
+        setContentView(R.layout.intro);
         
         //5 secons presentation
         Thread timer = new Thread()
