@@ -7,14 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-//HEY THERE
-//testing testing
-//testing
-//testing3
-//testing4
-//testing5
-//this is the last test before start making changes
-//dude where is my change?
+//Sean Farrell changes test
+
 public class DropboxLog extends Activity {
     /** Called when the activity is first created. */
 	
