@@ -107,3 +107,9 @@ bin/classes/g/r/tech/R$layout.class
 bin/resources.ap_
 
 bin/AndroidManifest.xml
+
+bin/classes.dex
+
+bin/resources.ap_
+
+gen/g/r/tech/R.java

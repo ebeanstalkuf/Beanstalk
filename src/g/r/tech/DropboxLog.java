@@ -41,7 +41,7 @@ public class DropboxLog extends Activity {
 	Button back;
 	TextView header1;
 	TextView header2;
-	TextView logo;
+	ImageView logo;
 	
     private static final String TAG = "DBRoulette";
 
@@ -81,7 +81,7 @@ public class DropboxLog extends Activity {
         logout = (Button) findViewById(R.id.bLogout);
         back = (Button) findViewById(R.id.bBack);
         header1 = (TextView) findViewById(R.id.tvHeader1);
-        logo = (TextView) findViewById(R.id.dropboxHeader);
+        logo = (ImageView) findViewById(R.id.dropboxHeader);
         
         
         login.setOnClickListener(new View.OnClickListener() {
