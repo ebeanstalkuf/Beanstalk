@@ -71,3 +71,11 @@ g.r.tech.Intro/bin/classes/g/r/tech/R$id.class
 .metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt
 
 .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+
+gen/g/r/tech/R.java
+
+bin/classes/g/r/tech/DropboxLog$1.class
+
+bin/classes/g/r/tech/DropboxLog$2.class
+
+bin/classes/g/r/tech/DropboxLog.class
