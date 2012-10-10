@@ -17,8 +17,6 @@ public class DropboxLog extends Activity {
 	TextView header1;
 	TextView header2;
 	TextView logo;
-	EditText email;
-	EditText password;
 	
 	
     @Override
@@ -29,8 +27,6 @@ public class DropboxLog extends Activity {
         logout = (Button) findViewById(R.id.bLogout);
         header1 = (TextView) findViewById(R.id.tvHeader1);
         logo = (TextView) findViewById(R.id.dropboxHeader);
-        email = (EditText) findViewById(R.id.dropboxEmail);
-        password = (EditText) findViewById(R.id.dropboxPassword);
         
         
         login.setOnClickListener(new View.OnClickListener() {
