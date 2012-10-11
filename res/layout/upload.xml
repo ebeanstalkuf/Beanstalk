@@ -37,28 +37,21 @@
         android:src="@drawable/dropbox_icon" />
 
 </TableRow>
-<ImageView
-	android:id="@+id/uploadcloud"
-	android:layout_width="120dp"
-	android:layout_height="92dp"
-	android:src="@drawable/empty_upload_cloud"
-	android:layout_above="@+id/search"
-	android:layout_centerHorizontal="true" />
+
+<TextView
+    android:id="@+id/textView1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/search"
+    android:layout_centerHorizontal="true"
+    android:text="Tap to Select File" />
 
 <Button
-    android:id="@+id/nofile"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:layout_alignBottom="@+id/uploadcloud"
+    android:id="@+id/Upcloud"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/textView1"
     android:layout_centerHorizontal="true"
-    android:layout_marginBottom="18dp"
-    android:background="@drawable/select_file" />
-<TextView
-      android:id="@+id/textView1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
-      android:layout_below="@+id/uploadcloud"
-      android:text="Tap to Select a File" />
+     android:background="@drawable/upcloud" />
 
 </RelativeLayout>
