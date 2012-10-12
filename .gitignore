@@ -113,3 +113,5 @@ bin/classes.dex
 bin/resources.ap_
 
 gen/g/r/tech/R.java
+
+res/drawable/.DS_Store
