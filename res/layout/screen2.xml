@@ -11,7 +11,7 @@
  <RadioButton
       android:id="@+id/Dropboxbutton"
       android:layout_width="250dp"
-      android:layout_height="wrap_content"
+      android:layout_height="60dp"
       android:layout_above="@+id/Googlebutton"
       android:layout_centerHorizontal="true"
       android:layout_marginBottom="1dp"
@@ -22,7 +22,7 @@
  <RadioButton
       android:id="@+id/Googlebutton"
      android:layout_width="250dp"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:layout_centerInParent="true"
     android:layout_marginBottom="1dp"
     android:background="@drawable/google" />
@@ -32,15 +32,15 @@
   <RadioButton
     android:id="@+id/Skydrivebutton"
     android:layout_width="250dp"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:layout_centerHorizontal="true"
     android:layout_below="@id/Googlebutton"
    android:background="@drawable/skydrive" />
 
   <Button
       android:id="@+id/Upcloud"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="72dp"
+      android:layout_height="48dp"
       android:layout_alignLeft="@+id/Skydrivebutton"
       android:layout_alignParentBottom="true"
       android:layout_marginBottom="18dp"
@@ -49,8 +49,8 @@
 
   <Button
       android:id="@+id/Downcloud"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="72dp"
+      android:layout_height="48dp"
       android:layout_alignBottom="@+id/Upcloud"
       android:layout_marginLeft="34dp"
       android:layout_toRightOf="@+id/Upcloud"

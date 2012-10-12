@@ -23,6 +23,7 @@ public class UploadScreen extends Activity {
         setContentView(R.layout.upload);
         
         findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
+        findViewById(R.id.blank).setOnTouchListener(new MyTouchListener());
     }
     
     private final class MyTouchListener implements OnTouchListener {
@@ -42,7 +43,8 @@ public class UploadScreen extends Activity {
     class MyDragListener implements OnDragListener {
         
         Drawable movingCloud = getResources().getDrawable(R.drawable.upcloud);
-
+        //this may be where we can substitute for the attached file preview; just make it invisible prior to drag
+        Drawable movingFile = getResources().getDrawable(R.drawable.default_file);
        
     	public boolean onDrag(View v, DragEvent event) {
           int action = event.getAction();
@@ -52,9 +54,11 @@ public class UploadScreen extends Activity {
             break;
           case DragEvent.ACTION_DRAG_ENTERED:
             v.setBackgroundDrawable(movingCloud);
+            v.setBackgroundDrawable(movingFile);
             break;
           case DragEvent.ACTION_DRAG_EXITED:
             v.setBackgroundDrawable(movingCloud);
+            v.setBackgroundDrawable(movingFile);
             break;
           case DragEvent.ACTION_DROP:
             // Dropped, reassign View to ViewGroup
@@ -67,6 +71,7 @@ public class UploadScreen extends Activity {
             break;
           case DragEvent.ACTION_DRAG_ENDED:
             v.setBackgroundDrawable(movingCloud);
+            v.setBackgroundDrawable(movingFile);
           default:
             break;
           }
@@ -74,5 +79,4 @@ public class UploadScreen extends Activity {
         }
       }
     
-    //brian's test commit
 }
