@@ -52,7 +52,6 @@ public class UploadScreen extends Activity {
         }
       }
     
-<<<<<<< HEAD
     public void uploadFile()
     {
     	
@@ -88,9 +87,6 @@ public class UploadScreen extends Activity {
     }
     
     class MyDragListener implements OnDragListener {
-=======
- class MyDragListener implements OnDragListener {
->>>>>>> Revised Upload screen so blank cloud drags when touched
         
         Drawable movingCloud = getResources().getDrawable(R.drawable.upcloud);
         //this may be where we can substitute for the attached file preview; just make it invisible prior to drag
