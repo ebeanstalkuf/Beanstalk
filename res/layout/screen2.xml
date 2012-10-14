@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background2"
+    android:background="@drawable/background3"
     android:orientation="vertical" >
 
     <TextView
@@ -85,7 +85,8 @@
         android:layout_alignLeft="@+id/whiteBox3"
         android:layout_marginLeft="27dp"
         android:layout_below="@+id/Downcloud"
-        android:text="Upload a File" />
+        android:text="Upload a File"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textView2"
@@ -94,6 +95,16 @@
         android:layout_below="@+id/Downcloud"
         android:layout_alignRight="@+id/whiteBox3"
         android:layout_marginRight="37dp"
-        android:text="Save a File" />
+        android:text="Save a File"
+        android:textColor="#FFFFFF"  />
+
+    <ImageView
+        android:id="@+id/default_file"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/whiteBox1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/logo" />
 
 </RelativeLayout>
