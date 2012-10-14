@@ -55,6 +55,7 @@
         android:layout_height="50dp"
         android:layout_below="@id/Googlebutton"
         android:layout_centerHorizontal="true"
+        android:padding_left="50dp"
         android:background="@drawable/skydrivetitle"
         android:layout_marginTop="6dp"
         android:checked="false" />
@@ -63,10 +64,10 @@
         android:id="@+id/Upcloud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Skydrivebutton"
+        android:layout_alignLeft="@+id/whiteBox3"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="35dp"
+        android:layout_marginLeft="33dp"
         android:background="@drawable/upcloud" />
 
     <Button
@@ -74,15 +75,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/Upcloud"
-        android:layout_marginLeft="34dp"
-        android:layout_toRightOf="@+id/Upcloud"
+        android:layout_alignRight="@+id/whiteBox3"
+        android:layout_marginRight="33dp"
         android:background="@drawable/downcloud" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Upcloud"
+        android:layout_alignLeft="@+id/whiteBox3"
+        android:layout_marginLeft="27dp"
         android:layout_below="@+id/Downcloud"
         android:text="Upload a File" />
 
@@ -90,8 +92,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/Downcloud"
+        android:layout_below="@+id/Downcloud"
+        android:layout_alignRight="@+id/whiteBox3"
+        android:layout_marginRight="37dp"
         android:text="Save a File" />
 
 </RelativeLayout>
