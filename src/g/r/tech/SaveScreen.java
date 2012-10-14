@@ -28,7 +28,7 @@ import android.widget.Toast;
 import android.app.ListActivity;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class SaveScreen extends Activity {
+public class SaveScreen extends ListActivity {
 	Button dropboxfiles;
 	private Context mContext;
     private DropboxAPI<?> mApi;
@@ -69,15 +69,13 @@ public class SaveScreen extends Activity {
 				    {
 				    	mApi = new DropboxAPI<AndroidAuthSession>(session);
 				    	// Find the ListView resource.   
-						dbListView = (ListView) findViewById(R.id.list);  
+						dbListView = (ListView) findViewById(android.R.id.list);  
 				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView);
-				    	update.execute();
-				    	 			
-						
+				    	update.execute();	
 				    }
-			        
 			}
 			
+		
 		});
         
     }

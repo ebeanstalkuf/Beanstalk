@@ -1,6 +1,8 @@
 package g.r.tech;
 
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -78,6 +81,14 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 		dblistAdapter = new ArrayAdapter<String>(mContext,R.layout.screen5_rowlayout, R.id.label, fnames);
 		// Set the ArrayAdapter as the ListView's adapter.  
 		dbListView.setAdapter( dblistAdapter );
-		
+		dbListView.setOnItemClickListener(new OnItemClickListener(){
+
+        	@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long id) {
+				// TODO Auto-generated method stub
+        		showToast("You clicked something!");
+			}
+        	});
     }
 }
