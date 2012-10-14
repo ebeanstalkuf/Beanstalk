@@ -28,7 +28,7 @@ import android.widget.Toast;
 import android.app.ListActivity;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class SaveScreen extends ListActivity {
+public class SaveScreen extends Activity {
 	Button dropboxfiles;
 	private Context mContext;
     private DropboxAPI<?> mApi;
