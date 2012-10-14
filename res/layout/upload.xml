@@ -45,10 +45,14 @@
         android:layout_above="@+id/search"
         android:layout_centerHorizontal="true"
         android:text="Tap to Select File" />
-<RelativeLayout
+
+
     android:id="@+id/draggable_cloud"
-    
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/textView1"
+    android:layout_centerHorizontal="true" 
+
     <Button
         android:id="@+id/Upcloud"
         android:layout_width="140dp"
@@ -67,7 +71,7 @@
         android:background="@drawable/select_file" />
 
     <ImageView
-        android:id="@+id/default"
+        android:id="@+id/default_file"
         android:layout_width="48dp"
         android:layout_height="53dp"
         android:layout_alignBottom="@+id/Upcloud"
@@ -75,5 +79,5 @@
         android:layout_marginBottom="14dp"
         android:visibility="invisible"
         android:background="@drawable/default_file" />
-    </RelativeLayout>
+
 </RelativeLayout>

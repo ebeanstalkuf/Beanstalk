@@ -22,8 +22,8 @@ public class UploadScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload);
         
-        findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
-        findViewById(R.id.default).setOnTouchListener(new MyTouchListener());
+       findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
+       findViewById(R.id.default_file).setOnTouchListener(new MyTouchListener());
     }
     
     private final class MyTouchListener implements OnTouchListener {
