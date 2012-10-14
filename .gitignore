@@ -115,3 +115,5 @@ bin/resources.ap_
 gen/g/r/tech/R.java
 
 res/drawable/.DS_Store
+
+bin/classes/g/r/tech/SaveScreen.class
