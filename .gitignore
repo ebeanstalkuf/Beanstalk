@@ -115,3 +115,10 @@ bin/resources.ap_
 gen/g/r/tech/R.java
 
 res/drawable/.DS_Store
+<<<<<<< HEAD
+=======
+
+bin/classes/g/r/tech/SaveScreen.class
+
+bin/classes/g/r/tech/SaveScreen.class
+>>>>>>> gitignore
