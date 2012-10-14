@@ -23,7 +23,7 @@
 
     <TableRow
         android:id="@+id/icontablerow"
-        android:layout_width="320dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -44,14 +44,15 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/search"
         android:layout_centerHorizontal="true"
+        android:textColor="#448d51"
         android:text="Tap to Select File" />
 
-
+<RelativeLayout 
     android:id="@+id/draggable_cloud"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_above="@+id/textView1"
-    android:layout_centerHorizontal="true" 
+    android:layout_centerHorizontal="true" >
 
     <Button
         android:id="@+id/Upcloud"
@@ -79,5 +80,5 @@
         android:layout_marginBottom="14dp"
         android:visibility="invisible"
         android:background="@drawable/default_file" />
-
+</RelativeLayout>
 </RelativeLayout>

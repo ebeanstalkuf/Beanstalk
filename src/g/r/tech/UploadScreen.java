@@ -22,8 +22,7 @@ public class UploadScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload);
         
-       findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
-       findViewById(R.id.default_file).setOnTouchListener(new MyTouchListener());
+       findViewById(R.id.draggable_cloud).setOnTouchListener(new MyTouchListener());
     }
     
     private final class MyTouchListener implements OnTouchListener {
@@ -58,7 +57,7 @@ public class UploadScreen extends Activity {
             break;
           case DragEvent.ACTION_DRAG_EXITED:
             v.setBackgroundDrawable(movingCloud);
-            v.setBackgroundDrawable(movingFile);
+           v.setBackgroundDrawable(movingFile);
             break;
           case DragEvent.ACTION_DROP:
             // Dropped, reassign View to ViewGroup
