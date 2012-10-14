@@ -8,35 +8,56 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 public class Home extends Activity {
     /** Called when the activity is first created. */
     
+	static //Menu buttons screen1 HOME
+	RadioButton DropboxLog;
+
 	//Menu buttons screen1 HOME
-	Button DropboxLog, GoogleLog, SkydriveLog, UploadScreen, SaveScreen;
+	RadioButton GoogleLog;
+
+	//Menu buttons screen1 HOME
+	RadioButton SkydriveLog; 
+	
+	Button UploadScreen, SaveScreen;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen2);
         
-        DropboxLog = (Button) findViewById(R.id.Dropboxbutton);
-        GoogleLog = (Button) findViewById(R.id.Googlebutton);
-        SkydriveLog = (Button) findViewById(R.id.Skydrivebutton);
+        DropboxLog = (RadioButton) findViewById(R.id.Dropboxbutton);
+        GoogleLog = (RadioButton) findViewById(R.id.Googlebutton);
+        SkydriveLog = (RadioButton) findViewById(R.id.Skydrivebutton);
         UploadScreen = (Button) findViewById(R.id.Upcloud);
-        SaveScreen = (Button) findViewById(R.id.Downcloud);
-       
+        SaveScreen = (Button) findViewById(R.id.Downcloud); 
+        
         //click listeners for buttons
+        
+ 
+
+        
+        
         DropboxLog.setOnClickListener(new View.OnClickListener() {
-			
+        	
+        	
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent openDropbox = new Intent(v.getContext(), DropboxLog.class);
     			startActivityForResult(openDropbox,0);
-			}
+    			DropboxLog.setChecked(false);
 
+			}
+			
 						
 		});
+        
+        
+        
         
         GoogleLog.setOnClickListener(new View.OnClickListener() {
 			
@@ -44,8 +65,11 @@ public class Home extends Activity {
 				// TODO Auto-generated method stub
 				Intent openGoogle = new Intent(v.getContext(), GoogleLog.class);
 				startActivityForResult(openGoogle, 0);
+				
 			}
+			
 		});
+        
         
         SkydriveLog.setOnClickListener(new View.OnClickListener() {
 			
@@ -77,7 +101,10 @@ public class Home extends Activity {
        
     }
 
-	
+	public static  void setDropboxLog(boolean mLoggedIn) {
+		// TODO Auto-generated method stub
+		DropboxLog.setChecked(mLoggedIn);
+	}
 	
 	
 

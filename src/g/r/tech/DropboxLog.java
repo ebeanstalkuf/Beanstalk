@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class DropboxLog extends Activity {
 	TextView header2;
 	ImageView logo;
 	
+	
+	
     private static final String TAG = "DBRoulette";
 
     ///////////////////////////////////////////////////////////////////////////
@@ -63,18 +66,21 @@ public class DropboxLog extends Activity {
     final static private String ACCOUNT_PREFS_NAME = "prefs";
     final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
     final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
-
+  
+    
+    
 
     //Testing Andrew's ignore file
     
     DropboxAPI<AndroidAuthSession> mApi;
 
-    private boolean mLoggedIn;
+    private static boolean mLoggedIn;
 
     // Android widgets
 
     private final String PHOTO_DIR = "/Photos/";
 	
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +115,6 @@ public class DropboxLog extends Activity {
 			
 			public void onClick(View v) {
 				DropboxLog.this.finish();
-				
 			}
 		});
         
@@ -140,12 +145,14 @@ public class DropboxLog extends Activity {
                 TokenPair tokens = session.getAccessTokenPair();
                 storeKeys(tokens.key, tokens.secret);
                 setLoggedIn(true);
+                
             } catch (IllegalStateException e) {
                 showToast("Couldn't authenticate with Dropbox:" + e.getLocalizedMessage());
                 Log.i(TAG, "Error authenticating", e);
             }
         }
     }
+    
     
     private void logOut() {
         // Remove credentials from the session
@@ -163,11 +170,12 @@ public class DropboxLog extends Activity {
     private void setLoggedIn(boolean loggedIn) {
     	mLoggedIn = loggedIn;
     	if (loggedIn) {
-    		
+    		Home.setDropboxLog(loggedIn);
     	} else {
-    		
     	}
-    }
+    } //SUCCESS
+    
+   
 
     private void checkAppKeySetup() {
         // Check to make sure that we have a valid app key
