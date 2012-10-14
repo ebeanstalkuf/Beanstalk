@@ -162,6 +162,7 @@ public class DropboxLog extends Activity {
         clearKeys();
         // Change UI state to display logged out version
         setLoggedIn(false);
+        Home.setDropboxLog(false);
     }
 
     /**
@@ -169,7 +170,7 @@ public class DropboxLog extends Activity {
      */
     private void setLoggedIn(boolean loggedIn) {
     	mLoggedIn = loggedIn;
-    	if (loggedIn) {
+    	if (loggedIn==true) {
     		Home.setDropboxLog(loggedIn);
     	} else {
     	}
