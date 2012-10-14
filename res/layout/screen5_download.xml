@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget32"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/upload_default_background" >
+
+    <ImageView
+        android:id="@+id/dropbox"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/filebrowser_titlebar" />
+
+    <Button
+        android:id="@+id/dropbox_fileb"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/dropbox_icon" />
+
+    <ImageView
+        android:id="@+id/dropbox"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/search" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/dropbox"
+        tools:listitem="@android:layout/simple_list_item_1" >
+    </ListView>
+
+</RelativeLayout>

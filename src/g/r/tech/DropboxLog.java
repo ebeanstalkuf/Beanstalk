@@ -61,7 +61,7 @@ public class DropboxLog extends Activity {
 
     // If you'd like to change the access type to the full Dropbox instead of
     // an app folder, change this value.
-    final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+    final static private AccessType ACCESS_TYPE = AccessType.DROPBOX;
     
     final static private String ACCOUNT_PREFS_NAME = "prefs";
     final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
