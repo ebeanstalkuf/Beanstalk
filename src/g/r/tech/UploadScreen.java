@@ -23,7 +23,7 @@ public class UploadScreen extends Activity {
         setContentView(R.layout.upload);
         
         findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
-        findViewById(R.id.blank).setOnTouchListener(new MyTouchListener());
+        findViewById(R.id.default).setOnTouchListener(new MyTouchListener());
     }
     
     private final class MyTouchListener implements OnTouchListener {
