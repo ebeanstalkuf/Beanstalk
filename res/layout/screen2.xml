@@ -125,8 +125,8 @@
 
     <RadioButton
         android:id="@+id/Skydrivebutton"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
         android:layout_below="@id/Googlebutton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="6dp"
