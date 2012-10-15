@@ -159,7 +159,7 @@
         android:layout_below="@+id/Downcloud"
         android:layout_marginLeft="27dp"
         android:text="Upload a File"
-	android:textColor="FFFFFF" />
+	android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textView2"
@@ -169,7 +169,7 @@
         android:layout_below="@+id/Downcloud"
         android:layout_marginRight="37dp"
         android:text="Save a File"
-	android:textColor="FFFFFF" />
+	android:textColor="#FFFFFF" />
 
    <ImageView
         android:id="@+id/default_file"
