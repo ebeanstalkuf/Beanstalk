@@ -65,7 +65,7 @@ public class Home extends Activity {
 				// TODO Auto-generated method stub
 				Intent openGoogle = new Intent(v.getContext(), GoogleLog.class);
 				startActivityForResult(openGoogle, 0);
-				
+				GoogleLog.setChecked(false);
 			}
 			
 		});
@@ -77,6 +77,7 @@ public class Home extends Activity {
 				// TODO Auto-generated method stub
 				Intent openSkydrive = new Intent(v.getContext(), SkydriveLog.class);
 				startActivityForResult(openSkydrive, 0);
+				SkydriveLog.setChecked(false);
 			}
 		});
         
