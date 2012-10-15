@@ -14,14 +14,39 @@
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF" />
 
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/Googlebutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp" >
+
+        <ImageView
+            android:id="@+id/dropboxImage"
+            android:layout_width="175dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/Googlebutton"
+            android:layout_marginLeft="37dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/dropboxtitle" />
+
+        <ImageView
+            android:id="@+id/greenArrow1"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/green_arrow" />
+    </LinearLayout>
+
     <RadioButton
         android:id="@+id/Dropboxbutton"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
         android:layout_above="@+id/Googlebutton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/dropboxtitle"
         android:checked="false" />
 
     <TextView
@@ -32,13 +57,37 @@
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF" />
 
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/ll1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="12dp" >
+
+        <ImageView
+            android:id="@+id/googleImage"
+            android:layout_width="175dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="37dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/googledrivetitle" />
+
+        <ImageView
+            android:id="@+id/greenArrow1"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/green_arrow" />
+    </LinearLayout>
+
     <RadioButton
         android:id="@+id/Googlebutton"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
         android:layout_centerInParent="true"
         android:layout_marginBottom="9dp"
-        android:background="@drawable/googledrivetitle"
         android:checked="false" />
 
     <TextView
@@ -49,13 +98,37 @@
         android:layout_centerHorizontal="true"
         android:background="#FFFFFF" />
 
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/ll1"
+        android:layout_below="@+id/Googlebutton"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="12dp" >
+
+        <ImageView
+            android:id="@+id/skydriveImage"
+            android:layout_width="175dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/Googlebutton"
+            android:layout_marginLeft="37dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/skydrivetitle" />
+        <ImageView
+            android:id="@+id/greenArrow1"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/green_arrow" />
+    </LinearLayout>
+
     <RadioButton
         android:id="@+id/Skydrivebutton"
         android:layout_width="175dp"
         android:layout_height="50dp"
         android:layout_below="@id/Googlebutton"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/skydrivetitle"
         android:layout_marginTop="6dp"
         android:checked="false" />
 
@@ -83,22 +156,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/whiteBox3"
-        android:layout_marginLeft="27dp"
         android:layout_below="@+id/Downcloud"
+        android:layout_marginLeft="27dp"
         android:text="Upload a File"
-        android:textColor="#FFFFFF" />
+	android:textColor="FFFFFF" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Downcloud"
         android:layout_alignRight="@+id/whiteBox3"
+        android:layout_below="@+id/Downcloud"
         android:layout_marginRight="37dp"
         android:text="Save a File"
-        android:textColor="#FFFFFF"  />
+	android:textColor="FFFFFF" />
 
-    <ImageView
+   <ImageView
         android:id="@+id/default_file"
         android:layout_width="300dp"
         android:layout_height="60dp"
@@ -106,5 +179,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
         android:background="@drawable/logo" />
+
 
 </RelativeLayout>
