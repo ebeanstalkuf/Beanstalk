@@ -3,11 +3,12 @@
     package="g.r.tech"
     android:versionCode="1"
     android:versionName="1.0" >
-
-    <uses-sdk android:minSdkVersion="15" />
+5
     
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
+    
+    
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name">
