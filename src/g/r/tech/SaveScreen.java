@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ListActivity;
 import android.widget.AdapterView.OnItemClickListener;
@@ -37,7 +38,8 @@ public class SaveScreen extends Activity {
     private Drawable mDrawable;
     ListView dbListView ;
     private FileOutputStream mFos;
-
+    TextView t;
+    Button b;
     private boolean mCanceled;
     private Long mFileLen;
     private String mErrorMsg;
@@ -54,7 +56,8 @@ public class SaveScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
-        
+       
+     
         //Create listener for Dropbox file update button
         dropboxfiles = (Button) findViewById(R.id.dropbox_fileb);
         dropboxfiles.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +72,11 @@ public class SaveScreen extends Activity {
 				    {
 				    	mApi = new DropboxAPI<AndroidAuthSession>(session);
 				    	// Find the ListView resource.   
-						dbListView = (ListView) findViewById(android.R.id.list);  
-				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView);
+						dbListView = (ListView) findViewById(android.R.id.list);
+						//Find the Textview resource
+						t=(TextView)findViewById(R.id.filebrowserpath);
+						//Find the Button resource
+				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView, "/", t);
 				    	update.execute();	
 				    }
 			}

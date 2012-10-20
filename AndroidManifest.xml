@@ -3,10 +3,10 @@
     package="g.r.tech"
     android:versionCode="1"
     android:versionName="1.0" >
-5
     
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-
+	<uses-sdk android:minSdkVersion="3" 
+           />
     
     
     <application

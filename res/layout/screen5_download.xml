@@ -7,12 +7,29 @@
     android:background="@drawable/upload_default_background" >
 
     <ImageView
-        android:id="@+id/dropbox"
+        android:id="@+id/dropboxtitle"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:src="@drawable/filebrowser_titlebar" />
-
+    <ImageView
+        android:id="@+id/top_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="23dp"
+        android:textColor="#FFFF"
+		android:background="#808080"
+		android:layout_below="@id/dropboxtitle" />
+    <TextView
+        android:id="@+id/filebrowserpath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFF"
+    	android:textSize="18dp"
+    	android:singleLine="true"
+		android:ellipsize="marquee"
+		android:marqueeRepeatLimit="0"
+		android:layout_below="@id/dropboxtitle"
+		android:paddingLeft="5dp" />
     <Button
         android:id="@+id/dropbox_fileb"
         android:layout_width="50dp"
@@ -20,9 +37,9 @@
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/dropbox_icon" />
-
+    
     <ImageView
-        android:id="@+id/dropbox"
+        android:id="@+id/dropboxsearch"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
@@ -31,10 +48,12 @@
 
     <ListView
         android:id="@android:id/list"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/dropbox"
+        android:layout_below="@+id/filebrowserpath"
+        android:divider="#808080"
+        android:dividerHeight="2dp"
         tools:listitem="@android:layout/simple_list_item_1" >
     </ListView>
 
