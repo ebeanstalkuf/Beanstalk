@@ -4,7 +4,6 @@
      <item android:drawable="@drawable/downcloud" />
     <item android:drawable="@drawable/dropbox" />
      <item android:drawable="@drawable/google" />
-      <item android:drawable="@drawable/skydrive"   />
        <item android:drawable="@drawable/upcloud" 
        
        android:state_pressed= "true" />
