@@ -15,14 +15,6 @@
         android:background="@drawable/signin_box"
         android:text="@string/signIn"
         android:textSize="25dp" />
-        
-        <TextView
-        android:id="@+id/beginTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="begin"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:visibility="invisible" />
     
     <ImageView
         android:id="@+id/whiteBox"
