@@ -121,7 +121,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 			dbListView.setAdapter( dblistAdapter );
 			// Set Path text 
 			t.setText(path);
-			//showToast(Environment.getExternalStorageDirectory().getAbsolutePath());
+			showToast(Environment.getExternalStorageDirectory().getPath());
 			dbListView.setOnItemClickListener(new OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
