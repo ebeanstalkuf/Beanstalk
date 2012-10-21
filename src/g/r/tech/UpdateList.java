@@ -1,6 +1,7 @@
 package g.r.tech;
 
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -120,6 +121,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 			dbListView.setAdapter( dblistAdapter );
 			// Set Path text 
 			t.setText(path);
+			//showToast(Environment.getExternalStorageDirectory().getAbsolutePath());
 			dbListView.setOnItemClickListener(new OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
