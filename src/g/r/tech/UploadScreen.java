@@ -101,7 +101,8 @@ public class UploadScreen extends Activity {
             break;
           case DragEvent.ACTION_DRAG_ENTERED:
             v.setBackgroundDrawable(movingCloud);
-           // v.setBackgroundDrawable(movingFile);
+            // Drag has entered view bounds
+			// If called for trash can then scale it.
             break;
           case DragEvent.ACTION_DRAG_EXITED:
             v.setBackgroundDrawable(movingCloud);
