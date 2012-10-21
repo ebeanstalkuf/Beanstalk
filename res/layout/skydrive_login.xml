@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-=======
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> Added rounded rectangle resource and redesigned login pages
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/background3"
     android:orientation="vertical" >
-<<<<<<< HEAD
     
         <Button
         android:id="@+id/signInButton"
@@ -21,7 +16,7 @@
         android:text="@string/signIn"
         android:textSize="25dp" />
         
-            <TextView
+        <TextView
         android:id="@+id/beginTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,9 +24,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:visibility="invisible" />
     
-=======
->>>>>>> Added rounded rectangle resource and redesigned login pages
-
     <ImageView
         android:id="@+id/whiteBox"
         android:layout_width="320dp"
