@@ -1,5 +1,6 @@
 package g.r.tech;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,8 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore.Files;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,12 +34,14 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class SaveScreen extends Activity {
 	Button dropboxfiles;
+	Button sdcardfiles;
 	private Context mContext;
     private DropboxAPI<?> mApi;
     private String mPath;
     private ImageView mView;
     private Drawable mDrawable;
     ListView dbListView ;
+    ListView sdListView;
     private FileOutputStream mFos;
     TextView t;
     Button b;
@@ -58,7 +63,9 @@ public class SaveScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
        
-     
+
+
+                        
         //Create listener for Dropbox file update button
         dropboxfiles = (Button) findViewById(R.id.dropbox_fileb);
         dropboxfiles.setOnClickListener(new View.OnClickListener() {
