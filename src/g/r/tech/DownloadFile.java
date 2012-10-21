@@ -90,7 +90,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
             mFileLen = filename.bytes;
 
             //String sdpath = "/sdcard/" + "/" + filename.fileName();
-            String sdpath = Environment.getExternalStorageDirectory().getPath() + "/" + filename.fileName();
+            String sdpath = Environment.getExternalStoragePublicDirectory(filename.fileName()).getPath() + "/" + filename.fileName();
             try {
                 mFos = new FileOutputStream(sdpath);
             } catch (FileNotFoundException e) {
@@ -130,7 +130,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     protected void onPostExecute(Boolean result) {
         mDialog.dismiss();
         if (result) {
-            showToast("Successfully donwloaded " + filename.fileName());
+            showToast("Successfully downloaded " + filename.fileName());
             
         } else {
             // Couldn't download it, so show an error
