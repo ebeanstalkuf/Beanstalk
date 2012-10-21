@@ -87,7 +87,6 @@ public class DropboxLog extends Activity {
         setContentView(R.layout.screen1);
         login = (Button) findViewById(R.id.bLogin);
         logout = (Button) findViewById(R.id.bLogout);
-        back = (Button) findViewById(R.id.bBack);
         header1 = (TextView) findViewById(R.id.tvHeader1);
         logo = (ImageView) findViewById(R.id.dropboxHeader);
         

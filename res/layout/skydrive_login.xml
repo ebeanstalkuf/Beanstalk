@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+=======
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> Added rounded rectangle resource and redesigned login pages
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/background3"
     android:orientation="vertical" >
+<<<<<<< HEAD
     
         <Button
         android:id="@+id/signInButton"
@@ -24,5 +29,62 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:visibility="invisible" />
     
+=======
+>>>>>>> Added rounded rectangle resource and redesigned login pages
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/whiteBox"
+        android:layout_width="320dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/roundrect" />
+
+    <ImageView
+        android:id="@+id/skydriveHeader"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/whiteBox"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/skydrivetitle" />
+
+    <Button
+        android:id="@+id/sLogin"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/whiteBox"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="157dp"
+        android:background="@drawable/signin_box"
+        android:text="@string/signIn"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/sLogout"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/sLogin"
+        android:layout_alignBottom="@+id/sLogin"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="17dp"
+        android:background="@drawable/signout_box"
+        android:text="@string/signOut"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/tvHeader1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:gravity="center"
+        android:onClick="https://skydrive.live.com/"
+        android:text="@string/enter"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
+
+</RelativeLayout>
