@@ -1,19 +1,23 @@
 package g.r.tech;
 
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -30,27 +34,21 @@ public class UploadScreen extends Activity {
     final static private String ACCOUNT_PREFS_NAME = "prefs";
     final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
     final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
+    Context context;
+    int flag;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.upload);
         
        findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
     }
     
-    private final class MyTouchListener implements OnTouchListener {
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-          if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            ClipData data = ClipData.newPlainText("", "");
-            DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-            view.startDrag(data, shadowBuilder, view, 0);
-            view.setVisibility(View.VISIBLE);
-            return true;
-          } else {
-            return false;
-          }
-        }
-      }
+    public void showToast(String msg) {
+	    Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+	    error.show();
+	}
     
     public void uploadFile()
     {
@@ -60,6 +58,7 @@ public class UploadScreen extends Activity {
     private AndroidAuthSession buildSession() {
         AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
         AndroidAuthSession session;
+        flag = 0;
 
         String[] stored = getKeys();
         if (stored != null) {
@@ -67,6 +66,7 @@ public class UploadScreen extends Activity {
             session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE, accessToken);
         } else {
             session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
+            flag = 1;
         }
 
         return session;
@@ -86,6 +86,25 @@ public class UploadScreen extends Activity {
         }
     }
     
+    
+    private final class MyTouchListener implements OnTouchListener {
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+          if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+        	  //showToast("Dragging Something!!!");
+            //ClipData data = ClipData.newPlainText("", "");
+      		ClipData.Item item = new ClipData.Item((String) view.getTag());
+    		ClipData data = new ClipData((CharSequence) view.getTag(),
+    				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+            DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            view.startDrag(data, shadowBuilder, view, 0);
+            view.setVisibility(View.VISIBLE);
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    
     class MyDragListener implements OnDragListener {
         
         Drawable movingCloud = getResources().getDrawable(R.drawable.upcloud);
@@ -96,32 +115,55 @@ public class UploadScreen extends Activity {
     	public boolean onDrag(View v, DragEvent event) {
           int action = event.getAction();
           switch (event.getAction()) {
-          case DragEvent.ACTION_DRAG_STARTED:
-            // Do nothing
-            break;
-          case DragEvent.ACTION_DRAG_ENTERED:
-            v.setBackgroundDrawable(movingCloud);
-            // Drag has entered view bounds
-			// If called for trash can then scale it.
-            break;
-          case DragEvent.ACTION_DRAG_EXITED:
-            v.setBackgroundDrawable(movingCloud);
-           //v.setBackgroundDrawable(movingFile);
-            break;
-          case DragEvent.ACTION_DROP:
-            // Dropped, reassign View to ViewGroup
-            View view = (View) event.getLocalState();
-            ViewGroup owner = (ViewGroup) view.getParent();
-            owner.removeView(view);
-            LinearLayout container = (LinearLayout) v;
-            container.addView(view);
-            view.setVisibility(View.VISIBLE);
-            break;
-          case DragEvent.ACTION_DRAG_ENDED:
-            v.setBackgroundDrawable(movingCloud);
-           //v.setBackgroundDrawable(movingFile);
-          default:
-            break;
+	          case DragEvent.ACTION_DRAG_STARTED:
+	            // Do nothing
+	            break;
+	          case DragEvent.ACTION_DRAG_ENTERED:
+	            v.setBackgroundDrawable(movingCloud);
+	           // v.setBackgroundDrawable(movingFile);
+	            break;
+	          case DragEvent.ACTION_DRAG_EXITED:
+	            v.setBackgroundDrawable(movingCloud);
+	           //v.setBackgroundDrawable(movingFile);
+	            break;
+	          case DragEvent.ACTION_DROP:
+	            // Dropped, reassign View to ViewGroup	        	  
+	            /*View view = (View) event.getLocalState();
+	            ViewGroup owner = (ViewGroup) view.getParent();
+	            owner.removeView(view);
+	            LinearLayout container = (LinearLayout) v;
+	            container.addView(view);
+	            view.setVisibility(View.VISIBLE);*/
+	  			if (v.getId() == R.id.dropbox) {
+		            showToast("Doing something!");
+				}
+
+
+			    AndroidAuthSession session = buildSession();
+			    if(flag == 1)
+			    {
+			    	showToast("You have not logged into Dropbox!");
+			    }
+			    else
+			    {
+			    	dropApi = new DropboxAPI<AndroidAuthSession>(session);
+			    	// Find the ListView resource.   
+					//dbListView = (ListView) findViewById(android.R.id.list);
+					//Find the Textview resource
+					//t=(TextView)findViewById(R.id.filebrowserpath);
+			    	String dropPath = Environment.getExternalStorageDirectory().getPath();
+			    	File file = new File("beanstalk.jpg");
+					//Find the Button resource
+			    	UploadFile upload = new UploadFile(context, dropApi, dropPath, file);
+			    	upload.execute();	
+			    	return true;
+			    }
+	            break;
+	          case DragEvent.ACTION_DRAG_ENDED:
+	            v.setBackgroundDrawable(movingCloud);
+	           //v.setBackgroundDrawable(movingFile);
+	          default:
+	            break;
           }
           return true;
         }
