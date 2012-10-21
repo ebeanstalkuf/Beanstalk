@@ -21,21 +21,83 @@
         android:layout_alignParentLeft="true"
         android:background="@drawable/settings" />
 
-    <TableRow
-        android:id="@+id/icontablerow"
+    <LinearLayout
+        android:id="@+id/ll2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/button_gradient"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:weightSum="100" >
+"
 
-        <ImageView
-            android:id="@+id/dropbox"
-            android:layout_width="50dp"
+        <TableRow
+            android:id="@+id/icontablerow1"
+            android:layout_weight="25"
             android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/dropbox_icon" />
-    </TableRow>
+            android:layout_width="match_parent"
+            android:background="@drawable/button_gradient"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/dropbox"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/dropbox_icon" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/icontablerow2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="25"
+            android:background="@drawable/button_gradient"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/skydrive"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/skydrive_icon" />
+        </TableRow>
+                
+        <TableRow
+            android:id="@+id/icontablerow3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="25"
+            android:background="@drawable/button_gradient"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/googledrive"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/google_icon" />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/icontablerow4"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="25"
+            android:background="@drawable/button_gradient"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/otherservices"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/sd_icon" />
+        </TableRow>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView1"
@@ -43,40 +105,42 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/search"
         android:layout_centerHorizontal="true"
-        android:textColor="#448d51"
-        android:text="Tap to Select File" />
+        android:text="Tap to Select File"
+        android:textColor="#448d51" />
 
-<RelativeLayout 
-    android:id="@+id/draggable_cloud"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/textView1"
-    android:layout_centerHorizontal="true" >
-
-    <Button
-        android:id="@+id/Upcloud"
-        android:layout_width="140dp"
-        android:layout_height="90dp"
+    <RelativeLayout
+        android:id="@+id/draggable_cloud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/empty_upload_cloud"/> 
+        android:layout_centerHorizontal="true" >
 
-    <ImageView
-        android:id="@+id/default_file"
-        android:layout_width="48dp"
-        android:layout_height="53dp"
-        android:layout_alignBottom="@+id/Upcloud"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp"
-        android:background="@drawable/select_file"/>
-    <ImageView
-        android:id="@+id/default_file"
-        android:layout_width="48dp"
-        android:layout_height="53dp"
-        android:layout_alignBottom="@+id/Upcloud"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp"
-        android:visibility="invisible"
-        android:background="@drawable/default_file" />
-</RelativeLayout>
+        <Button
+            android:id="@+id/Upcloud"
+            android:layout_width="140dp"
+            android:layout_height="90dp"
+            android:layout_above="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/empty_upload_cloud" />
+
+        <ImageView
+            android:id="@+id/default_file"
+            android:layout_width="48dp"
+            android:layout_height="53dp"
+            android:layout_alignBottom="@+id/Upcloud"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/select_file" />
+
+        <ImageView
+            android:id="@+id/default_file"
+            android:layout_width="48dp"
+            android:layout_height="53dp"
+            android:layout_alignBottom="@+id/Upcloud"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/default_file"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
 </RelativeLayout>
