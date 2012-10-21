@@ -70,5 +70,18 @@
         android:text="@string/enter"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
+    
+        <TextView
+        android:id="@+id/signInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:gravity="center"
+        android:onClick="https://skydrive.live.com/"
+        android:text="@string/enter"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
 </RelativeLayout>
