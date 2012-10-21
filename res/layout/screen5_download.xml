@@ -36,7 +36,7 @@
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/dropbox_icon" />
+        android:background="@drawable/dropbox_icon" />"
     
     <ImageView
         android:id="@+id/dropboxsearch"
@@ -56,5 +56,13 @@
         android:dividerHeight="2dp"
         tools:listitem="@android:layout/simple_list_item_1" >
     </ListView>
+
+    <Button
+        android:id="@+id/sdcard_fileb"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/top_divider"
+        android:layout_toRightOf="@+id/dropbox_fileb"
+        android:background="@drawable/sd_icon" />
 
 </RelativeLayout>
