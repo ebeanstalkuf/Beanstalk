@@ -28,22 +28,20 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:weightSum="100" >
-"
+"
 
         <TableRow
             android:id="@+id/icontablerow1"
-            android:layout_weight="25"
-            android:layout_height="50dp"
             android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="25"
             android:background="@drawable/button_gradient"
             android:orientation="horizontal" >
 
             <ImageView
                 android:id="@+id/dropbox"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:src="@drawable/dropbox_icon" />
         </TableRow>
 
@@ -57,13 +55,11 @@
 
             <ImageView
                 android:id="@+id/skydrive"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:src="@drawable/skydrive_icon" />
         </TableRow>
-                
+
         <TableRow
             android:id="@+id/icontablerow3"
             android:layout_width="match_parent"
@@ -74,13 +70,11 @@
 
             <ImageView
                 android:id="@+id/googledrive"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:src="@drawable/google_icon" />
         </TableRow>
-        
+
         <TableRow
             android:id="@+id/icontablerow4"
             android:layout_width="match_parent"
@@ -91,10 +85,8 @@
 
             <ImageView
                 android:id="@+id/otherservices"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:src="@drawable/sd_icon" />
         </TableRow>
     </LinearLayout>
