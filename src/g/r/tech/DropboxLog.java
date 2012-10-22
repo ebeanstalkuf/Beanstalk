@@ -37,14 +37,13 @@ import com.dropbox.client2.session.Session.AccessType;
 public class DropboxLog extends Activity {
     /** Called when the activity is first created. */
 	
+	
 	Button login;
 	Button logout;
-	Button back;
+	Button register;
 	TextView header1;
-	TextView header2;
+	TextView logState;
 	ImageView logo;
-	
-	
 	
     private static final String TAG = "DBRoulette";
 
@@ -87,9 +86,16 @@ public class DropboxLog extends Activity {
         setContentView(R.layout.screen1);
         login = (Button) findViewById(R.id.bLogin);
         logout = (Button) findViewById(R.id.bLogout);
+        register = (Button) findViewById(R.id.bRegister);
         header1 = (TextView) findViewById(R.id.tvHeader1);
         logo = (ImageView) findViewById(R.id.dropboxHeader);
+        logState = (TextView) findViewById(R.id.logState);
         
+        if(mLoggedIn) {
+        	logState.setText("You are logged in.");
+        } else {
+        	logState.setText("You are not logged in.");
+        }
         
         login.setOnClickListener(new View.OnClickListener() {
 			
@@ -110,12 +116,16 @@ public class DropboxLog extends Activity {
                 }
 			}
 		});
-        back.setOnClickListener(new View.OnClickListener() {
+        register.setOnClickListener(new View.OnClickListener() {
 			
+			@Override
 			public void onClick(View v) {
-				DropboxLog.this.finish();
+				// TODO Auto-generated method stub
+			    Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( "https://www.dropbox.com/register" ) );
+			    startActivity( browse );
 			}
 		});
+
         
      // We create a new AuthSession so that we can use the Dropbox API.
         AndroidAuthSession session = buildSession();
@@ -162,6 +172,7 @@ public class DropboxLog extends Activity {
         // Change UI state to display logged out version
         setLoggedIn(false);
         Home.setDropboxLog(false);
+        logState.setText("You are not logged in.");
     }
 
     /**
@@ -170,6 +181,7 @@ public class DropboxLog extends Activity {
     private void setLoggedIn(boolean loggedIn) {
     	mLoggedIn = loggedIn;
     	if (loggedIn==true) {
+    		logState.setText("You are logged in.");
     		Home.setDropboxLog(loggedIn);
     	} else {
     	}

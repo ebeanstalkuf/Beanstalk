@@ -20,6 +20,18 @@
         android:layout_alignTop="@+id/whiteBox"
         android:layout_centerHorizontal="true"
         android:src="@drawable/dropboxtitle" />
+    
+    <TextView
+        android:id="@+id/logState"
+        android:layout_below="@+id/dropboxHeader"
+        android:paddingTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="You are not logged in."
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
     <Button
         android:id="@+id/bLogin"
@@ -46,18 +58,19 @@
         android:text="@string/signOut"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
-
-    <TextView
-        android:id="@+id/tvHeader1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    
+    <Button
+        android:id="@+id/bRegister"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="38dp"
-        android:gravity="center"
-        android:onClick="https://www.dropbox.com/register"
-        android:text="@string/enter"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/signout_box"
+        android:text="Create new account"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
+    
+        
 
 </RelativeLayout>
