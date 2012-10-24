@@ -9,5 +9,7 @@
     <string name="email">Email Address</string>
     <string name="password">Password</string>
     <string name="back">back</string>
+    <string name="signedIn">You are signed in.</string>
+    <string name="signedOut">You are NOT signed in.</string>
 
 </resources>

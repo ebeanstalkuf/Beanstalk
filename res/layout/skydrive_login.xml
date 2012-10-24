@@ -20,6 +20,18 @@
         android:layout_alignTop="@+id/whiteBox"
         android:layout_centerHorizontal="true"
         android:src="@drawable/skydrivetitle" />
+    
+        <TextView
+        android:id="@+id/logState"
+        android:layout_below="@+id/skydriveHeader"
+        android:paddingTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/signedOut"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
     <Button
         android:id="@+id/sLogin"

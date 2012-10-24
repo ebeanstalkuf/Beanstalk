@@ -92,9 +92,9 @@ public class DropboxLog extends Activity {
         logState = (TextView) findViewById(R.id.logState);
         
         if(mLoggedIn) {
-        	logState.setText("You are logged in.");
+        	logState.setText(R.string.signedIn);
         } else {
-        	logState.setText("You are not logged in.");
+        	logState.setText(R.string.signedOut);
         }
         
         login.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +172,7 @@ public class DropboxLog extends Activity {
         // Change UI state to display logged out version
         setLoggedIn(false);
         Home.setDropboxLog(false);
-        logState.setText("You are not logged in.");
+        logState.setText(R.string.signedOut);
     }
 
     /**
@@ -181,7 +181,7 @@ public class DropboxLog extends Activity {
     private void setLoggedIn(boolean loggedIn) {
     	mLoggedIn = loggedIn;
     	if (loggedIn==true) {
-    		logState.setText("You are logged in.");
+    		logState.setText(R.string.signedIn);
     		Home.setDropboxLog(loggedIn);
     	} else {
     	}
