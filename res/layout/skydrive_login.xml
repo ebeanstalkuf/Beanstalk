@@ -5,17 +5,6 @@
     android:background="@drawable/background3"
     android:orientation="vertical" >
     
-        <Button
-        android:id="@+id/signInButton"
-        android:layout_width="125dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/tvHeader1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
-        android:background="@drawable/signin_box"
-        android:text="@string/signIn"
-        android:textSize="25dp" />
-    
     <ImageView
         android:id="@+id/whiteBox"
         android:layout_width="320dp"
