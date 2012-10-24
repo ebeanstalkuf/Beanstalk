@@ -1,8 +1,10 @@
 package g.r.tech;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -18,43 +20,76 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore.Files;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ListActivity;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class SaveScreen extends Activity {
 	Button dropboxfiles;
+	Button sdcardfiles;
 	private Context mContext;
     private DropboxAPI<?> mApi;
     private String mPath;
     private ImageView mView;
     private Drawable mDrawable;
     ListView dbListView ;
+    ListView sdListView;
     private FileOutputStream mFos;
-
+    TextView t;
+    Button b;
     private boolean mCanceled;
     private Long mFileLen;
     private String mErrorMsg;
-   
+    
+    
     int i = 0;
     int flag = 0;
 	
 	final static private String APP_KEY = "dhgel7d3dcsen3d";
     final static private String APP_SECRET = "evnp2bxtokmy7yy";
     final static private AccessType ACCESS_TYPE = AccessType.DROPBOX;
-	
+    
+    
+
+    
+    ArrayAdapter arrayAdapter;
+    
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
         
+        
+        
+        sdListView = (ListView) findViewById(android.R.id.list);
+        File file[] = Environment.getExternalStorageDirectory().listFiles(); 
+        arrayAdapter = new ArrayAdapter(this,R.layout.screen5_rowlayout, R.id.label, file);
+
+
+       
+        sdcardfiles = (Button) findViewById(R.id.sdcard_fileb);
+        sdcardfiles.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sdListView.setAdapter(arrayAdapter);
+		        
+			}
+		});
+                        
         //Create listener for Dropbox file update button
         dropboxfiles = (Button) findViewById(R.id.dropbox_fileb);
         dropboxfiles.setOnClickListener(new View.OnClickListener() {
@@ -69,15 +104,16 @@ public class SaveScreen extends Activity {
 				    {
 				    	mApi = new DropboxAPI<AndroidAuthSession>(session);
 				    	// Find the ListView resource.   
-						dbListView = (ListView) findViewById(R.id.list);  
-				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView);
-				    	update.execute();
-				    	 			
-						
+						dbListView = (ListView) findViewById(android.R.id.list);
+						//Find the Textview resource
+						t=(TextView)findViewById(R.id.filebrowserpath);
+						//Find the Button resource
+				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView, "/", t);
+				    	update.execute();	
 				    }
-			        
 			}
 			
+		
 		});
         
     }

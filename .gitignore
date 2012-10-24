@@ -26,6 +26,7 @@ local.properties
 # Eclipse project files
 #.classpath
 #.project
+project.properties
 .metadata/.plugins/org.eclipse.core.resources/.history/14/60e9f65e5b1200121fafa13062f72b52
 
 .metadata/.plugins/org.eclipse.core.resources/.history/32/f0e4b8be531200121fafa13062f72b52
@@ -115,3 +116,18 @@ bin/resources.ap_
 gen/g/r/tech/R.java
 
 res/drawable/.DS_Store
+<<<<<<< HEAD
+=======
+
+bin/classes/g/r/tech/SaveScreen.class
+
+bin/classes/g/r/tech/SaveScreen.class
+>>>>>>> gitignore
+
+bin/classes/g/r/tech/GoogleLog.class
+
+bin/classes/g/r/tech/Intro.class
+
+bin/classes/g/r/tech/SkydriveLog.class
+
+.DS_Store

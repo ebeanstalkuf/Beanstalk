@@ -2,67 +2,75 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_centerVertical="true"
     android:background="@drawable/background3"
-    android:gravity="center"
     android:orientation="vertical" >
 
-    <TextView
+    <ImageView
         android:id="@+id/whiteBox"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="70dp"
-        android:layout_marginTop="28dp"
-        android:background="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/tvHeader1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/whiteBox"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:text="@string/enter"
-        android:textColor="#FFFFFF"
-        android:textSize="25dp" />
+        android:layout_marginTop="28dp"
+        android:background="@drawable/roundrect" />
 
     <ImageView
         android:id="@+id/dropboxHeader"
         android:layout_width="250dp"
         android:layout_height="70dp"
-        android:layout_above="@+id/tvHeader1"
+        android:layout_alignTop="@+id/whiteBox"
         android:layout_centerHorizontal="true"
         android:src="@drawable/dropboxtitle" />
-
-    <Button
-        android:id="@+id/bBack"
-        android:layout_width="250dp"
+    
+    <TextView
+        android:id="@+id/logState"
+        android:layout_below="@+id/dropboxHeader"
+        android:paddingTop="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/dropboxHeader"
-        android:layout_alignParentBottom="true"
-        android:text="@string/back"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/signedOut"
+        android:textColor="#FFFFFF"
         android:textSize="25dp" />
 
     <Button
         android:id="@+id/bLogin"
         android:layout_width="125dp"
-        android:layout_height="45dp"
-        android:layout_below="@+id/tvHeader1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/whiteBox"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="157dp"
         android:background="@drawable/signin_box"
         android:text="@string/signIn"
+        android:textColor="#FFFFFF"
         android:textSize="25dp" />
 
     <Button
         android:id="@+id/bLogout"
         android:layout_width="125dp"
-        android:layout_height="45dp"
-        android:layout_alignLeft="@+id/bLogin"
-        android:layout_below="@+id/bLogin"
-        android:layout_marginTop="36dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/bLogin"
+        android:layout_alignBottom="@+id/bLogin"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="17dp"
         android:background="@drawable/signout_box"
         android:text="@string/signOut"
+        android:textColor="#FFFFFF"
         android:textSize="25dp" />
+    
+    <Button
+        android:id="@+id/bRegister"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="38dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/signout_box"
+        android:text="@string/register"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
+    
+        
 
 </RelativeLayout>

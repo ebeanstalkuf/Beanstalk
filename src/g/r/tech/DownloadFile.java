@@ -32,7 +32,6 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
 /**
  * Here we show getting metadata for the files and folders in dropbox. Creation of the "file browser" and the process of downloading a file.
  */
-
 public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     /** Called when the activity is first created. */
 	
@@ -77,7 +76,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
             }
         });
 
-        mDialog.show();
+       mDialog.show();
     }
     
     @Override
@@ -90,8 +89,8 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
             String path = filename.path;
             mFileLen = filename.bytes;
 
-            
-            String sdpath = Environment.getExternalStorageState() + "/" + filename.fileName();
+            //String sdpath = "/sdcard/" + "/" + filename.fileName();
+            String sdpath = Environment.getExternalStoragePublicDirectory(filename.fileName()).getPath() + "/" + filename.fileName();
             try {
                 mFos = new FileOutputStream(sdpath);
             } catch (FileNotFoundException e) {
@@ -131,7 +130,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     protected void onPostExecute(Boolean result) {
         mDialog.dismiss();
         if (result) {
-            showToast("Successfully donwloaded " + filename.fileName());
+            showToast("Successfully downloaded " + filename.fileName());
             
         } else {
             // Couldn't download it, so show an error

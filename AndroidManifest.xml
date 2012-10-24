@@ -3,14 +3,16 @@
     package="g.r.tech"
     android:versionCode="1"
     android:versionName="1.0" >
-
-    <uses-sdk android:minSdkVersion="15" />
     
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-
+	<uses-sdk android:minSdkVersion="8" 
+           />
+    
+    
     <application
+        android:name=".LiveSdkSampleApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <activity
             android:name=".Intro"
             android:label="@string/app_name" >
@@ -63,7 +65,20 @@
             android:name=".SaveScreen"
             android:label="@string/app_name" >
             
-        </activity><activity
+        </activity>
+        
+        <activity
+            android:name=".LiveSdkSampleApplication"
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name="android.app.Application"
+            android:label="@string/app_name">
+            
+        </activity>
+        
+        <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask" >
