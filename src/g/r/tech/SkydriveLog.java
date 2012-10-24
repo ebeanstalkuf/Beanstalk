@@ -4,11 +4,12 @@ import java.util.Arrays;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.microsoft.live.LiveAuthClient;
@@ -25,8 +26,7 @@ public class SkydriveLog extends Activity {
     private LiveSdkSampleApplication mApp;
     private LiveAuthClient mAuthClient;
     private ProgressDialog mInitializeDialog;
-    private Button mSignInButton;
-    private TextView mBeginTextView;
+    private Button mSignInButton, mLogoutButton, register;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,8 @@ public class SkydriveLog extends Activity {
         mApp.setAuthClient(mAuthClient);
 
         mInitializeDialog = ProgressDialog.show(this, "", "Initializing. Please wait...", true);
-
-        mBeginTextView = (TextView) findViewById(R.id.beginTextView);
         mSignInButton = (Button) findViewById(R.id.sLogin);
+        register = (Button) findViewById(R.id.bRegister);
         
         // Check to see if the CLIENT_ID has been changed.
         if (Config.CLIENT_ID.equals("YOUR CLIENT ID HERE")) {
@@ -78,6 +77,16 @@ public class SkydriveLog extends Activity {
                 }
             });
         }
+        
+        register.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			    Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( "https://skydrive.live.com/" ) );
+			    startActivity( browse );
+			}
+		});
     }
     
     @Override
@@ -121,6 +130,5 @@ public class SkydriveLog extends Activity {
 
     private void showSignIn() {
         mSignInButton.setVisibility(View.VISIBLE);
-        mBeginTextView.setVisibility(View.VISIBLE);
     }
 }

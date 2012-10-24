@@ -47,29 +47,15 @@
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
 
-    <TextView
-        android:id="@+id/tvHeader1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/bRegister"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="38dp"
-        android:gravity="center"
-        android:onClick="https://skydrive.live.com/"
-        android:text="@string/enter"
-        android:textColor="#FFFFFF"
-        android:textSize="25dp" />
-    
-        <TextView
-        android:id="@+id/beginTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="38dp"
-        android:gravity="center"
-        android:onClick="https://skydrive.live.com/"
-        android:text="@string/enter"
+        android:background="@drawable/signout_box"
+        android:text="@string/register"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
 

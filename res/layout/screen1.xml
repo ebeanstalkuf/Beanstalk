@@ -67,7 +67,7 @@
         android:layout_marginBottom="38dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/signout_box"
-        android:text="Create new account"
+        android:text="@string/register"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
     
