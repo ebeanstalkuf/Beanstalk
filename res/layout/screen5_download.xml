@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:src="@drawable/filebrowser_titlebar" />
-    <ImageView
+    <Button
         android:id="@+id/top_divider"
         android:layout_width="fill_parent"
         android:layout_height="23dp"
@@ -26,8 +26,7 @@
         android:textColor="#FFFF"
     	android:textSize="18dp"
     	android:singleLine="true"
-		android:ellipsize="marquee"
-		android:marqueeRepeatLimit="0"
+		android:ellipsize="end"
 		android:layout_below="@id/dropboxtitle"
 		android:paddingLeft="5dp" />
     <Button
@@ -37,14 +36,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/dropbox_icon" />"
-    
-    <ImageView
-        android:id="@+id/dropboxsearch"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/search" />
+
 
     <ListView
         android:id="@android:id/list"

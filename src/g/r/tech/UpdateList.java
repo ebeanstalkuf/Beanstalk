@@ -47,9 +47,9 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 	String path;
 	Context pContext;
 	TextView t;
-	Button b;
+	Button pathbutton;
 	Entry dirent = null;
-    public UpdateList(Context context, DropboxAPI <?> api, ListView x, String dropboxPath, TextView y)
+    public UpdateList(Context context, DropboxAPI <?> api, ListView x, String dropboxPath, TextView y, Button b)
     {
     	//Passable context
     	pContext = context;
@@ -63,6 +63,8 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
     	path = dropboxPath;
     	// Text view assosciated with the path
     	t = y;
+    	//Button assosciated with expand path
+    	pathbutton = b;
     }
 
 	@Override
@@ -98,6 +100,15 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 	
 	@Override
     protected void onPostExecute(Boolean result) {
+		//Listen to path expand button
+		 pathbutton.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					showToast("Path: " + path);	    
+				}
+				
+			
+			});
 		//Folder is empty
 		if(files.size() < 1)
 		{
@@ -110,7 +121,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 				path = path.substring(0, path.length()-1);
 			}
 			//Go back to previous folder
-			UpdateList back = new UpdateList(pContext, mApi, dbListView, path,t);
+			UpdateList back = new UpdateList(pContext, mApi, dbListView, path,t, pathbutton);
 			back.execute();
 		}
 		else
@@ -122,7 +133,6 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 			// Set Path text 
 			t.setText(path);
 			//showToast(Environment.getExternalStoragePublicDirectory("test.jpg").getPath());
-			showToast(Environment.getExternalStorageState() + " | " + Environment.getExternalStoragePublicDirectory("test.jpg").getPath());
 			dbListView.setOnItemClickListener(new OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position,
@@ -138,7 +148,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 							//Set Path to parent path of current directory
 							path = dirent.parentPath();
 							//Update List
-							UpdateList back = new UpdateList(pContext, mApi, dbListView, path,t);
+							UpdateList back = new UpdateList(pContext, mApi, dbListView, path,t, pathbutton);
 							back.execute();
 							//Set the flag that back has been clicked so download file is not called
 							backclicked = 1;
@@ -153,7 +163,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 					if((files.get(index).isDir) && (backclicked == 0))
 					{
 						path = path + files.get(index).fileName() + "/";
-						UpdateList directory = new UpdateList(pContext, mApi, dbListView, path,t);
+						UpdateList directory = new UpdateList(pContext, mApi, dbListView, path,t, pathbutton);
 						directory.execute();
 					}
 					//Clicked on a file
