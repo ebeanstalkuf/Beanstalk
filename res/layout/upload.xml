@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget32"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -54,7 +53,6 @@
                 android:background="@drawable/sdcardbutton" />
 
     </LinearLayout>
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -98,5 +96,15 @@
             android:background="@drawable/default_file"
             android:visibility="invisible" />
     </RelativeLayout>
+
+        <Button
+            android:id="@+id/uploadall"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/ll2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp"
+            android:visibility="gone"
+            android:background="@drawable/upload_all" />
 
 </RelativeLayout>
