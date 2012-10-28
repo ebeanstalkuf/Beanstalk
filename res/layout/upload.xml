@@ -24,71 +24,35 @@
     <LinearLayout
         android:id="@+id/ll2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:weightSum="100" >
-"
+"
 
-        <TableRow
-            android:id="@+id/icontablerow1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="25"
-            android:background="@drawable/button_gradient"
-            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/dropbox"           
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:background="@drawable/dropboxbutton" />
 
-            <ImageView
-                android:id="@+id/dropbox"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/dropbox_icon" />
-        </TableRow>
+            <Button
+                android:id="@+id/skydrive"           
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:background="@drawable/skydrivebutton" />
 
-        <TableRow
-            android:id="@+id/icontablerow2"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="25"
-            android:background="@drawable/button_gradient"
-            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/googledrive"           
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:background="@drawable/googledrivebutton" />
+            <Button
+                android:id="@+id/otherservices"           
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:background="@drawable/sdcardbutton" />
 
-            <ImageView
-                android:id="@+id/skydrive"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/skydrive_icon" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/icontablerow3"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="25"
-            android:background="@drawable/button_gradient"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/googledrive"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/google_icon" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/icontablerow4"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="25"
-            android:background="@drawable/button_gradient"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/otherservices"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/sd_icon" />
-        </TableRow>
     </LinearLayout>
 
     <TextView
