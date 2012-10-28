@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-
+//restore
 //lets try a test here ;)
 public class Intro extends Activity {
     /** Called when the activity is first created. */
