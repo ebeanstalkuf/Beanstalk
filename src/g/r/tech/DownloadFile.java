@@ -48,7 +48,6 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     private Long mFileLen;
     private String mErrorMsg;
     Entry filename;
-    String sdpath;
 
     // Note that, since we use a single file name here for simplicity, you
     // won't be able to use this code for two simultaneous downloads.
@@ -91,42 +90,11 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
             mFileLen = filename.bytes;
 
             //String sdpath = "/sdcard/" + "/" + filename.fileName();
-            
-            //Check SD Card status
-            String sdcardstatus = Environment.getExternalStorageState();
-            if(sdcardstatus.equals(Environment.MEDIA_MOUNTED_READ_ONLY))
-            {
-            	mErrorMsg = "Error: Your SD card has been mounted as Read Only. Please re-mount with write access.";
-            	return false;
-            }
-            else if(sdcardstatus.equals(Environment.MEDIA_REMOVED))
-            {
-            	mErrorMsg ="Error: Your device is not showing an SD Card. Beanstalk can only download a file to an SD card";
-            	return false;
-            }
-            //Make sure SD Card is mounted
-            if(sdcardstatus.equals(Environment.MEDIA_MOUNTED))
-            {
-            	//if the card is mounted, then set up the path to the sd card.filename.xxx
-            	//Check if Beanstalk Downloads folder exists
-            	File bfolder = new File(Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads");
-            	if(!bfolder.exists())
-            	{
-            		bfolder.mkdirs();
-            	}
-            	//Set SD path
-            	sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/" + filename.fileName();
-            }
-            else
-            {
-            	mErrorMsg = "Error: Your device's SD Card is not mounted. Beanstalk can only download a file to an SD card";
-            	return false;
-            }
-            // Try to create a file in the sdpath
+            String sdpath = Environment.getExternalStoragePublicDirectory(filename.fileName()).getPath() + "/" + filename.fileName();
             try {
                 mFos = new FileOutputStream(sdpath);
             } catch (FileNotFoundException e) {
-                mErrorMsg = "Error: Couldn't create a local file to store the file. This error could be caused if your device's SD Card is mounted on your computer. If this is the case, please disconnect your device and try again.";
+                mErrorMsg = "Couldn't create a local file to store the file";
                 return false;
             }
 
@@ -162,11 +130,11 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     protected void onPostExecute(Boolean result) {
         mDialog.dismiss();
         if (result) {
-            showToast("Successfully downloaded " + filename.fileName() + " to: " + sdpath);
+            showToast("Successfully downloaded " + filename.fileName());
             
         } else {
             // Couldn't download it, so show an error
-            showToast("Error: Problem Downloading " + filename.fileName() + " to: " + sdpath + ". Please try again.");
+            showToast(mErrorMsg);
         }
     }
 

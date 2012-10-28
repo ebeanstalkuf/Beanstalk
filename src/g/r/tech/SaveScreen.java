@@ -108,8 +108,7 @@ public class SaveScreen extends Activity {
 						//Find the Textview resource
 						t=(TextView)findViewById(R.id.filebrowserpath);
 						//Find the Button resource
-						b=(Button)findViewById(R.id.top_divider);
-				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView, "/", t, b);
+				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView, "/", t);
 				    	update.execute();	
 				    }
 			}
