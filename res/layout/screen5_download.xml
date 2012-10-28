@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/dropboxtitle"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
         android:src="@drawable/filebrowser_titlebar" />
     <Button
         android:id="@+id/top_divider"
@@ -32,10 +33,28 @@
     <Button
         android:id="@+id/dropbox_fileb"
         android:layout_width="50dp"
+        android:layout_marginLeft="20dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/dropbox_icon" />"
+        
+    <Button
+        android:id="@+id/skydrive_fileb"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/dropbox_fileb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/skydrive_icon" />"
+    <Button
+        android:id="@+id/googledrive_fileb"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/skydrive_fileb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/google_icon" />"
 
 
     <ListView
@@ -44,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/filebrowserpath"
+        android:cacheColorHint="@android:color/transparent"
         android:divider="#808080"
         android:dividerHeight="2dp"
         tools:listitem="@android:layout/simple_list_item_1" >
@@ -54,7 +74,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_above="@+id/top_divider"
-        android:layout_toRightOf="@+id/dropbox_fileb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/googledrive_fileb"
         android:background="@drawable/sd_icon" />
 
 </RelativeLayout>
