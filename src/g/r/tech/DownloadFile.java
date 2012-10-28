@@ -49,11 +49,13 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     private String mErrorMsg;
     Entry filename;
     String sdpath;
+    String tt;
 
     // Note that, since we use a single file name here for simplicity, you
     // won't be able to use this code for two simultaneous downloads.
         
-    public DownloadFile(Context context, DropboxAPI<?> api, Entry file) {
+    @SuppressWarnings("deprecation")
+	public DownloadFile(Context context, DropboxAPI<?> api, Entry file) {
         // We set the context this way so we don't accidentally leak activities
         mContext = context.getApplicationContext();
 
