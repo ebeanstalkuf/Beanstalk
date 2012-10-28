@@ -1,6 +1,6 @@
 package g.r.tech;
 
-
+//import android.os.Handler;			//needed for the upload all image used in ACTION_DRAG_ENDED
 import java.io.File;
 import java.util.ArrayList;
 
@@ -286,6 +286,11 @@ OnItemLongClickListener {
     		ClipData data = new ClipData((CharSequence) view.getTag(),
     				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
             DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            
+           // View uploadAll = findViewById(R.id.uploadall);
+    		//uploadAll.setVisibility(View.VISIBLE);
+    		//uploadAll.setOnDragListener(MainActivity.this);
+    		
             view.startDrag(data, shadowBuilder, view, 0);
             view.setVisibility(View.VISIBLE);
             return true;
@@ -328,7 +333,6 @@ OnItemLongClickListener {
 		            showToast("Doing something!");
 				}
 
-
 			    AndroidAuthSession session = buildSession();
 			    if(flag == 1)
 			    {
@@ -351,7 +355,15 @@ OnItemLongClickListener {
 	            break;
 	          case DragEvent.ACTION_DRAG_ENDED:
 	            v.setBackgroundDrawable(movingCloud);
-	           //v.setBackgroundDrawable(movingFile);
+				
+	            //set the image of the circle with all services to disappear when stopped dragging
+				/*new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						findViewById(R.id.uploadall).setVisibility(View.GONE);
+					}
+				}, 1000l);*/
+				
 	          default:
 	            break;
           }
