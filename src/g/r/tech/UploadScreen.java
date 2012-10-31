@@ -2,6 +2,7 @@ package g.r.tech;
 
 //import android.os.Handler;			//needed for the upload all image used in ACTION_DRAG_ENDED
 import java.io.File;
+
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
@@ -28,6 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -49,6 +51,7 @@ OnItemLongClickListener {
     
     Context context;
     int flag;
+    Button allServices;
     
     //variables for collision test
     ArrayList filesToshare;
@@ -56,10 +59,11 @@ OnItemLongClickListener {
 	private int draggedIndex = -1;
 
     @SuppressWarnings("unchecked")
-	public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.upload);
+        allServices = (Button) findViewById(R.id.uploadall);
         
         //array list for collision
         filesToshare = new ArrayList();
@@ -124,6 +128,7 @@ OnItemLongClickListener {
 		case DragEvent.ACTION_DRAG_STARTED:
 			// Drag has started
 			// If called for trash resize the view and return true
+			allServices.setVisibility(0);
 			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.googledrive || view.getId() == R.id.otherservices ) {
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
@@ -168,6 +173,7 @@ OnItemLongClickListener {
 			adapter.notifyDataSetChanged();
 		case DragEvent.ACTION_DRAG_ENDED:
 			// Hide the trash can
+			allServices.setVisibility(4);
 			new Handler().postDelayed(new Runnable() {
 
 				@Override
