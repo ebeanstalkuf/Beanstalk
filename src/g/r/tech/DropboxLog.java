@@ -83,7 +83,7 @@ public class DropboxLog extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.screen1);
+        setContentView(R.layout.dropbox_login);
         login = (Button) findViewById(R.id.bLogin);
         logout = (Button) findViewById(R.id.bLogout);
         register = (Button) findViewById(R.id.bRegister);

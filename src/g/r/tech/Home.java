@@ -28,7 +28,7 @@ public class Home extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.screen2);
+        setContentView(R.layout.home);
         
         DropboxLog = (RadioButton) findViewById(R.id.Dropboxbutton);
         GoogleLog = (RadioButton) findViewById(R.id.Googlebutton);
