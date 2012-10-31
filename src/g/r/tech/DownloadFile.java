@@ -48,7 +48,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     private Long mFileLen;
     private String mErrorMsg;
     Entry filename;
-    String sdpath;
+    File sdpath;
     String tt;
 
     // Note that, since we use a single file name here for simplicity, you
@@ -91,8 +91,6 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
             // Set Path and file length variables according to passed in entry
             String path = filename.path;
             mFileLen = filename.bytes;
-
-            //String sdpath = "/sdcard/" + "/" + filename.fileName();
             
             //Check SD Card status
             String sdcardstatus = Environment.getExternalStorageState();
@@ -117,7 +115,10 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
             		bfolder.mkdirs();
             	}
             	//Set SD path
-            	sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/" + filename.fileName();
+            	//sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/" + filename.fileName();
+            	//Create File called filename in Beanstalk Downloads
+            	sdpath = new File(bfolder, filename.fileName());
+            
             }
             else
             {
