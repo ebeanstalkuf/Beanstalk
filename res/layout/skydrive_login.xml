@@ -21,6 +21,7 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/skydrivetitle" />
     
+    
         <TextView
         android:id="@+id/logState"
         android:layout_below="@+id/skydriveHeader"
