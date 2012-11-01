@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/search"
         android:layout_centerHorizontal="true"
-        android:text="Tap to Select File"
+        android:text="Drag to Send File"
         android:textColor="#448d51" />
 
     <RelativeLayout
