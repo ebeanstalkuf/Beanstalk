@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -15,26 +16,33 @@ public class Home extends Activity {
     /** Called when the activity is first created. */
     
 	static //Menu buttons screen1 HOME
-	RadioButton DropboxLog;
+	Button DropboxLog;
 
 	//Menu buttons screen1 HOME
-	RadioButton GoogleLog;
+	Button GoogleLog;
 
 	//Menu buttons screen1 HOME
-	RadioButton SkydriveLog; 
+	Button SkydriveLog; 
 	
-	Button UploadScreen, SaveScreen;
+	Button MoveCloud;
+	
+	static ImageView greenLight1, greenLight2, greenLight3, redLight1, redLight2, redLight3;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         
-        DropboxLog = (RadioButton) findViewById(R.id.Dropboxbutton);
-        GoogleLog = (RadioButton) findViewById(R.id.Googlebutton);
-        SkydriveLog = (RadioButton) findViewById(R.id.Skydrivebutton);
-        UploadScreen = (Button) findViewById(R.id.Upcloud);
-        SaveScreen = (Button) findViewById(R.id.Downcloud); 
+        DropboxLog = (Button) findViewById(R.id.Dropboxbutton);
+        GoogleLog = (Button) findViewById(R.id.Googlebutton);
+        SkydriveLog = (Button) findViewById(R.id.Skydrivebutton);
+        MoveCloud = (Button) findViewById(R.id.moveCloud); 
+        greenLight1 = (ImageView) findViewById(R.id.dropboxGreenLight);
+        greenLight2 = (ImageView) findViewById(R.id.googleGreenLight);
+        greenLight3 = (ImageView) findViewById(R.id.skydriveGreenLight);
+        redLight1 = (ImageView) findViewById(R.id.dropboxRedLight);
+        redLight2 = (ImageView) findViewById(R.id.googleRedLight);
+        redLight3 = (ImageView) findViewById(R.id.skydriveRedLight);
         
         //click listeners for buttons
         
@@ -49,7 +57,7 @@ public class Home extends Activity {
 				// TODO Auto-generated method stub
 				Intent openDropbox = new Intent(v.getContext(), DropboxLog.class);
     			startActivityForResult(openDropbox,0);
-    			DropboxLog.setChecked(false);
+    			
 
 			}
 			
@@ -65,7 +73,7 @@ public class Home extends Activity {
 				// TODO Auto-generated method stub
 				Intent openGoogle = new Intent(v.getContext(), GoogleLog.class);
 				startActivityForResult(openGoogle, 0);
-				GoogleLog.setChecked(false);
+				
 				
 			}
 			
@@ -78,11 +86,11 @@ public class Home extends Activity {
 				// TODO Auto-generated method stub
 				Intent openSkydrive = new Intent(v.getContext(), SkydriveLog.class);
 				startActivityForResult(openSkydrive, 0);
-				SkydriveLog.setChecked(false);
+				
 			}
 		});
         
-        UploadScreen.setOnClickListener(new View.OnClickListener() {
+        MoveCloud.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -90,22 +98,47 @@ public class Home extends Activity {
 				startActivityForResult(openUploadScreen, 0);
 			}
 		});
-
-        SaveScreen.setOnClickListener(new View.OnClickListener() {
-	
-        	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		Intent openSaveScreen = new Intent(v.getContext(), SaveScreen.class);
-		startActivityForResult(openSaveScreen, 0);
-        	}
-        });
         
        
     }
 
-	public static  void setDropboxLog(boolean mLoggedIn) {
+	public static void setDropboxLog(boolean mLoggedIn) {
 		// TODO Auto-generated method stub
-		DropboxLog.setChecked(mLoggedIn);
+		if (mLoggedIn == true)
+		{
+			greenLight1.setVisibility(0);
+			redLight1.setVisibility(8);
+		}
+		else{
+			greenLight1.setVisibility(8);
+			redLight1.setVisibility(0);
+		}
+	}
+	
+	public static void setGoogleLog(boolean mLoggedIn) {
+		// TODO Auto-generated method stub
+		if (mLoggedIn == true)
+		{
+			greenLight2.setVisibility(0);
+			redLight2.setVisibility(8);
+		}
+		else{
+			greenLight2.setVisibility(8);
+			redLight2.setVisibility(0);
+		}
+	}
+	
+	public static void setSkydriveLog(boolean mLoggedIn) {
+		// TODO Auto-generated method stub
+		if (mLoggedIn == true)
+		{
+			greenLight3.setVisibility(0);
+			redLight3.setVisibility(8);
+		}
+		else{
+			greenLight3.setVisibility(8);
+			redLight3.setVisibility(0);
+		}
 	}
 	
 	

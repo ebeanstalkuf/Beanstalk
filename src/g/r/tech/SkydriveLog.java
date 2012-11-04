@@ -139,9 +139,11 @@ public class SkydriveLog extends Activity {
                 if (status == LiveStatus.CONNECTED) {
                 	logState.setText(R.string.signedIn);
                     launchMainActivity(session);
+                    
                 } else {
                 	logState.setText(R.string.signedOut);
                     showSignIn();
+                    
                 }
             }
         });
