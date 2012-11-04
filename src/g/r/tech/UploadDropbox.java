@@ -23,10 +23,10 @@ import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 
-public class UploadFile extends AsyncTask<Void, Long, Boolean> {
+public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
 	
 	private DropboxAPI<AndroidAuthSession> apiObj;
-	private String path;
+	private String uploadPath;
 	private File upFile;
 	private long fileLength; 
 	private UploadRequest request;
@@ -36,13 +36,13 @@ public class UploadFile extends AsyncTask<Void, Long, Boolean> {
 	private String error;
 	
 	
-	public UploadFile(Context cntxt, DropboxAPI<AndroidAuthSession> api, String dropboxPath, File file)
+	public UploadDropbox(Context cntxt, DropboxAPI<AndroidAuthSession> api, String dropboxPath, File file)
 	{
 		context = cntxt.getApplicationContext();
 		
 		fileLength = file.length();
 		apiObj = api;
-		path = dropboxPath;
+		uploadPath = dropboxPath;
 		upFile = file;
 		
 		dialog = new ProgressDialog(cntxt);
@@ -70,7 +70,7 @@ public class UploadFile extends AsyncTask<Void, Long, Boolean> {
     	try{
     		//displayToast("Uploading: " + upFile);
 			fis = new FileInputStream(upFile);
-			String writePath = path + upFile.getName();
+			String writePath = uploadPath + upFile.getName();
 			//displayToast("Second: " + writePath);
 			request = apiObj.putFileOverwriteRequest(writePath,fis, upFile.length(), new ProgressListener() {
                @Override
@@ -109,12 +109,13 @@ public class UploadFile extends AsyncTask<Void, Long, Boolean> {
             } else if (e.error == DropboxServerException._403_FORBIDDEN) {
                 // Not allowed to access this
             } else if (e.error == DropboxServerException._404_NOT_FOUND) {
-                // path not found (or if it was the thumbnail, can't be
+                // uploadPath not found (or if it was the thumbnail, can't be
                 // thumbnailed)
             } else if (e.error == DropboxServerException._507_INSUFFICIENT_STORAGE) {
                 // user is over quota
             } else {
                 // Something else
+        
             }
             // This gets the Dropbox error, translated into the user's language
             error = e.body.userError;

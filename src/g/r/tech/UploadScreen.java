@@ -169,11 +169,15 @@ OnItemLongClickListener {
 			// Dropped inside view bounds
 			// If called for trash can then delete the item and reload the grid
 			// view
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.googledrive || view.getId() == R.id.otherservices) {
-				File file = new File("beanstalk.jpg");
+			if (view.getId() == R.id.dropbox ) {
+				File file = null;//new File("beanstalk.jpg");
 				uploadDropbox(file);
 				filesToshare.remove(draggedIndex);
 				draggedIndex = -1;
+			}
+			else if(view.getId() == R.id.skydrive)
+			{
+				//put skydrive uploading code in here
 			}
 			adapter.notifyDataSetChanged();
 		case DragEvent.ACTION_DRAG_ENDED:
@@ -234,9 +238,9 @@ OnItemLongClickListener {
 			    	file = new File(sdpath + "beanstalk.jpg");
 			    	
 					displayToast("Uploading from: " + sdpath + file.getName());
-					sdpath = "/Beanstalk/";
+					String uploadPath = "/Beanstalk/";
 			    	//end testing
-			    	UploadFile uploadDrop = new UploadFile(UploadScreen.this, dropApi, sdpath, file);
+			    	UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, file);
 			    	uploadDrop.execute();	
 			    }
 
@@ -330,111 +334,6 @@ OnItemLongClickListener {
 		draggedIndex = position;
 		return true;
 	
-        
-     /*   pre - version
-       findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
-    }
-    
-    public void showToast(String msg) {
-	    Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
-	    error.show();
-	}
-    
-    
-    private final class MyTouchListener implements OnTouchListener {
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-          if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-        	  //showToast("Dragging Something!!!");
-            //ClipData data = ClipData.newPlainText("", "");
-      		ClipData.Item item = new ClipData.Item((String) view.getTag());
-    		ClipData data = new ClipData((CharSequence) view.getTag(),
-    				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-            DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-            
-           // View uploadAll = findViewById(R.id.uploadall);
-    		//uploadAll.setVisibility(View.VISIBLE);
-    		//uploadAll.setOnDragListener(MainActivity.this);
-    		
-            view.startDrag(data, shadowBuilder, view, 0);
-            view.setVisibility(View.VISIBLE);
-            return true;
-          } else {
-            return false;
-          }
-        }
-      }
-    
-    class MyDragListener implements OnDragListener {
-        
-        Drawable movingCloud = getResources().getDrawable(R.drawable.upcloud);
-        //this may be where we can substitute for the attached file preview; just make it invisible prior to drag
-//        Drawable movingFile = getResources().getDrawable(R.drawable.default_file);
-        //movingFile.setVisibility(0); 
-       
-    	public boolean onDrag(View v, DragEvent event) {
-          int action = event.getAction();
-          switch (event.getAction()) {
-	          case DragEvent.ACTION_DRAG_STARTED:
-	            // Do nothing
-	            break;
-	          case DragEvent.ACTION_DRAG_ENTERED:
-	            v.setBackgroundDrawable(movingCloud);
-	           // v.setBackgroundDrawable(movingFile);
-	            break;
-	          case DragEvent.ACTION_DRAG_EXITED:
-	            v.setBackgroundDrawable(movingCloud);
-	           //v.setBackgroundDrawable(movingFile);
-	            break;
-	          case DragEvent.ACTION_DROP:
-	            // Dropped, reassign View to ViewGroup	        	  
-	            /*View view = (View) event.getLocalState();
-	            ViewGroup owner = (ViewGroup) view.getParent();
-	            owner.removeView(view);
-	            LinearLayout container = (LinearLayout) v;
-	            container.addView(view);
-	            view.setVisibility(View.VISIBLE);
-	  			if (v.getId() == R.id.dropbox) {
-		            showToast("Doing something!");
-				}
-
-			    AndroidAuthSession session = buildSession();
-			    if(flag == 1)
-			    {
-			    	showToast("You have not logged into Dropbox!");
-			    }
-			    else
-			    {
-			    	dropApi = new DropboxAPI<AndroidAuthSession>(session);
-			    	// Find the ListView resource.   
-					//dbListView = (ListView) findViewById(android.R.id.list);
-					//Find the Textview resource
-					//t=(TextView)findViewById(R.id.filebrowserpath);
-			    	String dropPath = Environment.getExternalStorageDirectory().getPath();
-			    	File file = new File("beanstalk.jpg");
-					//Find the Button resource
-			    	UploadFile upload = new UploadFile(context, dropApi, dropPath, file);
-			    	upload.execute();	
-			    	return true;
-			    }
-	            break;
-	          case DragEvent.ACTION_DRAG_ENDED:
-	            v.setBackgroundDrawable(movingCloud);
-				
-	            //set the image of the circle with all services to disappear when stopped dragging
-				/*new Handler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						findViewById(R.id.uploadall).setVisibility(View.GONE);
-					}
-				}, 1000l);*/
-				
-	         // default:
-	         //   break;
-         // }
-        //  return true;
-      //  }
-        
-        //
       }
 
 			
