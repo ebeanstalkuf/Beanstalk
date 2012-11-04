@@ -45,6 +45,7 @@ public class SkydriveLog extends Activity {
         register = (Button) findViewById(R.id.bRegister);
         logState = (TextView) findViewById(R.id.logState);
         
+        
         // Check to see if the CLIENT_ID has been changed.
         if (Config.CLIENT_ID.equals("YOUR CLIENT ID HERE")) {
             mSignInButton.setOnClickListener(new OnClickListener() {
@@ -70,6 +71,7 @@ public class SkydriveLog extends Activity {
                             if (status == LiveStatus.CONNECTED) {
                             	logState.setText(R.string.signedIn);
                                 launchMainActivity(session);
+                                Home.setSkydriveLog(true);
                             } else {
                                 showToast("Login did not connect. Status is " + status + ".");
                             }
@@ -101,6 +103,7 @@ public class SkydriveLog extends Activity {
                         mApp.setSession(null);
                         mApp.setConnectClient(null);
                         logState.setText(R.string.signedOut);
+                        Home.setSkydriveLog(false);
                         //getParent().finish();                  
                     }
                 });
@@ -139,11 +142,12 @@ public class SkydriveLog extends Activity {
                 if (status == LiveStatus.CONNECTED) {
                 	logState.setText(R.string.signedIn);
                     launchMainActivity(session);
+                    Home.setSkydriveLog(true);
                     
                 } else {
                 	logState.setText(R.string.signedOut);
                     showSignIn();
-                    
+                    Home.setSkydriveLog(false);
                 }
             }
         });

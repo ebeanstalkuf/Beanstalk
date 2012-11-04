@@ -1,6 +1,9 @@
 package g.r.tech;
 
+import java.util.Arrays;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,6 +19,11 @@ import com.dropbox.client2.android.AuthActivity;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
+import com.microsoft.live.LiveAuthClient;
+import com.microsoft.live.LiveAuthException;
+import com.microsoft.live.LiveAuthListener;
+import com.microsoft.live.LiveConnectSession;
+import com.microsoft.live.LiveStatus;
 
 public class Home extends Activity {
     /** Called when the activity is first created. */
@@ -36,14 +44,18 @@ public class Home extends Activity {
     final static private String APP_KEY = "dhgel7d3dcsen3d";
     final static private String APP_SECRET = "evnp2bxtokmy7yy";
 
-    // If you'd like to change the access type to the full Dropbox instead of
-    // an app folder, change this value.
+    //Dropbox logged in state stuff
     final static private AccessType ACCESS_TYPE = AccessType.DROPBOX;
     
     final static private String ACCOUNT_PREFS_NAME = "prefs";
     final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
     final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
     DropboxAPI<AndroidAuthSession> mApi;
+    
+    //Skydrive logged in state stuff
+    private LiveSdkSampleApplication mApp;
+    private LiveAuthClient mAuthClient;
+    private ProgressDialog mInitializeDialog;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,15 +139,40 @@ public class Home extends Activity {
 			}
 		});
         
-        // We create a new AuthSession so that we can use the Dropbox API.
+        //Dropbox logged in stuff.
         AndroidAuthSession session = buildSession();
         mApi = new DropboxAPI<AndroidAuthSession>(session);
 
         checkAppKeySetup();
-
-        // Display the proper UI state if logged in or not
-        //setLoggedIn(mApi.getSession().isLinked());
         setDropboxLog(mApi.getSession().isLinked());
+        
+        //Skydrive logged in stuff
+        mApp = (LiveSdkSampleApplication) getApplication();
+        mAuthClient = new LiveAuthClient(mApp, Config.CLIENT_ID);
+        mApp.setAuthClient(mAuthClient);
+
+        mInitializeDialog = ProgressDialog.show(this, "", "Initializing. Please wait...", true);
+        
+        mAuthClient.initialize(Arrays.asList(Config.SCOPES), new LiveAuthListener() {
+            @Override
+            public void onAuthError(LiveAuthException exception, Object userState) {
+                mInitializeDialog.dismiss();
+            }
+
+            @Override
+            public void onAuthComplete(LiveStatus status,
+                                       LiveConnectSession session,
+                                       Object userState) {
+                mInitializeDialog.dismiss();
+
+                if (status == LiveStatus.CONNECTED) {
+                    setSkydriveLog(true);
+                    
+                } else {
+                    setSkydriveLog(false);
+                }
+            }
+        });
        
     }
 
