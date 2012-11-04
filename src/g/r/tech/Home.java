@@ -97,6 +97,17 @@ public class Home extends Activity {
 				Intent openUploadScreen = new Intent(v.getContext(), UploadScreen.class);
 				startActivityForResult(openUploadScreen, 0);
 			}
+			
+		});
+        MoveCloud.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				Intent openSaveScreen = new Intent(v.getContext(), SaveScreen.class);
+				startActivityForResult(openSaveScreen, 0);
+				return true;
+			}
 		});
         
        
