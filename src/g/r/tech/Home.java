@@ -1,16 +1,21 @@
 package g.r.tech;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.view.accessibility.AccessibilityNodeInfo;
+
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.android.AuthActivity;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
 
 public class Home extends Activity {
     /** Called when the activity is first created. */
@@ -27,6 +32,18 @@ public class Home extends Activity {
 	Button MoveCloud;
 	
 	static ImageView greenLight1, greenLight2, greenLight3, redLight1, redLight2, redLight3;
+	
+    final static private String APP_KEY = "dhgel7d3dcsen3d";
+    final static private String APP_SECRET = "evnp2bxtokmy7yy";
+
+    // If you'd like to change the access type to the full Dropbox instead of
+    // an app folder, change this value.
+    final static private AccessType ACCESS_TYPE = AccessType.DROPBOX;
+    
+    final static private String ACCOUNT_PREFS_NAME = "prefs";
+    final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
+    final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
+    DropboxAPI<AndroidAuthSession> mApi;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +127,15 @@ public class Home extends Activity {
 			}
 		});
         
+        // We create a new AuthSession so that we can use the Dropbox API.
+        AndroidAuthSession session = buildSession();
+        mApi = new DropboxAPI<AndroidAuthSession>(session);
+
+        checkAppKeySetup();
+
+        // Display the proper UI state if logged in or not
+        //setLoggedIn(mApi.getSession().isLinked());
+        setDropboxLog(mApi.getSession().isLinked());
        
     }
 
@@ -152,6 +178,57 @@ public class Home extends Activity {
 		}
 	}
 	
+    private String[] getKeys() {
+        SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+        String key = prefs.getString(ACCESS_KEY_NAME, null);
+        String secret = prefs.getString(ACCESS_SECRET_NAME, null);
+        if (key != null && secret != null) {
+        	String[] ret = new String[2];
+        	ret[0] = key;
+        	ret[1] = secret;
+        	return ret;
+        } else {
+        	return null;
+        }
+    }
 	
+    private AndroidAuthSession buildSession() {
+        AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
+        AndroidAuthSession session;
+
+        String[] stored = getKeys();
+        if (stored != null) {
+            AccessTokenPair accessToken = new AccessTokenPair(stored[0], stored[1]);
+            session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE, accessToken);
+        } else {
+            session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
+        }
+
+        return session;
+    }
+    
+    private void checkAppKeySetup() {
+        // Check to make sure that we have a valid app key
+        if (APP_KEY.startsWith("CHANGE") ||
+                APP_SECRET.startsWith("CHANGE")) {
+            //showToast("You must apply for an app key and secret from developers.dropbox.com, and add them to the DBRoulette ap before trying it.");
+            finish();
+            return;
+        }
+
+        // Check if the app has set up its manifest properly.
+        Intent testIntent = new Intent(Intent.ACTION_VIEW);
+        String scheme = "db-" + APP_KEY;
+        String uri = scheme + "://" + AuthActivity.AUTH_VERSION + "/test";
+        testIntent.setData(Uri.parse(uri));
+        PackageManager pm = getPackageManager();
+        if (0 == pm.queryIntentActivities(testIntent, 0).size()) {
+            /*showToast("URL scheme in your app's " +
+                    "manifest is not set up correctly. You should have a " +
+                    "com.dropbox.client2.android.AuthActivity with the " +
+                    "scheme: " + scheme);*/
+            finish();
+        }
+    }
 
 }
