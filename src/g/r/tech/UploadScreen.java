@@ -26,8 +26,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
@@ -43,7 +46,7 @@ OnItemLongClickListener {
 	DropboxAPI<AndroidAuthSession> dropApi;
     final static private String APP_KEY = "dhgel7d3dcsen3d";
     final static private String APP_SECRET = "evnp2bxtokmy7yy";
-    final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+    final static private AccessType ACCESS_TYPE = AccessType.DROPBOX;
     final static private String ACCOUNT_PREFS_NAME = "prefs";
     final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
     final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
@@ -167,6 +170,8 @@ OnItemLongClickListener {
 			// If called for trash can then delete the item and reload the grid
 			// view
 			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.googledrive || view.getId() == R.id.otherservices) {
+				File file = new File("beanstalk.jpg");
+				uploadDropbox(file);
 				filesToshare.remove(draggedIndex);
 				draggedIndex = -1;
 			}
@@ -198,57 +203,45 @@ OnItemLongClickListener {
 		return false;
 	}
 
-	@Override
-	public boolean onItemLongClick(AdapterView gridView, View view,
-			int position, long row) {
-		ClipData.Item item = new ClipData.Item((String) view.getTag());
-		ClipData clipData = new ClipData((CharSequence) view.getTag(),
-				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
-		view.startDrag(clipData, new View.DragShadowBuilder(view), null, 0);
-		
-		View DropBox = findViewById(R.id.dropbox);
-		DropBox.setVisibility(View.VISIBLE);
-		DropBox.setOnDragListener(UploadScreen.this);
-		DropBox.setOnDragListener(UploadScreen.this);
-		
-		View SkyDrive = findViewById(R.id.skydrive);
-		SkyDrive.setVisibility(View.VISIBLE);
-		SkyDrive.setOnDragListener(UploadScreen.this);
-		SkyDrive.setOnDragListener(UploadScreen.this);
-		
-		View GoogleDrive = findViewById(R.id.googledrive);
-		GoogleDrive.setVisibility(View.VISIBLE);
-		GoogleDrive.setOnDragListener(UploadScreen.this);
-		GoogleDrive.setOnDragListener(UploadScreen.this);
-		
-		View OtherServices = findViewById(R.id.otherservices);
-		OtherServices.setVisibility(View.VISIBLE);
-		OtherServices.setOnDragListener(UploadScreen.this);
-		OtherServices.setOnDragListener(UploadScreen.this);
-		
-		
-		
-		
-
-
-		draggedIndex = position;
-		return true;
-	
-
-        
-        
-     /*   pre - version
-       findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
+    protected void displayToast(String message)
+    {
+    	Toast msg = Toast.makeText(context, message, Toast.LENGTH_LONG);
+    	msg.show();
     }
     
-    public void showToast(String msg) {
-	    Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
-	    error.show();
-	}
-    
-    public void uploadFile()
+    public void uploadDropbox(File file)
     {
-    	
+	    AndroidAuthSession session = buildSession();
+	    if(flag == 1)
+	    {
+	    	displayToast("You have not logged into Dropbox!");
+	    }
+	    else
+	    {
+	    	dropApi = new DropboxAPI<AndroidAuthSession>(session);
+		    if(flag == 1)
+		    {
+		    	displayToast("You have not logged into Dropbox!");
+		    }
+		    else
+		    {
+		    	//testing
+			    boolean sdStatus = checkSDCardStatus();
+			    String sdpath;
+			    if(sdStatus)
+			    {
+			    	sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/";
+			    	file = new File(sdpath + "beanstalk.jpg");
+			    	
+					displayToast("Uploading from: " + sdpath + file.getName());
+					sdpath = "/Beanstalk/";
+			    	//end testing
+			    	UploadFile uploadDrop = new UploadFile(UploadScreen.this, dropApi, sdpath, file);
+			    	uploadDrop.execute();	
+			    }
+
+		    }
+	    }
     }
     
     private AndroidAuthSession buildSession() {
@@ -281,6 +274,71 @@ OnItemLongClickListener {
         	return null;
         }
     }
+    
+    private boolean checkSDCardStatus()
+    {
+    	String mErrorMsg;
+    	String sdcardstatus = Environment.getExternalStorageState();
+        if(sdcardstatus.equals(Environment.MEDIA_REMOVED))
+        {
+        	mErrorMsg ="Error: Your device is not showing an SD Card. Beanstalk can only upload a file from an SD card";
+        	displayToast(mErrorMsg);
+        	return false;
+        }
+        //Make sure SD Card is mounted
+        if(sdcardstatus.equals(Environment.MEDIA_MOUNTED))
+        {
+        	return true;
+        }
+        else
+        {
+        	mErrorMsg = "Error: Your device's SD Card is not mounted. Beanstalk can only upload a file from an SD card";
+        	displayToast(mErrorMsg);
+        	return false;
+        }
+    }
+	
+	@Override
+	public boolean onItemLongClick(AdapterView gridView, View view,
+			int position, long row) {
+		ClipData.Item item = new ClipData.Item((String) view.getTag());
+		ClipData clipData = new ClipData((CharSequence) view.getTag(),
+				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+		view.startDrag(clipData, new View.DragShadowBuilder(view), null, 0);
+		
+		View DropBox = findViewById(R.id.dropbox);
+		DropBox.setVisibility(View.VISIBLE);
+		DropBox.setOnDragListener(UploadScreen.this);
+		DropBox.setOnDragListener(UploadScreen.this);
+		
+		View SkyDrive = findViewById(R.id.skydrive);
+		SkyDrive.setVisibility(View.VISIBLE);
+		SkyDrive.setOnDragListener(UploadScreen.this);
+		SkyDrive.setOnDragListener(UploadScreen.this);
+		
+		View GoogleDrive = findViewById(R.id.googledrive);
+		GoogleDrive.setVisibility(View.VISIBLE);
+		GoogleDrive.setOnDragListener(UploadScreen.this);
+		GoogleDrive.setOnDragListener(UploadScreen.this);
+		
+		View OtherServices = findViewById(R.id.otherservices);
+		OtherServices.setVisibility(View.VISIBLE);
+		OtherServices.setOnDragListener(UploadScreen.this);
+		OtherServices.setOnDragListener(UploadScreen.this);
+
+
+		draggedIndex = position;
+		return true;
+	
+        
+     /*   pre - version
+       findViewById(R.id.Upcloud).setOnTouchListener(new MyTouchListener());
+    }
+    
+    public void showToast(String msg) {
+	    Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+	    error.show();
+	}
     
     
     private final class MyTouchListener implements OnTouchListener {

@@ -18,7 +18,9 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxFileSizeException;
 import com.dropbox.client2.exception.DropboxIOException;
+import com.dropbox.client2.exception.DropboxParseException;
 import com.dropbox.client2.exception.DropboxPartialFileException;
+import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 
 public class UploadFile extends AsyncTask<Void, Long, Boolean> {
@@ -64,10 +66,19 @@ public class UploadFile extends AsyncTask<Void, Long, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
     	//return true;
+    	FileInputStream fis = null;
     	try{
-			FileInputStream fis = new FileInputStream(upFile);
+    		//displayToast("Uploading: " + upFile);
+			fis = new FileInputStream(upFile);
 			String writePath = path + upFile.getName();
+			//displayToast("Second: " + writePath);
 			request = apiObj.putFileOverwriteRequest(writePath,fis, upFile.length(), new ProgressListener() {
+               @Override
+                public long progressInterval() {
+                    // Update the progress bar every half-second or so
+                    return 500;
+                }
+				
 				@Override
 				public void onProgress(long bytes, long total) {
 					publishProgress(bytes);
@@ -80,17 +91,46 @@ public class UploadFile extends AsyncTask<Void, Long, Boolean> {
 				request.upload();
 				return true;
 			}
-    	} catch(DropboxFileSizeException e){
-    		error = "The file size to upload is too large.";
-    	} catch(DropboxUnlinkedException e) {
-    		error = "The authentication session was not correct.";
-    	} catch(DropboxPartialFileException e) {
-    		error = "The file upload was canceled.";
-    	} catch (DropboxIOException e) {
-    		error = "The network is currently unavailable. Please try again.";
-    	} catch (DropboxException e) {
-    		error = "An unexpected error has occurred. Please try again.";
-    	} catch (FileNotFoundException e) {
+    	} catch (DropboxUnlinkedException e) {
+            // This session wasn't authenticated properly or user unlinked
+            error = "This app wasn't authenticated properly.";
+        } catch (DropboxFileSizeException e) {
+            // File size too big to upload via the API
+            error = "This file is too big to upload";
+        } catch (DropboxPartialFileException e) {
+            // We canceled the operation
+            error = "Upload canceled";
+        } catch (DropboxServerException e) {
+            // Server-side exception.  These are examples of what could happen,
+            // but we don't do anything special with them here.
+            if (e.error == DropboxServerException._401_UNAUTHORIZED) {
+                // Unauthorized, so we should unlink them.  You may want to
+                // automatically log the user out in this case.
+            } else if (e.error == DropboxServerException._403_FORBIDDEN) {
+                // Not allowed to access this
+            } else if (e.error == DropboxServerException._404_NOT_FOUND) {
+                // path not found (or if it was the thumbnail, can't be
+                // thumbnailed)
+            } else if (e.error == DropboxServerException._507_INSUFFICIENT_STORAGE) {
+                // user is over quota
+            } else {
+                // Something else
+            }
+            // This gets the Dropbox error, translated into the user's language
+            error = e.body.userError;
+            if (error == null) {
+                error = e.body.error;
+            }
+        } catch (DropboxIOException e) {
+            // Happens all the time, probably want to retry automatically.
+            error = "Network error.  Try again.";
+        } catch (DropboxParseException e) {
+            // Probably due to Dropbox server restarting, should retry
+            error = "Dropbox error.  Try again.";
+        } catch (DropboxException e) {
+            // Unknown error
+            error = "Unknown error.  Try again.";
+        } catch (FileNotFoundException e) {
     		error = "An error has occurred with the file. Check the file path and try again.";
     	}
 		return false;
