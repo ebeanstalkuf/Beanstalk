@@ -241,15 +241,15 @@ OnItemLongClickListener {
 					}
 					else
 					{
+						//Store Path the Beanstalk Downloads
 						sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/";
-				    	file = new File(sdpath + "beanstalk.jpg");
-				    	
+				    					    	
 						displayToast("Uploading from: " + sdpath + sharefile.getName());
 						String uploadPath = "/Beanstalk/";
 				    	//end testing
 						//sharefile is the static variable
 						//If files is null, don't allow upload
-						UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, sdpath, sharefile);
+						UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile);
 						uploadDrop.execute();	
 						sharefile = null;
 					}
