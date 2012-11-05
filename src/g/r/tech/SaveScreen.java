@@ -65,6 +65,23 @@ public class SaveScreen extends Activity {
     ArrayAdapter arrayAdapter;
     
     
+    public void update(File[] newList){
+    	String[] paths=new String[newList.length];
+    	for (int i =0; i<newList.length; i++){
+    		String path=newList[i].getPath();
+    		
+    		if (path.contains("/mnt/sdcard/")){
+    			paths[i]=path.replace("/mnt/sdcard/", "");
+    		}
+    	else
+    			paths[i] = path;	
+    	}
+    	arrayAdapter = new ArrayAdapter(this,R.layout.screen5_rowlayout, R.id.label, paths);
+    }
+
+    
+    
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,8 +92,7 @@ public class SaveScreen extends Activity {
         
         sdListView = (ListView) findViewById(android.R.id.list);
         File file[] = Environment.getExternalStorageDirectory().listFiles(); 
-        arrayAdapter = new ArrayAdapter(this,R.layout.screen5_rowlayout, R.id.label, file);
-
+        update(file);
 
        
         sdcardfiles = (Button) findViewById(R.id.sdcard_fileb);
