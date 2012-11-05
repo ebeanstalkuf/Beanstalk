@@ -55,6 +55,7 @@ OnItemLongClickListener {
     Context context;
     int flag;
     Button allServices;
+    static File sharefile = null;
     
     //variables for collision test
     ArrayList filesToshare;
@@ -234,14 +235,24 @@ OnItemLongClickListener {
 			    String sdpath;
 			    if(sdStatus)
 			    {
-			    	sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/";
-			    	file = new File(sdpath + "beanstalk.jpg");
-			    	
-					displayToast("Uploading from: " + sdpath + file.getName());
-					String uploadPath = "/Beanstalk/";
-			    	//end testing
-			    	UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, file);
-			    	uploadDrop.execute();	
+			    	if(sharefile == null)
+					{
+						displayToast("You have not chosen a file to upload. Please choose a file from the file browser.");
+					}
+					else
+					{
+						sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/";
+				    	file = new File(sdpath + "beanstalk.jpg");
+				    	
+						displayToast("Uploading from: " + sdpath + sharefile.getName());
+						String uploadPath = "/Beanstalk/";
+				    	//end testing
+						//sharefile is the static variable
+						//If files is null, don't allow upload
+						UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, sdpath, sharefile);
+						uploadDrop.execute();	
+						sharefile = null;
+					}
 			    }
 
 		    }

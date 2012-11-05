@@ -123,8 +123,8 @@ public class Home extends Activity {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent openUploadScreen = new Intent(v.getContext(), UploadScreen.class);
-				startActivityForResult(openUploadScreen, 0);
+				Intent openSaveScreen = new Intent(v.getContext(), SaveScreen.class);
+				startActivityForResult(openSaveScreen, 0);
 			}
 			
 		});
@@ -133,8 +133,8 @@ public class Home extends Activity {
 			@Override
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
-				Intent openSaveScreen = new Intent(v.getContext(), SaveScreen.class);
-				startActivityForResult(openSaveScreen, 0);
+				Intent openUploadScreen = new Intent(v.getContext(), UploadScreen.class);
+				startActivityForResult(openUploadScreen, 0);
 				return true;
 			}
 		});

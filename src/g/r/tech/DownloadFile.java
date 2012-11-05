@@ -6,9 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -34,8 +36,9 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
  */
 public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     /** Called when the activity is first created. */
-	
+	Activity activity;
 	private Context mContext;
+	private Context pContext;
     private final ProgressDialog mDialog;
     private DropboxAPI<?> mApi;
     private String mPath;
@@ -58,11 +61,11 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
 	public DownloadFile(Context context, DropboxAPI<?> api, Entry file) {
         // We set the context this way so we don't accidentally leak activities
         mContext = context.getApplicationContext();
-
+        pContext = context;
         mApi = api;
         filename = file;
         mDialog = new ProgressDialog(context);
-        mDialog.setMessage("Downloading Image");
+        mDialog.setMessage("Preparing File...");
         mDialog.setButton("Cancel", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 mCanceled = true;
@@ -165,8 +168,12 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     protected void onPostExecute(Boolean result) {
         mDialog.dismiss();
         if (result) {
-            showToast("Successfully downloaded " + filename.fileName() + " to: " + sdpath);
-            
+            //showToast("Successfully downloaded " + filename.fileName() + " to: " + sdpath);
+        	UploadScreen.sharefile = sdpath;
+        	//Pass the file
+			activity = (Activity) pContext;
+			Intent openUploadScreen = new Intent(mContext, UploadScreen.class);
+			activity.startActivity(openUploadScreen);
         } else {
             // Couldn't download it, so show an error
             showToast("Error: Problem Downloading " + filename.fileName() + " to: " + sdpath + ". Please try again.");

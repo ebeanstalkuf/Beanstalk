@@ -19,6 +19,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -49,6 +50,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 	TextView t;
 	Button pathbutton;
 	Entry dirent = null;
+	Activity activity;
     public UpdateList(Context context, DropboxAPI <?> api, ListView x, String dropboxPath, TextView y, Button b)
     {
     	//Passable context
