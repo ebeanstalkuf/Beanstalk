@@ -117,7 +117,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/googledrivetitle" />
+            android:src="@drawable/boxtitle" />
 
         <ImageView
             android:id="@+id/greenArrow1"

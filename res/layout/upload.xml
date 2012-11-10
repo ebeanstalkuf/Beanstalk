@@ -34,18 +34,17 @@
                 android:layout_width="80dp"
                 android:layout_height="70dp"
                 android:background="@drawable/dropboxbutton" />
-
+            <Button
+                android:id="@+id/box"           
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:background="@drawable/boxbutton" />
             <Button
                 android:id="@+id/skydrive"           
                 android:layout_width="80dp"
                 android:layout_height="70dp"
                 android:background="@drawable/skydrivebutton" />
 
-            <Button
-                android:id="@+id/googledrive"           
-                android:layout_width="80dp"
-                android:layout_height="70dp"
-                android:background="@drawable/googledrivebutton" />
             <Button
                 android:id="@+id/otherservices"           
                 android:layout_width="80dp"
