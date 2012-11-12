@@ -133,7 +133,7 @@ OnItemLongClickListener {
 			// Drag has started
 			// If called for trash resize the view and return true
 			allServices.setVisibility(0);
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.googledrive || view.getId() == R.id.otherservices ) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices ) {
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
 				return true;
@@ -149,7 +149,7 @@ OnItemLongClickListener {
 		case DragEvent.ACTION_DRAG_ENTERED:
 			// Drag has entered view bounds
 			// If called for trash can then scale it.
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.googledrive || view.getId() == R.id.otherservices) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
 				view.animate().scaleX(1.5f);
 				view.animate().scaleY(1.5f);
 			}
@@ -157,7 +157,7 @@ OnItemLongClickListener {
 		case DragEvent.ACTION_DRAG_EXITED:
 			// Drag exited view bounds
 			// If called for trash can then reset it.
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.googledrive || view.getId() == R.id.otherservices) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
 			}
@@ -190,11 +190,11 @@ OnItemLongClickListener {
 				public void run() {
 					findViewById(R.id.dropbox).setVisibility(View.VISIBLE);
 					findViewById(R.id.skydrive).setVisibility(View.VISIBLE);
-					findViewById(R.id.googledrive).setVisibility(View.VISIBLE);
+					findViewById(R.id.box).setVisibility(View.VISIBLE);
 					findViewById(R.id.otherservices).setVisibility(View.VISIBLE);
 				}
 			}, 1000l);
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.googledrive || view.getId() == R.id.otherservices) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
 			} else {
@@ -331,7 +331,7 @@ OnItemLongClickListener {
 		SkyDrive.setOnDragListener(UploadScreen.this);
 		SkyDrive.setOnDragListener(UploadScreen.this);
 		
-		View GoogleDrive = findViewById(R.id.googledrive);
+		View GoogleDrive = findViewById(R.id.box);
 		GoogleDrive.setVisibility(View.VISIBLE);
 		GoogleDrive.setOnDragListener(UploadScreen.this);
 		GoogleDrive.setOnDragListener(UploadScreen.this);
