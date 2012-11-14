@@ -73,7 +73,6 @@ OnItemLongClickListener {
         filesToshare = new ArrayList();
         
         String extensionType = filename(sharefile);
-        displayToast(extensionType);
         
         if( extensionType.equals("jpg") || extensionType.equals("png") || extensionType.equals("gif") 
         	|| extensionType.equals("bmp") || extensionType.equals("psd") || extensionType.equals("tif") 
@@ -122,8 +121,6 @@ OnItemLongClickListener {
 				}
 				view.setImageResource((Integer) filesToshare.get(position));
 				view.setTag(String.valueOf(position));
-				view.animate().scaleX(1.5f);
-				view.animate().scaleY(1.5f);
 				return view;
 			}
 

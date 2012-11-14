@@ -47,6 +47,7 @@ public class SaveScreen extends Activity {
     private FileOutputStream mFos;
     TextView t;
     Button b;
+    TextView welcomeText;
     private boolean mCanceled;
     private Long mFileLen;
     private String mErrorMsg;
@@ -88,7 +89,7 @@ public class SaveScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
         
-        
+        welcomeText = (TextView) findViewById(R.id.initialText);
         
         sdListView = (ListView) findViewById(android.R.id.list);
         File file[] = Environment.getExternalStorageDirectory().listFiles(); 
@@ -98,9 +99,12 @@ public class SaveScreen extends Activity {
         sdcardfiles = (Button) findViewById(R.id.sdcard_fileb);
         sdcardfiles.setOnClickListener(new View.OnClickListener() {
 			
+        	
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+		    	//get rid of initial text
+		        welcomeText.setVisibility(8);
 				sdListView.setAdapter(arrayAdapter);
 		        
 			}
@@ -119,7 +123,11 @@ public class SaveScreen extends Activity {
 				    else
 				    {
 				    	mApi = new DropboxAPI<AndroidAuthSession>(session);
-				    	// Find the ListView resource.   
+				    	
+				    	//get rid of initial text
+				        welcomeText.setVisibility(8);
+				        
+				     // Find the ListView resource.
 						dbListView = (ListView) findViewById(android.R.id.list);
 						//Find the Textview resource
 						t=(TextView)findViewById(R.id.filebrowserpath);
