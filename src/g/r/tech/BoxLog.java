@@ -89,7 +89,7 @@ public class BoxLog extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-			    Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( "https://www.dropbox.com/register" ) );
+			    Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( "https://www.box.com/pricing/" ) );
 			    startActivity( browse );
 			}
 		});
