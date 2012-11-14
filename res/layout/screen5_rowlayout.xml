@@ -4,13 +4,69 @@
     android:layout_height="wrap_content" >
     
 <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/unknown"
+        android:visibility="gone"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="4dp"
-        android:src="@drawable/ic_launcher" >
+        android:src="@drawable/default_file" >
+    </ImageView>
+    
+<ImageView
+        android:id="@+id/document"
+        android:visibility="gone"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/document" >
+    </ImageView>
+    
+<ImageView
+        android:id="@+id/music"
+        android:visibility="gone"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/music" >
+    </ImageView>
+    
+<ImageView
+        android:id="@+id/pictures"
+        android:visibility="gone"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/photo" >
+    </ImageView>
+    
+<ImageView
+        android:id="@+id/videos"
+        android:visibility="gone"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/video" >
+    </ImageView>
+    
+<ImageView
+        android:id="@+id/folder"
+        android:visibility="gone"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/folder" >
     </ImageView>
 
     <TextView
