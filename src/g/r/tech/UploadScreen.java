@@ -72,9 +72,37 @@ OnItemLongClickListener {
         //array list for collision
         filesToshare = new ArrayList();
         
+        String extensionType = filename(sharefile);
+        displayToast(extensionType);
         
-        
-        filesToshare.add(R.drawable.photo);
+        if( extensionType.equals("jpg") || extensionType.equals("png") || extensionType.equals("gif") 
+        	|| extensionType.equals("bmp") || extensionType.equals("psd") || extensionType.equals("tif") 
+        	|| extensionType.equals("tiff") || extensionType.equals("ai") || extensionType.equals("svg"))
+        {
+        	filesToshare.add(R.drawable.photo_upload);
+        }
+        else if( extensionType.equals("mp3") || extensionType.equals("m4a") || extensionType.equals("wav") 
+        		|| extensionType.equals("flac") || extensionType.equals("aac") || extensionType.equals("m4p")
+        		|| extensionType.equals("mmf") || extensionType.equals("ogg") || extensionType.equals("Opus")
+        		|| extensionType.equals("raw") || extensionType.equals("vox") || extensionType.equals("wma") 
+        		|| extensionType.equals("alac") || extensionType.equals("aiff"))
+        {
+        	filesToshare.add(R.drawable.music_upload);
+        }
+        else if( extensionType.equals("mov") || extensionType.equals("divx") || extensionType.equals("xvid")
+        		|| extensionType.equals("asf") || extensionType.equals("avi") || extensionType.equals("m1v")
+        		|| extensionType.equals("m2v") || extensionType.equals("m4v") || extensionType.equals("fla")
+        		|| extensionType.equals("flv") || extensionType.equals("sol") || extensionType.equals("mpeg")
+        		|| extensionType.equals("mpe") || extensionType.equals("mpg") || extensionType.equals("MP4")
+        		|| extensionType.equals("wmv") || extensionType.equals("swf") || extensionType.equals("fcp")
+        		|| extensionType.equals("ppj") )
+        {
+        	filesToshare.add(R.drawable.video_upload);
+        }
+        else
+        {
+        	filesToshare.add(R.drawable.document_upload);
+        }
         GridView gridView = (GridView) findViewById(R.id.default_file);
         gridView.setOnItemLongClickListener(UploadScreen.this);
         
@@ -94,6 +122,8 @@ OnItemLongClickListener {
 				}
 				view.setImageResource((Integer) filesToshare.get(position));
 				view.setTag(String.valueOf(position));
+				view.animate().scaleX(1.5f);
+				view.animate().scaleY(1.5f);
 				return view;
 			}
 
@@ -346,8 +376,19 @@ OnItemLongClickListener {
 		return true;
 	
       }
+		
+	 public String filename(File sharefile){
+		
+		 String fileName = sharefile.getName();
+		 String filename_Without_Ext = "";
+		 String ext = "";
 
-			
+		 int dotposition= fileName.lastIndexOf(".");
+		 filename_Without_Ext = fileName.substring(0,dotposition);
+		 ext = fileName.substring(dotposition + 1, fileName.length());
+
+		 return ext;
+		}
 
 	
     
