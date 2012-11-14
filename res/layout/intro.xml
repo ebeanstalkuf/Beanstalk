@@ -2,16 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:background="@drawable/background3"
-     >
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/logo" />
-       
-     </RelativeLayout>
+   <ImageView
+       android:id="@+id/logo"
+       android:layout_width="300dp"
+       android:layout_height="60dp"
+       android:layout_alignParentTop="true"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="46dp"
+       android:background="@drawable/logo" />
+
+   <ImageView
+       android:id="@+id/icon"
+       android:layout_width="192dp"
+       android:layout_height="192dp"
+       android:layout_centerHorizontal="true"
+       android:layout_centerVertical="true"
+       android:background="@drawable/titleicon" />
+
+</RelativeLayout>
