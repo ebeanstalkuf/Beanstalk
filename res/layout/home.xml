@@ -194,7 +194,7 @@
     <Button
         android:id="@+id/moveCloud"
         android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_height="88dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/textMoveFiles"
         android:background="@drawable/movecloud" />
@@ -216,6 +216,7 @@
        android:layout_centerHorizontal="true"
        android:layout_alignParentBottom="true"
        android:text="Move Files"
+       android:layout_marginBottom="26dp"
        android:textColor="#FFFFFF" />
 
 </RelativeLayout>
