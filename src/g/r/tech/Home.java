@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -32,7 +33,7 @@ public class Home extends Activity {
 	Button DropboxLog;
 
 	//Menu buttons screen1 HOME
-	Button GoogleLog;
+	Button BoxLog;
 
 	//Menu buttons screen1 HOME
 	Button SkydriveLog; 
@@ -63,14 +64,14 @@ public class Home extends Activity {
         setContentView(R.layout.home);
         
         DropboxLog = (Button) findViewById(R.id.Dropboxbutton);
-        GoogleLog = (Button) findViewById(R.id.Googlebutton);
+        BoxLog = (Button) findViewById(R.id.Boxbutton);
         SkydriveLog = (Button) findViewById(R.id.Skydrivebutton);
         MoveCloud = (Button) findViewById(R.id.moveCloud); 
         greenLight1 = (ImageView) findViewById(R.id.dropboxGreenLight);
-        greenLight2 = (ImageView) findViewById(R.id.googleGreenLight);
+        greenLight2 = (ImageView) findViewById(R.id.boxGreenLight);
         greenLight3 = (ImageView) findViewById(R.id.skydriveGreenLight);
         redLight1 = (ImageView) findViewById(R.id.dropboxRedLight);
-        redLight2 = (ImageView) findViewById(R.id.googleRedLight);
+        redLight2 = (ImageView) findViewById(R.id.boxRedLight);
         redLight3 = (ImageView) findViewById(R.id.skydriveRedLight);
         
         //click listeners for buttons
@@ -96,12 +97,12 @@ public class Home extends Activity {
         
         
         
-        GoogleLog.setOnClickListener(new View.OnClickListener() {
+        BoxLog.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent openGoogle = new Intent(v.getContext(), GoogleLog.class);
-				startActivityForResult(openGoogle, 0);
+				Intent openBox = new Intent(v.getContext(), BoxLog.class);
+				startActivityForResult(openBox, 0);
 				
 				
 			}
@@ -189,7 +190,7 @@ public class Home extends Activity {
 		}
 	}
 	
-	public static void setGoogleLog(boolean mLoggedIn) {
+	public static void setBoxLog(boolean mLoggedIn) {
 		// TODO Auto-generated method stub
 		if (mLoggedIn == true)
 		{
@@ -248,7 +249,7 @@ public class Home extends Activity {
         // Check to make sure that we have a valid app key
         if (APP_KEY.startsWith("CHANGE") ||
                 APP_SECRET.startsWith("CHANGE")) {
-            //showToast("You must apply for an app key and secret from developers.dropbox.com, and add them to the DBRoulette ap before trying it.");
+            showToast("You must apply for an app key and secret from developers.dropbox.com, and add them to the DBRoulette ap before trying it.");
             finish();
             return;
         }
@@ -260,12 +261,16 @@ public class Home extends Activity {
         testIntent.setData(Uri.parse(uri));
         PackageManager pm = getPackageManager();
         if (0 == pm.queryIntentActivities(testIntent, 0).size()) {
-            /*showToast("URL scheme in your app's " +
+            showToast("URL scheme in your app's " +
                     "manifest is not set up correctly. You should have a " +
                     "com.dropbox.client2.android.AuthActivity with the " +
-                    "scheme: " + scheme);*/
+                    "scheme: " + scheme);
             finish();
         }
+    }
+    
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
 }

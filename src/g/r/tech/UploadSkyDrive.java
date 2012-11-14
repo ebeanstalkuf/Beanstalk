@@ -1,4 +1,7 @@
+
+
 package g.r.tech;
+
 
 import java.io.File;
 import java.util.Arrays;
@@ -19,6 +22,7 @@ import com.microsoft.live.LiveOperation;
 import com.microsoft.live.LiveOperationException;
 import com.microsoft.live.LiveStatus;
 import com.microsoft.live.LiveUploadOperationListener;
+
 
 public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
     public static final String EXTRA_PATH = "path";
@@ -103,6 +107,7 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
 		return false;
     }
     
+    /*
     @Override
     protected void onProgressUpdate(Long... progress)
     {
@@ -126,7 +131,8 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
     	displayToast(resultMsg);
     }
     
-    /*private boolean checkSkydrive()
+    
+    private boolean checkSkydrive()
     {
     	final boolean loggedIn = false;
     	//Skydrive logged in stuff
@@ -172,5 +178,4 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
     private ProgressDialog showProgressDialog(String title, String message, boolean indeterminate) {
         return ProgressDialog.show(context, title, message, indeterminate);
     }
-    
 }

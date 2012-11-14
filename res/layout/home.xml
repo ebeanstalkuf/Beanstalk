@@ -9,7 +9,7 @@
         android:id="@+id/Dropboxbutton"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:layout_above="@+id/Googlebutton"
+        android:layout_above="@+id/Boxbutton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
         />
@@ -18,7 +18,7 @@
         android:id="@+id/whiteBox1"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:layout_above="@+id/Googlebutton"
+        android:layout_above="@+id/Boxbutton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:background="#FFFFFF" />
@@ -29,7 +29,7 @@
         android:id="@+id/ll1"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:layout_above="@+id/Googlebutton"
+        android:layout_above="@+id/Boxbutton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp" >
 
@@ -55,7 +55,7 @@
             android:id="@+id/dropboxImage"
             android:layout_width="175dp"
             android:layout_height="50dp"
-            android:layout_above="@+id/Googlebutton"
+            android:layout_above="@+id/Boxbutton"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/dropboxtitle" />
@@ -70,7 +70,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/Googlebutton"
+        android:id="@+id/Boxbutton"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
@@ -94,7 +94,7 @@
 
         
         <ImageView 
-            android:id="@+id/googleGreenLight"
+            android:id="@+id/boxGreenLight"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginLeft="8dp"
@@ -103,7 +103,7 @@
             android:src="@drawable/greenlight" />
         
         <ImageView 
-            android:id="@+id/googleRedLight"
+            android:id="@+id/boxRedLight"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginLeft="8dp"
@@ -112,7 +112,7 @@
             android:src="@drawable/redlight" />
         
         <ImageView
-            android:id="@+id/googleImage"
+            android:id="@+id/boxImage"
             android:layout_width="175dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
@@ -132,7 +132,7 @@
         android:id="@+id/Skydrivebutton"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:layout_below="@id/Googlebutton"
+        android:layout_below="@id/Boxbutton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="6dp" />
 
@@ -140,7 +140,7 @@
         android:id="@+id/whiteBox3"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:layout_below="@id/Googlebutton"
+        android:layout_below="@id/Boxbutton"
         android:layout_centerHorizontal="true"
         android:background="#FFFFFF" />
 
@@ -148,7 +148,7 @@
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_alignLeft="@+id/ll1"
-        android:layout_below="@+id/Googlebutton"
+        android:layout_below="@+id/Boxbutton"
         android:layout_centerInParent="true"
         android:layout_marginBottom="12dp" >
 
@@ -174,7 +174,7 @@
             android:id="@+id/skydriveImage"
             android:layout_width="175dp"
             android:layout_height="50dp"
-            android:layout_below="@+id/Googlebutton"
+            android:layout_below="@+id/Boxbutton"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="6dp"
             android:src="@drawable/skydrivetitle" />
