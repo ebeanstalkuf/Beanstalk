@@ -55,6 +55,8 @@ OnItemLongClickListener {
     Context context;
     int flag;
     Button allServices;
+    //cloud and container on upload screen that holds the files and disappears when dragged
+    GridView uploadcloud, cloudcontainer;
     static File sharefile = null;
     
     //variables for collision test
@@ -67,6 +69,8 @@ OnItemLongClickListener {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.upload);
+        uploadcloud = (GridView) findViewById(R.id.Upcloud);
+        cloudcontainer = (GridView) findViewById(R.id.default_file);
         allServices = (Button) findViewById(R.id.uploadall);
         
         //array list for collision
@@ -160,6 +164,8 @@ OnItemLongClickListener {
 			// Drag has started
 			// If called for trash resize the view and return true
 			allServices.setVisibility(0);
+			uploadcloud.setVisibility(4);
+			cloudcontainer.setVisibility(4);
 			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices ) {
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
@@ -211,6 +217,8 @@ OnItemLongClickListener {
 		case DragEvent.ACTION_DRAG_ENDED:
 			// Hide the trash can
 			allServices.setVisibility(4);
+			uploadcloud.setVisibility(0);
+			cloudcontainer.setVisibility(0);
 			new Handler().postDelayed(new Runnable() {
 
 				@Override
