@@ -19,5 +19,10 @@
 	<classpathentry kind="src" path="/src"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrary/bin/boxandroidlibrary.jar"/>
+	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrarySample/libs/apache-mime4j-0.6.jar"/>
+	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrarySample/libs/gson-1.7.1.jar"/>
+	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrarySample/libs/httpmime-4.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrary/libs/gson-renamed-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
