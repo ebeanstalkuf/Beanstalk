@@ -215,9 +215,9 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
             {
             	String extensionType = filename(dropBoxObj.fileName());
                 
-                if( extensionType.equals("jpg") || extensionType.equals("png") || extensionType.equals("gif") 
-                	|| extensionType.equals("bmp") || extensionType.equals("psd") || extensionType.equals("tif") 
-                	|| extensionType.equals("tiff") || extensionType.equals("ai") || extensionType.equals("svg"))
+                if( extensionType.equalsIgnoreCase("jpg") || extensionType.equalsIgnoreCase("png") || extensionType.equalsIgnoreCase("gif") 
+                    	|| extensionType.equalsIgnoreCase("bmp") || extensionType.equalsIgnoreCase("psd") || extensionType.equalsIgnoreCase("tif") 
+                    	|| extensionType.equalsIgnoreCase("tiff") || extensionType.equalsIgnoreCase("ai") || extensionType.equalsIgnoreCase("svg"))
                 {
                 	if (mView == null) {
                         mView = inflateNewDropBoxListItem(parent);
@@ -226,11 +226,11 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
                     setIcon(R.drawable.photo);
                     setName(dropBoxObj.fileName());
                 }
-                else if( extensionType.equals("mp3") || extensionType.equals("m4a") || extensionType.equals("wav") 
-                		|| extensionType.equals("flac") || extensionType.equals("aac") || extensionType.equals("m4p")
-                		|| extensionType.equals("mmf") || extensionType.equals("ogg") || extensionType.equals("Opus")
-                		|| extensionType.equals("raw") || extensionType.equals("vox") || extensionType.equals("wma") 
-                		|| extensionType.equals("alac") || extensionType.equals("aiff"))
+                else if( extensionType.equalsIgnoreCase("mp3") || extensionType.equalsIgnoreCase("m4a") || extensionType.equalsIgnoreCase("wav") 
+                		|| extensionType.equalsIgnoreCase("flac") || extensionType.equalsIgnoreCase("aac") || extensionType.equalsIgnoreCase("m4p")
+                		|| extensionType.equalsIgnoreCase("mmf") || extensionType.equalsIgnoreCase("ogg") || extensionType.equalsIgnoreCase("Opus")
+                		|| extensionType.equalsIgnoreCase("raw") || extensionType.equalsIgnoreCase("vox") || extensionType.equalsIgnoreCase("wma") 
+                		|| extensionType.equalsIgnoreCase("alac") || extensionType.equalsIgnoreCase("aiff"))
                 {
                 	if (mView == null) {
                         mView = inflateNewDropBoxListItem(parent);
@@ -239,13 +239,13 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
                     setIcon(R.drawable.music);
                     setName(dropBoxObj.fileName());
                 }
-                else if( extensionType.equals("mov") || extensionType.equals("divx") || extensionType.equals("xvid")
-                		|| extensionType.equals("asf") || extensionType.equals("avi") || extensionType.equals("m1v")
-                		|| extensionType.equals("m2v") || extensionType.equals("m4v") || extensionType.equals("fla")
-                		|| extensionType.equals("flv") || extensionType.equals("sol") || extensionType.equals("mpeg")
-                		|| extensionType.equals("mpe") || extensionType.equals("mpg") || extensionType.equals("MP4")
-                		|| extensionType.equals("wmv") || extensionType.equals("swf") || extensionType.equals("fcp")
-                		|| extensionType.equals("ppj") )
+                else if( extensionType.equalsIgnoreCase("mov") || extensionType.equalsIgnoreCase("divx") || extensionType.equalsIgnoreCase("xvid")
+                		|| extensionType.equalsIgnoreCase("asf") || extensionType.equalsIgnoreCase("avi") || extensionType.equalsIgnoreCase("m1v")
+                		|| extensionType.equalsIgnoreCase("m2v") || extensionType.equalsIgnoreCase("m4v") || extensionType.equalsIgnoreCase("fla")
+                		|| extensionType.equalsIgnoreCase("flv") || extensionType.equalsIgnoreCase("sol") || extensionType.equalsIgnoreCase("mpeg")
+                		|| extensionType.equalsIgnoreCase("mpe") || extensionType.equalsIgnoreCase("mpg") || extensionType.equalsIgnoreCase("MP4")
+                		|| extensionType.equalsIgnoreCase("wmv") || extensionType.equalsIgnoreCase("swf") || extensionType.equalsIgnoreCase("fcp")
+                		|| extensionType.equalsIgnoreCase("ppj") )
                 {
                 	if (mView == null) {
                         mView = inflateNewDropBoxListItem(parent);
