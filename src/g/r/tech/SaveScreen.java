@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore.Files;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +38,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class SaveScreen extends Activity {
 	Button dropboxfiles;
 	Button sdcardfiles;
+	Button skydrivefiles;
 	private Context mContext;
     private DropboxAPI<?> mApi;
     private String mPath;
@@ -44,6 +46,7 @@ public class SaveScreen extends Activity {
     private Drawable mDrawable;
     ListView dbListView ;
     ListView sdListView;
+    ListView skListView;
     private FileOutputStream mFos;
     TextView t;
     Button b;
@@ -51,7 +54,9 @@ public class SaveScreen extends Activity {
     private boolean mCanceled;
     private Long mFileLen;
     private String mErrorMsg;
-    
+	String cloudService = "empty";
+	UpdateSkydrive updatesk;
+	UpdateList updatedb;
     
     int i = 0;
     int flag = 0;
@@ -105,6 +110,7 @@ public class SaveScreen extends Activity {
 				// TODO Auto-generated method stub
 		    	//get rid of initial text
 		        welcomeText.setVisibility(8);
+				cloudService = "dropbox";
 				sdListView.setAdapter(arrayAdapter);
 		        
 			}
@@ -112,13 +118,20 @@ public class SaveScreen extends Activity {
                         
         //Create listener for Dropbox file update button
         dropboxfiles = (Button) findViewById(R.id.dropbox_fileb);
+        // Find the ListView resource.
+		dbListView = (ListView) findViewById(android.R.id.list);
         dropboxfiles.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+					welcomeText.setVisibility(8);
+					cloudService = "dropbox";
 				    AndroidAuthSession session = buildSession();
 				    if(flag == 1)
 				    {
 				    	showToast("You have not logged into Dropbox!");
+				    	//Clear list
+				    	dbListView.setAdapter(null);
+				    	cloudService = "nothing";
 				    }
 				    else
 				    {
@@ -127,20 +140,56 @@ public class SaveScreen extends Activity {
 				    	//get rid of initial text
 				        welcomeText.setVisibility(8);
 				        
-				     // Find the ListView resource.
-						dbListView = (ListView) findViewById(android.R.id.list);
-						//Find the Textview resource
-						t=(TextView)findViewById(R.id.filebrowserpath);
-						//Find the Button resource
-						b=(Button)findViewById(R.id.top_divider);
-				    	UpdateList update = new UpdateList(SaveScreen.this, mApi, dbListView, "/", t, b);
-				    	update.execute();	
+				     
+				    	updatedb = new UpdateList(SaveScreen.this, mApi, dbListView, "/");
+				    	updatedb.execute();	
 				    }
 			}
 			
 		
 		});
-        
+        //Create listener for Dropbox file update button
+        skydrivefiles = (Button) findViewById(R.id.skydrive_fileb);
+        skydrivefiles.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+					welcomeText.setVisibility(8);
+				    cloudService = "skydrive";
+					skListView = (ListView) findViewById(android.R.id.list);
+				    updatesk = new UpdateSkydrive(SaveScreen.this, skListView);
+				    updatesk.run("me/skydrive");
+				    cloudService = "nothing";
+				    }		
+		});
+    }
+    //Moving back to previous folder using back key
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // if prev folders is empty, send the back button to the TabView activity.
+        	//If currently in skydrive
+            if(cloudService.equals("skydrive"))
+            {
+            	//If updateSkydrive uses backkey for listview
+			    if(updatesk.backKeyClicked())
+			    {
+			    	return true;
+			    }
+            }
+            else if(cloudService.equals("dropbox"))
+            {
+            	//If updateList uses backkey for listview
+			    if(updatedb.backKeyClicked())
+			    {
+			    	return true;
+			    }
+            }
+            return super.onKeyDown(keyCode, event);
+        } 
+        else 
+        	{
+            	return super.onKeyDown(keyCode, event);
+        	}
     }
     private void showToast(String msg) {
         Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);

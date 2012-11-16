@@ -23,6 +23,7 @@ import com.dropbox.client2.session.Session.AccessType;
 import com.microsoft.live.LiveAuthClient;
 import com.microsoft.live.LiveAuthException;
 import com.microsoft.live.LiveAuthListener;
+import com.microsoft.live.LiveConnectClient;
 import com.microsoft.live.LiveConnectSession;
 import com.microsoft.live.LiveStatus;
 
@@ -168,6 +169,7 @@ public class Home extends Activity {
 
                 if (status == LiveStatus.CONNECTED) {
                     setSkydriveLog(true);
+                    mApp.setConnectClient(new LiveConnectClient(session));
                     
                 } else {
                     setSkydriveLog(false);
