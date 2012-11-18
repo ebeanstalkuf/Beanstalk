@@ -3,7 +3,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/dropbox-android-sdk-1.5.1.jar"/>
-	<classpathentry kind="lib" path="libs/httpmime-4.0.3.jar"/>
 	<classpathentry kind="lib" path="libs/json_simple-1.1.jar"/>
 	<classpathentry kind="lib" path="libs/google-api-client-1.11.0-beta.jar"/>
 	<classpathentry kind="lib" path="libs/google-api-client-android2-1.11.0-beta.jar"/>
@@ -19,10 +18,9 @@
 	<classpathentry kind="src" path="/src"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrary/bin/boxandroidlibrary.jar"/>
-	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrarySample/libs/apache-mime4j-0.6.jar"/>
-	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrarySample/libs/gson-1.7.1.jar"/>
-	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrarySample/libs/httpmime-4.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/irishdawg90/Desktop/CEN3031/box-android-sdk-master/BoxAndroidLibrary/libs/gson-renamed-2.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/apache-mime4j-0.6.jar"/>
+	<classpathentry kind="lib" path="libs/boxandroidlibrary.jar"/>
+	<classpathentry kind="lib" path="libs/gson-renamed-2.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/httpmime-4.1.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
