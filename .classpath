@@ -19,7 +19,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/apache-mime4j-0.6.jar"/>
-	<classpathentry kind="lib" path="libs/boxandroidlibrary.jar"/>
 	<classpathentry kind="lib" path="libs/gson-renamed-2.2.2.jar"/>
 	<classpathentry kind="lib" path="libs/httpmime-4.1.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
