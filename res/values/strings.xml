@@ -11,5 +11,6 @@
     <string name="back">back</string>
     <string name="signedIn">You are signed in.</string>
     <string name="signedOut">You are NOT signed in.</string>
+    <string name="checking_login_status">Checking login status...</string>
 
 </resources>

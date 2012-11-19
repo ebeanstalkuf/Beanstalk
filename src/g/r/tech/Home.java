@@ -58,6 +58,9 @@ public class Home extends Activity {
     private LiveSdkSampleApplication mApp;
     private LiveAuthClient mAuthClient;
     private ProgressDialog mInitializeDialog;
+    
+    //Box logged in state stuff
+    private String authToken;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -176,6 +179,19 @@ public class Home extends Activity {
                 }
             }
         });
+        
+        //Box loggin stuff
+        
+        final SharedPreferences prefs = getSharedPreferences(Constants.PREFS_FILE_NAME, 0);
+        authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
+        if (authToken == null) {
+            setBoxLog(false);
+            return;
+        }
+        else
+        {
+        	setBoxLog(true);
+        }
        
     }
 

@@ -47,6 +47,7 @@ public class Authentication extends Activity {
                 final SharedPreferences.Editor editor = prefs.edit();
                 editor.putString(Constants.PREFS_KEY_AUTH_TOKEN, data.getStringExtra("AUTH_TOKEN"));
                 editor.commit();
+                Home.setBoxLog(true);
                 finish();
             } else if (resultCode == BoxAuthentication.AUTH_RESULT_FAIL) {
                 Toast.makeText(getApplicationContext(), "Unable to log into Box", Toast.LENGTH_LONG).show();
