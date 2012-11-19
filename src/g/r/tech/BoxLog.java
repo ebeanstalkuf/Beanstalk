@@ -1,36 +1,13 @@
 package g.r.tech;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.android.AuthActivity;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.TokenPair;
-import com.dropbox.client2.session.Session.AccessType;
 
 //Sean Farrell changes test
 
@@ -69,8 +46,10 @@ public class BoxLog extends Activity {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(!mLoggedIn) {
-                    // Start the remote authentication
+				//if(!mLoggedIn)
+				{
+	                Intent intent = new Intent(BoxLog.this, Authentication.class);
+	                startActivity(intent);
                     
                 }
 			}

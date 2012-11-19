@@ -3,17 +3,17 @@
     package="g.r.tech"
     android:versionCode="1"
     android:versionName="1.0" >
-    
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-sdk android:minSdkVersion="12" 
-           />
-    
-    
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-sdk android:minSdkVersion="12" />
+
     <application
         android:name=".LiveSdkSampleApplication"
         android:icon="@drawable/ic_launcher3"
-        android:label="@string/app_name">
+        android:label="@string/app_name" >
         <activity
             android:name=".Intro"
             android:label="@string/app_name" >
@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         
+        
         <activity
             android:name=".Home"
             android:label="@string/app_name" >
@@ -33,7 +34,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".DropboxLog"
             android:label="@string/app_name" >
@@ -43,42 +43,37 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".BoxLog"
             android:label="@string/app_name" >
-            
         </activity>
-        
         <activity
             android:name=".SkydriveLog"
             android:label="@string/app_name" >
-            
         </activity>
-        
         <activity
             android:name=".UploadScreen"
             android:label="@string/app_name" >
-            
         </activity>
-        
+        <activity
+            android:name=".Authentication"
+            android:label="@string/app_name" >
+        </activity>
         <activity
             android:name=".SaveScreen"
             android:label="@string/app_name" >
-            
         </activity>
-        
         <activity
             android:name=".LiveSdkSampleApplication"
             android:label="@string/app_name" >
         </activity>
-        
         <activity
             android:name="android.app.Application"
-            android:label="@string/app_name">
-            
+            android:label="@string/app_name" >
         </activity>
-        
+        <activity
+            android:name="com.box.androidlib.activities.BoxAuthentication"
+            android:configChanges="orientation|keyboardHidden" />
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
@@ -94,7 +89,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-         
     </application>
 
 </manifest>

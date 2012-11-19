@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.box.androidlib.activities.BoxAuthentication;
-import g.r.tech.Constants;
 
 /**
  * Demonstrates how to use com.box.androidlib.actitivies.BoxAuthentication
@@ -15,10 +14,12 @@ import g.r.tech.Constants;
  *
  * @author developers@box.net
  */
+
 public class Authentication extends Activity {
 
     private static final int AUTH_REQUEST_CODE = 100;
 
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
