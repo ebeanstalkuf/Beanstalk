@@ -23,9 +23,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore.Files;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -57,6 +60,8 @@ public class SaveScreen extends Activity {
 	String cloudService = "empty";
 	UpdateSkydrive updatesk;
 	UpdateList updatedb;
+	SDCardListAdapter sdAdapter;
+	ArrayList<File> sdFiles;
     
     int i = 0;
     int flag = 0;
@@ -65,25 +70,6 @@ public class SaveScreen extends Activity {
     final static private String APP_SECRET = "evnp2bxtokmy7yy";
     final static private AccessType ACCESS_TYPE = AccessType.DROPBOX;
     
-    
-
-    
-    ArrayAdapter arrayAdapter;
-    
-    
-    public void update(File[] newList){
-    	String[] paths=new String[newList.length];
-    	for (int i =0; i<newList.length; i++){
-    		String path=newList[i].getPath();
-    		
-    		if (path.contains("/mnt/sdcard/")){
-    			paths[i]=path.replace("/mnt/sdcard/", "");
-    		}
-    	else
-    			paths[i] = path;	
-    	}
-    	arrayAdapter = new ArrayAdapter(this,R.layout.screen5_rowlayout, R.id.label, paths);
-    }
 
     
     
@@ -93,12 +79,21 @@ public class SaveScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
+        sdAdapter = new SDCardListAdapter(this);
         
         welcomeText = (TextView) findViewById(R.id.initialText);
         
         sdListView = (ListView) findViewById(android.R.id.list);
         File file[] = Environment.getExternalStorageDirectory().listFiles(); 
-        update(file);
+        //SDCardBrowser.update(file);
+        
+        sdFiles = sdAdapter.getFiles();
+    	sdFiles.clear();
+    	
+    	for(int i=0; i < file.length; i++) {
+    		sdFiles.add(file[i]);
+    	}
+        
 
        
         sdcardfiles = (Button) findViewById(R.id.sdcard_fileb);
@@ -111,7 +106,7 @@ public class SaveScreen extends Activity {
 		    	//get rid of initial text
 		        welcomeText.setVisibility(8);
 				cloudService = "dropbox";
-				sdListView.setAdapter(arrayAdapter);
+				sdListView.setAdapter(sdAdapter);
 		        
 			}
 		});
@@ -218,6 +213,161 @@ public class SaveScreen extends Activity {
         }
 
         return session;
+    }
+    
+    private class SDCardListAdapter extends BaseAdapter {
+    
+    	public ArrayList<File> files;
+    	private View sdView;
+    	private LayoutInflater sdInflater;
+    	
+    	public SDCardListAdapter(Context context){
+    		sdInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    		files = new ArrayList<File>();
+    	}
+    	
+    	/*public void update(File[] newList){
+        	String[] paths=new String[newList.length];
+        	for (int i =0; i<newList.length; i++){
+        		String path=newList[i].getPath();
+        		
+        		if (path.contains("/mnt/sdcard/")){
+        			paths[i]=path.replace("/mnt/sdcard/", "");
+        		}
+        	else
+        			paths[i] = path;	
+        	}
+        	arrayAdapter = new ArrayAdapter(this,R.layout.screen5_rowlayout, R.id.label, paths);
+        }*/
+    	
+    	public File getItem(int x){
+    		return files.get(x);
+    	}
+    	
+    	public ArrayList<File> getFiles(){
+    		return files;
+    	}
+    	
+    	public int getCount(){
+    		return files.size();
+    	}
+    	
+    	public long getItemId(int position){
+    	
+    		return position;
+    	}
+    	
+    	private void setName(String name) {
+            TextView tv = (TextView) sdView.findViewById(R.id.label);
+            tv.setText(name);
+        }
+    	
+    	private void setIcon(int iconResId) {
+            ImageView img = (ImageView) sdView.findViewById(R.id.icon);
+            img.setImageResource(iconResId);
+        }
+    	
+    	 private View inflateSDCardListItem(ViewGroup parent) {
+             return sdInflater.inflate(R.layout.screen5_rowlayout, parent, false);
+         }
+    	 
+    	 public String getExt(String fileName){
+    		 String filename_Without_Ext = "";
+    		 String ext = "";
+
+    		 int dotposition= fileName.lastIndexOf(".");
+    		 filename_Without_Ext = fileName.substring(0,dotposition);
+    		 ext = fileName.substring(dotposition + 1, fileName.length());
+
+    		 return ext;
+    		}
+    	 
+    	 private String shorten(String path){
+    		 String x = path;
+    		 if (path.contains("/mnt/sdcard/")){
+     			x = path.replace("/mnt/sdcard/", "");
+    		 }
+    		 return x;
+    	 }
+    	
+    	public View getView(int position, View convertView, final ViewGroup parent){
+    		File marker = files.get(position);
+    		sdView = convertView != null ? convertView : null;
+
+            if(marker.isDirectory())
+            {
+            	if (sdView == null) {
+                    sdView = inflateSDCardListItem(parent);
+                }
+
+                setIcon(R.drawable.folder);
+                //String longPath = marker.getName();
+                //String shortPath = shorten(longPath);
+                setName(marker.getName());
+            }
+            else
+            {
+            	String extensionType = getExt(marker.getPath());
+                
+                if( extensionType.equalsIgnoreCase("jpg") || extensionType.equalsIgnoreCase("png") || extensionType.equalsIgnoreCase("gif") 
+                    	|| extensionType.equalsIgnoreCase("bmp") || extensionType.equalsIgnoreCase("psd") || extensionType.equalsIgnoreCase("tif") 
+                    	|| extensionType.equalsIgnoreCase("tiff") || extensionType.equalsIgnoreCase("ai") || extensionType.equalsIgnoreCase("svg"))
+                {
+                	if (sdView == null) {
+                        sdView = (View) inflateSDCardListItem(parent);
+                    }
+
+                    setIcon(R.drawable.photo);
+                    //String longPath = marker.getPath();
+                    //String shortPath = shorten(longPath);
+                    setName(marker.getName());
+                }
+                else if( extensionType.equalsIgnoreCase("mp3") || extensionType.equalsIgnoreCase("m4a") || extensionType.equalsIgnoreCase("wav") 
+                		|| extensionType.equalsIgnoreCase("flac") || extensionType.equalsIgnoreCase("aac") || extensionType.equalsIgnoreCase("m4p")
+                		|| extensionType.equalsIgnoreCase("mmf") || extensionType.equalsIgnoreCase("ogg") || extensionType.equalsIgnoreCase("Opus")
+                		|| extensionType.equalsIgnoreCase("raw") || extensionType.equalsIgnoreCase("vox") || extensionType.equalsIgnoreCase("wma") 
+                		|| extensionType.equalsIgnoreCase("alac") || extensionType.equalsIgnoreCase("aiff"))
+                {
+                	if (sdView == null) {
+                        sdView = inflateSDCardListItem(parent);
+                    }
+
+                    setIcon(R.drawable.music);
+                    //String longPath = marker.getPath();
+                    //String shortPath = shorten(longPath);
+                    setName(marker.getName());
+                }
+                else if( extensionType.equalsIgnoreCase("mov") || extensionType.equalsIgnoreCase("divx") || extensionType.equalsIgnoreCase("xvid")
+                		|| extensionType.equalsIgnoreCase("asf") || extensionType.equalsIgnoreCase("avi") || extensionType.equalsIgnoreCase("m1v")
+                		|| extensionType.equalsIgnoreCase("m2v") || extensionType.equalsIgnoreCase("m4v") || extensionType.equalsIgnoreCase("fla")
+                		|| extensionType.equalsIgnoreCase("flv") || extensionType.equalsIgnoreCase("sol") || extensionType.equalsIgnoreCase("mpeg")
+                		|| extensionType.equalsIgnoreCase("mpe") || extensionType.equalsIgnoreCase("mpg") || extensionType.equalsIgnoreCase("MP4")
+                		|| extensionType.equalsIgnoreCase("wmv") || extensionType.equalsIgnoreCase("swf") || extensionType.equalsIgnoreCase("fcp")
+                		|| extensionType.equalsIgnoreCase("ppj") )
+                {
+                	if (sdView == null) {
+                        sdView = inflateSDCardListItem(parent);
+                    }
+
+                    setIcon(R.drawable.video);
+                    //String longPath = marker.getPath();
+                    //String shortPath = shorten(longPath);
+                    setName(marker.getName());
+                }
+                else
+                {
+                	if (sdView == null) {
+                        sdView = inflateSDCardListItem(parent);
+                    }
+
+                    setIcon(R.drawable.document);
+                    //String longPath = marker.getPath();
+                    //String shortPath = shorten(longPath);
+                    setName(marker.getName());
+                }
+            } 
+            return sdView;
+    	}
     }
 }
 
