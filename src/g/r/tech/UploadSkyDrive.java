@@ -6,11 +6,14 @@ package g.r.tech;
 import java.io.File;
 import java.util.Arrays;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.os.AsyncTask;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.microsoft.live.LiveAuthClient;
@@ -20,11 +23,12 @@ import com.microsoft.live.LiveConnectClient;
 import com.microsoft.live.LiveConnectSession;
 import com.microsoft.live.LiveOperation;
 import com.microsoft.live.LiveOperationException;
+import com.microsoft.live.LiveOperationListener;
 import com.microsoft.live.LiveStatus;
 import com.microsoft.live.LiveUploadOperationListener;
 
+public class UploadSkyDrive {
 
-public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
     public static final String EXTRA_PATH = "path";
 
     private static final int DIALOG_DOWNLOAD_ID = 0;
@@ -43,6 +47,8 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
     private ProgressDialog mInitializeDialog;
     final ProgressDialog uploadProgressDialog;
     
+    TextView resultTextView;
+    
     public UploadSkyDrive(Context context, String uploadPath, File file)
     {
     	this.context = context;
@@ -57,8 +63,8 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
 		uploadProgressDialog.show();
     }
     
-    @Override
-    protected Boolean doInBackground(Void... params) {
+    
+    protected Boolean execute() {
 
 		final LiveOperation operation =
 				mClient.uploadAsync(uploadPath,
@@ -69,7 +75,7 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
 			public void onUploadProgress(int totalBytes,
 										 int bytesRemaining,
 										 LiveOperation operation) {
-				int percentCompleted = computePrecentCompleted(totalBytes, bytesRemaining);
+				int percentCompleted = computePercentCompleted(totalBytes, bytesRemaining);
 
 				uploadProgressDialog.setProgress(percentCompleted);
 			}
@@ -106,7 +112,7 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
 		});
 		return false;
     }
-    
+
     /*
     @Override
     protected void onProgressUpdate(Long... progress)
@@ -165,13 +171,54 @@ public class UploadSkyDrive extends AsyncTask<Void, Long, Boolean> {
             }
         });
         return loggedIn;
+=======
+    /*@Override
+    protected void onProgressUpdate(Long... progress)
+    {
+    	int percentDone = (int) (100.0*(double) progress[0]/fileLength + 0.5);
+    	uploadProgressDialog.setProgress(percentDone);
+>>>>>>> Upload for SkyDrive update
     }*/
+ 
+    /*public void createFolder() {
+        final LiveOperationListener opListener = new LiveOperationListener() {
+            public void onError(LiveOperationException exception, LiveOperation operation) {
+                   resultTextView.setText("Error creating folder: " + exception.getMessage());
+               }
+            public void onComplete(LiveOperation operation) {
+                JSONObject result = operation.getResult();
+                String text = "Folder created:\n" +
+                    "\nID = " + result.optString("id") +
+                    "\nName = " + result.optString("name");
+                   resultTextView.setText(text);
+               }
+           };
+        mAuthClient.login(context.getApplicationContext(), Arrays.asList(new String[] { "wl.skydrive_update" }), 
+            new LiveAuthListener() {
+                   public void onAuthError(LiveAuthException exception, Object userState) {
+                       resultTextView.setText("Error signing in: " + exception.getMessage());
+                   }
+                public void onAuthComplete(LiveStatus status, LiveConnectSession session, Object userState) {
+                    try {
+                        JSONObject body = new JSONObject();
+                        body.put("name", "MyBrandNewFolder");
+                        body.put("description", "My brand new folder");
+                           mClient.postAsync("me/skydrive", body, opListener);    
+                    }
+                    catch(JSONException ex) {
+                        resultTextView.setText("Error building folder: " + ex.getMessage());
+                    }
+                   }
+            }
+        ); 
+    }
+	*/
     
     private void showToast(String message) {
         Toast.makeText(this.context, message, Toast.LENGTH_LONG).show();
     }
     
-    private int computePrecentCompleted(int totalBytes, int bytesRemaining) {
+    private int computePercentCompleted(int totalBytes, int bytesRemaining) {
         return (int) (((float)(totalBytes - bytesRemaining)) / totalBytes * 100);
     }
 

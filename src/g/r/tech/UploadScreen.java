@@ -2,26 +2,22 @@ package g.r.tech;
 
 //import android.os.Handler;			//needed for the upload all image used in ACTION_DRAG_ENDED
 import java.io.File;
-
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.DragEvent;
-import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -29,16 +25,19 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
+import com.microsoft.live.LiveAuthClient;
+import com.microsoft.live.LiveConnectClient;
+import com.microsoft.live.LiveOperation;
+import com.microsoft.live.LiveOperationException;
+import com.microsoft.live.LiveUploadOperationListener;
+import com.microsoft.live.OverwriteOption;
 
 public class UploadScreen extends Activity implements OnDragListener,
 OnItemLongClickListener {
@@ -51,6 +50,14 @@ OnItemLongClickListener {
     final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
     final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
    
+    //SkyDrive variables
+    private LiveConnectClient mClient;
+    private static final String SKYDRIVE_HOME = "me/skydrive";
+    private LiveSdkSampleApplication mApp;
+    private ProgressDialog mInitializeDialog;
+    private boolean loggedIn;
+    File skyFile;
+    LiveAuthClient mAuth;
     
     Context context;
     int flag;
@@ -211,7 +218,17 @@ OnItemLongClickListener {
 			}
 			else if(view.getId() == R.id.skydrive)
 			{
-				//put skydrive uploading code in here
+				//upload to skydrive
+				File file = sharefile;
+				if(authSkyDrive())
+				{
+					displayToast("Starting upload to SkyDrive!");
+					uploadSkyDrive(file, SKYDRIVE_HOME);
+				}
+				else
+				{
+					displayToast("Couldn't authenticate SkyDrive...");
+				}
 			}
 			else if(view.getId() == R.id.box)
 			{
@@ -250,6 +267,93 @@ OnItemLongClickListener {
 		}
 		return false;
 	}
+	
+    private void uploadSkyDrive(File upFile, String uploadPath)
+    {
+    	skyFile = upFile;
+
+        final ProgressDialog uploadProgressDialog = 
+        		new ProgressDialog(this);
+        uploadProgressDialog.setMax(100);
+        uploadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        uploadProgressDialog.setMessage("Uploading...");
+        uploadProgressDialog.setProgress(0);
+        uploadProgressDialog.setCancelable(true);
+        uploadProgressDialog.show();
+        
+        OverwriteOption overwrite = OverwriteOption.Overwrite;
+        //final TextView resultTextView = new TextView(this);
+        
+        //testing of  me/skydrive/beanstalk
+        /*mClient.getAsync("me/skydrive/Beanstalk", new LiveOperationListener() {
+            public void onComplete(LiveOperation operation) {
+                JSONObject result = operation.getResult();
+                try {
+                    //resultTextView.setText("Folder ID = " + result.getString("id") + 
+                    //    ", name = " + result.getString("name"));
+                	displayToast("Folder ID = " + result.getString("id") + 
+                                ", name = " + result.getString("name"));
+                } catch (JSONException e) {
+                    //resultTextView.setText("Error reading folder: " + e.getMessage());
+                	displayToast("Error reading folder: " + e.getMessage());
+                    return;
+                }
+            }
+            public void onError(LiveOperationException exception, LiveOperation operation) {
+                //resultTextView.setText("Error reading folder: " + exception.getMessage());
+            	displayToast("Error reading folder: " + exception.getMessage());
+            }
+        });
+		*/
+        
+        //createFolderSkyDrive();
+
+        final LiveOperation operation =
+                mClient.uploadAsync(uploadPath,
+                                    skyFile.getName(),
+                                    skyFile,
+                                    overwrite,//will overwrite the file if existing
+                                    new LiveUploadOperationListener() {
+            @Override
+            public void onUploadProgress(int totalBytes,
+                                         int bytesRemaining,
+                                         LiveOperation operation) {
+                int percentCompleted = computePercentCompleted(totalBytes, bytesRemaining);
+
+                uploadProgressDialog.setProgress(percentCompleted);
+            }
+
+            @Override
+            public void onUploadFailed(LiveOperationException exception,
+                                       LiveOperation operation) {
+                uploadProgressDialog.dismiss();
+                displayToast(exception.getMessage());
+            }
+
+            @Override
+            public void onUploadCompleted(LiveOperation operation) {
+                uploadProgressDialog.dismiss();
+                displayToast("Upload of " + skyFile.getName() +" Complete!");
+/*                JSONObject result = operation.getResult();
+                if (result.has(JsonKeys.ERROR)) {
+                    JSONObject error = result.optJSONObject(JsonKeys.ERROR);
+                    String message = error.optString(JsonKeys.MESSAGE);
+                    String code = error.optString(JsonKeys.CODE);
+                    showToast(code + ": " + message);
+                    return;
+                }*/
+
+                //loadFolder(mCurrentFolderId);
+            }
+        }, null);
+
+        uploadProgressDialog.setOnCancelListener(new OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                operation.cancel();
+            }
+        });
+    }
 
     protected void displayToast(String message)
     {
@@ -300,6 +404,25 @@ OnItemLongClickListener {
 
 		    }
 	    }
+    }
+    
+    private boolean authSkyDrive()
+    {
+    	//Skydrive logged in stuff    	
+		mApp = (LiveSdkSampleApplication) getApplication();
+        mClient = mApp.getConnectClient();
+        if(mClient == null)
+        {
+        	displayToast("You have not logged into Skydrive!");
+        	loggedIn = false;
+        	return loggedIn;
+        }
+        loggedIn = true;
+        return loggedIn;
+    }
+    
+    private int computePercentCompleted(int totalBytes, int bytesRemaining) {
+        return (int) (((float)(totalBytes - bytesRemaining)) / totalBytes * 100);
     }
     
     private AndroidAuthSession buildSession() {
