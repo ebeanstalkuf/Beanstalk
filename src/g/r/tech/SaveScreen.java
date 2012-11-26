@@ -2,46 +2,53 @@ package g.r.tech;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
+import java.util.Iterator;
 
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.DropboxAPI.Entry;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.exception.DropboxException;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.Session.AccessType;
-
-import android.app.Activity;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore.Files;
+import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.ListActivity;
-import android.widget.AdapterView.OnItemClickListener;
 
-public class SaveScreen extends Activity {
+import com.box.androidlib.Box;
+import com.box.androidlib.DAO.BoxFile;
+import com.box.androidlib.DAO.BoxFolder;
+import com.box.androidlib.ResponseListeners.FileDownloadListener;
+import com.box.androidlib.ResponseListeners.GetAccountTreeListener;
+import com.box.androidlib.Utils.Cancelable;
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
+
+public class SaveScreen extends ListActivity {
 	Button dropboxfiles;
 	Button sdcardfiles;
 	Button skydrivefiles;
+	Button boxfiles;
 	private Context mContext;
     private DropboxAPI<?> mApi;
     private String mPath;
@@ -50,6 +57,7 @@ public class SaveScreen extends Activity {
     ListView dbListView ;
     ListView sdListView;
     ListView skListView;
+    ListView boxListView;
     private FileOutputStream mFos;
     TextView t;
     Button b;
@@ -70,7 +78,27 @@ public class SaveScreen extends Activity {
     final static private String APP_SECRET = "evnp2bxtokmy7yy";
     final static private AccessType ACCESS_TYPE = AccessType.DROPBOX;
     
+    //Box stuff
+    private MyArrayAdapter adapter;
+    private TreeListItem[] items;
+    private String authToken;
+    private long folderId;
 
+    // Menu button options
+    private static final int MENU_ID_UPLOAD = 1;
+    private static final int MENU_ID_CREATE_FOLDER = 2;
+
+    // Options shown when you click on a file/folder
+    private static final String OPTION_FOLDER_DETAILS = "Folder details";
+    private static final String OPTION_FOLDER_CONTENTS = "Folder contents";
+    private static final String OPTION_FILE_DETAILS = "File details";
+    private static final String OPTION_FILE_DOWNLOAD = "Download file";
+    private static final String OPTION_SHARE = "Share";
+    private static final String OPTION_DELETE = "Delete";
+    private static final String OPTION_RENAME = "Rename";
+
+    // Activity request codes
+    private static final int REQUEST_CODE_FILE_PICKER = 1;
     
     
     
@@ -143,7 +171,7 @@ public class SaveScreen extends Activity {
 			
 		
 		});
-        //Create listener for Dropbox file update button
+        //Create listener for Skydrive file update button
         skydrivefiles = (Button) findViewById(R.id.skydrive_fileb);
         skydrivefiles.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -156,7 +184,54 @@ public class SaveScreen extends Activity {
 				    cloudService = "nothing";
 				    }		
 		});
+        //Create listener for Box files update button
+        boxfiles = (Button) findViewById(R.id.box_fileb);
+        boxfiles.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				welcomeText.setVisibility(8);
+				cloudService = "box";
+				
+		        // Check if we have an Auth Token stored.
+		        final SharedPreferences prefs = getSharedPreferences(Constants.PREFS_FILE_NAME, 0);
+		        authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
+		        if (authToken == null) {
+		            Toast.makeText(getApplicationContext(), "You are not logged in.", Toast.LENGTH_SHORT).show();
+		            finish();
+		            return;
+		        }
+		        else {
+		        	Toast.makeText(getApplicationContext(), "You are logged in to Box...", Toast.LENGTH_SHORT).show();
+		        }
+
+		        // View your root folder by default (folder_id = 0l), or this activity
+		        // can also be launched to view subfolders
+		        folderId = 0l;
+		        Bundle extras = getIntent().getExtras();
+		        if (extras != null && extras.containsKey("folder_id")) {
+		            folderId = extras.getLong("folder_id");
+		        }
+
+		        // Initialize list items and set adapter
+		        items = new TreeListItem[0];
+		        boxListView = (ListView) findViewById(android.R.id.list);
+		        
+		        boxSetShit();
+
+			}
+		});
     }
+    
+    public void boxSetShit()
+    {
+        adapter = new MyArrayAdapter(this, 0, items);
+        setListAdapter(adapter);
+
+        // Go get the account tree
+        refresh();
+    }
+    
     //Moving back to previous folder using back key
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -368,6 +443,185 @@ public class SaveScreen extends Activity {
             } 
             return sdView;
     	}
+    }
+    
+    //Box stuff
+    
+    private class TreeListItem {
+
+        public static final int TYPE_FILE = 1;
+        public static final int TYPE_FOLDER = 2;
+        public int type;
+        public long id;
+        public String name;
+        public BoxFile file;
+        @SuppressWarnings("unused")
+        public BoxFolder folder;
+        public long updated;
+    }
+
+    private class MyArrayAdapter extends ArrayAdapter<TreeListItem> {
+
+        private final Context context;
+
+        public MyArrayAdapter(Context contextt, int textViewResourceId, TreeListItem[] objects) {
+            super(contextt, textViewResourceId, objects);
+            context = contextt;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView tv = new TextView(context);
+            if (items[position].type == TreeListItem.TYPE_FOLDER) {
+                tv.append("FOLDER: ");
+            }
+            else if (items[position].type == TreeListItem.TYPE_FILE) {
+                tv.append("FILE: ");
+            }
+            tv.append(items[position].name);
+            tv.append("\n");
+            tv.append(DateFormat.getDateFormat(getApplicationContext()).format(new Date(items[position].updated * 1000)));
+            tv.setPadding(10, 20, 10, 20);
+            tv.setTypeface(Typeface.DEFAULT_BOLD);
+            return tv;
+        }
+
+        @Override
+        public int getCount() {
+            return items.length;
+        }
+    }
+    
+    private void refresh() {
+        final Box box = Box.getInstance(Constants.API_KEY);
+        box.getAccountTree(authToken, folderId, new String[] {Box.PARAM_ONELEVEL}, new GetAccountTreeListener() {
+
+            @Override
+            public void onComplete(BoxFolder boxFolder, String status) {
+                if (!status.equals(GetAccountTreeListener.STATUS_LISTING_OK)) {
+                    Toast.makeText(getApplicationContext(), "There was an error.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
+                else {
+                	Toast.makeText(getApplicationContext(), "There was no error getting the list.", Toast.LENGTH_SHORT).show();
+                }
+
+                /**
+                 * Box.getAccountTree() was successful. boxFolder contains a list of subfolders and files. Shove those into an array so that our list adapter
+                 * displays them.
+                 */
+
+                items = new TreeListItem[boxFolder.getFoldersInFolder().size() + boxFolder.getFilesInFolder().size()];
+
+                int i = 0;
+
+                Iterator<? extends BoxFolder> foldersIterator = boxFolder.getFoldersInFolder().iterator();
+                while (foldersIterator.hasNext()) {
+                    BoxFolder subfolder = foldersIterator.next();
+                    TreeListItem item = new TreeListItem();
+                    item.id = subfolder.getId();
+                    item.name = subfolder.getFolderName();
+                    item.type = TreeListItem.TYPE_FOLDER;
+                    item.folder = subfolder;
+                    item.updated = subfolder.getUpdated();
+                    items[i] = item;
+                    i++;
+                }
+
+                Iterator<? extends BoxFile> filesIterator = boxFolder.getFilesInFolder().iterator();
+                while (filesIterator.hasNext()) {
+                    BoxFile boxFile = filesIterator.next();
+                    TreeListItem item = new TreeListItem();
+                    item.id = boxFile.getId();
+                    item.name = boxFile.getFileName();
+                    item.type = TreeListItem.TYPE_FILE;
+                    item.file = boxFile;
+                    item.updated = boxFile.getUpdated();
+                    items[i] = item;
+                    i++;
+                }
+
+                adapter.notifyDataSetChanged();
+               // ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                //progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onIOException(final IOException e) {
+                Toast.makeText(getApplicationContext(), "Failed to get tree - " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, final int position, long id) {
+
+        /**
+         * Demonstrates some of the actions you can perform on files and folders
+         */
+
+        if(items[position].type == TreeListItem.TYPE_FOLDER)
+        {
+        	folderId = items[position].id;
+        	refresh();
+        	/*
+            Intent i = new Intent(SaveScreen.this, SaveScreen.class);
+            i.putExtra("folder_id", items[position].id);
+            startActivity(i);
+            */
+        }
+        else
+        {
+        	/**
+             * Download a file and put it into the SD card. In your app, you can put the file wherever you have access to.
+             */
+            final Box box = Box.getInstance(Constants.API_KEY);
+            final java.io.File destinationFile = new java.io.File(Environment.getExternalStorageDirectory() + "/"
+                                                                  + URLEncoder.encode(items[position].name));
+
+            final ProgressDialog downloadDialog = new ProgressDialog(SaveScreen.this);
+            downloadDialog.setMessage("Downloading " + items[position].name);
+            downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            downloadDialog.setMax((int) items[position].file.getSize());
+            downloadDialog.setCancelable(true);
+            downloadDialog.show();
+
+            Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
+
+            final Cancelable cancelable = box.download(authToken, items[position].id, destinationFile, null, new FileDownloadListener() {
+
+                @Override
+                public void onComplete(final String status) {
+                    downloadDialog.dismiss();
+                    if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_OK)) {
+                        Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                    }
+                    else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
+                        Toast.makeText(getApplicationContext(), "Download canceled.", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onIOException(final IOException e) {
+                    e.printStackTrace();
+                    downloadDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Download failed " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onProgress(final long bytesDownloaded) {
+                    downloadDialog.setProgress((int) bytesDownloaded);
+                }
+            });
+            downloadDialog.setOnCancelListener(new OnCancelListener() {
+
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    cancelable.cancel();
+                }
+            });
+        }
     }
 }
 
