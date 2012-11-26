@@ -213,6 +213,14 @@ OnItemLongClickListener {
 			{
 				//put skydrive uploading code in here
 			}
+			else if(view.getId() == R.id.box)
+			{
+				//Box upload code
+				UploadBox upload = new UploadBox(this, 0l, sharefile);
+				upload.run();
+				filesToshare.remove(draggedIndex);
+				draggedIndex = -1;
+			}
 			adapter.notifyDataSetChanged();
 		case DragEvent.ACTION_DRAG_ENDED:
 			// Hide the trash can
