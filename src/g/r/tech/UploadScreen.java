@@ -4,6 +4,12 @@ package g.r.tech;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import skydrive.SkyDriveObject;
+import skydrive.util.JsonKeys;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -36,6 +42,7 @@ import com.microsoft.live.LiveAuthClient;
 import com.microsoft.live.LiveConnectClient;
 import com.microsoft.live.LiveOperation;
 import com.microsoft.live.LiveOperationException;
+import com.microsoft.live.LiveOperationListener;
 import com.microsoft.live.LiveUploadOperationListener;
 import com.microsoft.live.OverwriteOption;
 
@@ -58,6 +65,8 @@ OnItemLongClickListener {
     private boolean loggedIn;
     File skyFile;
     LiveAuthClient mAuth;
+	protected String skyFolderID;
+	protected boolean skyFolderFound;
     
     Context context;
     int flag;
@@ -70,6 +79,8 @@ OnItemLongClickListener {
     ArrayList filesToshare;
 	private BaseAdapter adapter;
 	private int draggedIndex = -1;
+
+
 
     @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
@@ -281,31 +292,21 @@ OnItemLongClickListener {
         uploadProgressDialog.setCancelable(true);
         uploadProgressDialog.show();
         
+        
+        
         OverwriteOption overwrite = OverwriteOption.Overwrite;
-        //final TextView resultTextView = new TextView(this);
         
-        //testing of  me/skydrive/beanstalk
-        /*mClient.getAsync("me/skydrive/Beanstalk", new LiveOperationListener() {
-            public void onComplete(LiveOperation operation) {
-                JSONObject result = operation.getResult();
-                try {
-                    //resultTextView.setText("Folder ID = " + result.getString("id") + 
-                    //    ", name = " + result.getString("name"));
-                	displayToast("Folder ID = " + result.getString("id") + 
-                                ", name = " + result.getString("name"));
-                } catch (JSONException e) {
-                    //resultTextView.setText("Error reading folder: " + e.getMessage());
-                	displayToast("Error reading folder: " + e.getMessage());
-                    return;
-                }
-            }
-            public void onError(LiveOperationException exception, LiveOperation operation) {
-                //resultTextView.setText("Error reading folder: " + exception.getMessage());
-            	displayToast("Error reading folder: " + exception.getMessage());
-            }
-        });
-		*/
+        filterSkyDrive(SKYDRIVE_HOME);
+        if(!skyFolderFound)
+        {
+        	createFolderSkyDrive();
+        	if(skyFolderFound)
+        		displayToast("Created folder Beanstalk.");
+        	else
+        		displayToast("Error creating folder.");
+        }
         
+        displayToast("Folder id is: " + skyFolderID);
         //createFolderSkyDrive();
 
         final LiveOperation operation =
@@ -351,6 +352,68 @@ OnItemLongClickListener {
             @Override
             public void onCancel(DialogInterface dialog) {
                 operation.cancel();
+            }
+        });
+    }
+    
+    public void createFolderSkyDrive(){
+    	
+        final LiveOperationListener opListener = new LiveOperationListener() {
+            public void onError(LiveOperationException exception, LiveOperation operation) {
+                   displayToast("Error creating folder: " + exception.getMessage());
+               }
+            public void onComplete(LiveOperation operation) {
+                JSONObject result = operation.getResult();
+                String text = "Folder created:\n" +
+                    "\nID = " + result.optString("id") +
+                    "\nName = " + result.optString("name");
+                   displayToast(text);
+               }
+           };
+   			try {
+                JSONObject body = new JSONObject();
+                body.put("name", "Beanstalk");
+                body.put("description", "Folder used by the Android app Beanstalk");
+                mClient.postAsync(SKYDRIVE_HOME, body, opListener);    
+            }
+            catch(JSONException ex) {
+                displayToast("Error building folder: " + ex.getMessage());
+            }
+    }
+    
+    private void filterSkyDrive(String folderID)
+    {
+    	mClient.getAsync(folderID + "/files", new LiveOperationListener() {
+            @Override
+            public void onComplete(LiveOperation operation) {
+            	
+                JSONObject result = operation.getResult();
+                if (result.has(JsonKeys.ERROR)) {
+                    JSONObject error = result.optJSONObject(JsonKeys.ERROR);
+                    String message = error.optString(JsonKeys.MESSAGE);
+                    String code = error.optString(JsonKeys.CODE);
+                    displayToast(code + ": " + message);
+                    return;
+                }
+                //ArrayList<SkyDriveObject> fill;// = skAdapter.getSkyDriveObjs();
+                //fill.clear();
+                
+                JSONArray data = result.optJSONArray(JsonKeys.DATA);
+                for (int i = 0; i < data.length(); i++) {
+                    SkyDriveObject skyDriveObj = SkyDriveObject.create(data.optJSONObject(i));
+                    if(skyDriveObj.getName().equalsIgnoreCase("Beanstalk") &&
+                    		skyDriveObj.getType().equalsIgnoreCase("folder"))
+                    {
+                    	skyFolderFound = true;
+                    	skyFolderID = skyDriveObj.getId(); 
+                    }
+                    //fill.add(skyDriveObj);
+                }
+            }
+            @Override
+            public void onError(LiveOperationException exception, LiveOperation operation) {
+            	   //progressDialog.dismiss();
+                   displayToast(exception.getMessage());
             }
         });
     }
