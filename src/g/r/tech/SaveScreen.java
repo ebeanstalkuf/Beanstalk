@@ -614,6 +614,13 @@ public class SaveScreen extends ListActivity {
                 public void onComplete(final String status) {
                     downloadDialog.dismiss();
                     if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_OK)) {
+                    	
+                        File sdpath = new File(Environment.getExternalStorageDirectory() + "/"
+                                + URLEncoder.encode(items[position].name));
+                        UploadScreen.sharefile = destinationFile;
+            			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
+            			startActivity(openUploadScreen);
+                    	
                         Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
                     }
                     else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
