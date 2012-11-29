@@ -133,7 +133,7 @@ public class SaveScreen extends ListActivity {
 				// TODO Auto-generated method stub
 		    	//get rid of initial text
 		        welcomeText.setVisibility(8);
-				cloudService = "dropbox";
+				cloudService = "sdcard";
 				sdListView.setAdapter(sdAdapter);
 		        
 			}
@@ -181,7 +181,6 @@ public class SaveScreen extends ListActivity {
 					skListView = (ListView) findViewById(android.R.id.list);
 				    updatesk = new UpdateSkydrive(SaveScreen.this, skListView);
 				    updatesk.run("me/skydrive");
-				    cloudService = "nothing";
 				    }		
 		});
         //Create listener for Box files update button
@@ -232,35 +231,50 @@ public class SaveScreen extends ListActivity {
         refresh();
     }
     
-    //Moving back to previous folder using back key
+  //Moving back to previous folder using back key
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // if prev folders is empty, send the back button to the TabView activity.
         	//If currently in skydrive
-            if(cloudService.equals("skydrive"))
+        	event.startTracking();
+        	return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event){
+    	//What to do on short key press
+    	if (keyCode == KeyEvent.KEYCODE_BACK) {
+    		if(cloudService.equals("skydrive"))
             {
             	//If updateSkydrive uses backkey for listview
-			    if(updatesk.backKeyClicked())
-			    {
-			    	return true;
-			    }
+    		    if(updatesk.backKeyClicked())
+    		    {
+    		    	return true;
+    		    }
             }
             else if(cloudService.equals("dropbox"))
             {
             	//If updateList uses backkey for listview
-			    if(updatedb.backKeyClicked())
-			    {
-			    	return true;
-			    }
+    		    if(updatedb.backKeyClicked())
+    		    {
+    		    	return true;
+    		    }
             }
-            return super.onKeyDown(keyCode, event);
-        } 
-        else 
-        	{
-            	return super.onKeyDown(keyCode, event);
-        	}
-    }
+    	}
+            return super.onKeyUp(keyCode, event);
+    } 
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event){
+    	//what to do on long key press
+    	if (keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		finish();
+    		return true;
+    	}
+        return super.onKeyLongPress(keyCode, event);
+    } 
     private void showToast(String msg) {
         Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
         error.show();

@@ -75,7 +75,8 @@ OnItemLongClickListener {
     //cloud and container on upload screen that holds the files and disappears when dragged
     GridView uploadcloud, cloudcontainer;
     static File sharefile = null;
-    
+    private int remove = 1;
+	
     //variables for collision test
     ArrayList filesToshare;
 	private BaseAdapter adapter;
@@ -90,7 +91,7 @@ OnItemLongClickListener {
         setContentView(R.layout.upload);
         uploadcloud = (GridView) findViewById(R.id.Upcloud);
         cloudcontainer = (GridView) findViewById(R.id.default_file);
-        allServices = (Button) findViewById(R.id.uploadall);
+        //allServices = (Button) findViewById(R.id.uploadall);
         
         //array list for collision
         filesToshare = new ArrayList();
@@ -171,7 +172,30 @@ OnItemLongClickListener {
 
         
 	}
-
+	public void onPause()
+    {
+    	super.onPause();
+    	remove();
+    	sharefile = null;
+    }
+    public void onDestroy()
+    {
+    	super.onDestroy();
+    	remove();
+    	sharefile = null;
+    }
+    public void onStop()
+    {
+    	super.onStop();
+    	remove();
+    	sharefile = null;
+    }
+    public void onRestart()
+    {
+    	super.onRestart();
+    	remove();
+    	sharefile = null;
+    }
 	//@Override
 	//public boolean onCreateOptionsMenu(Menu menu) {
 		//getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -186,7 +210,7 @@ OnItemLongClickListener {
 			// Drag has started
 			// If called for trash resize the view and return true
 
-			allServices.setVisibility(0);
+			//allServices.setVisibility(0);
 			uploadcloud.setVisibility(4);
 			cloudcontainer.setVisibility(4);
 			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices ) {
@@ -230,28 +254,56 @@ OnItemLongClickListener {
 				//upload to dropbox 
 				File file = null;//new File("beanstalk.jpg");
 				uploadDropbox(file);
-				filesToshare.remove(draggedIndex);
-				draggedIndex = -1;
+				//filesToshare.remove(draggedIndex);
+				//draggedIndex = -1;
 			}
 			else if(view.getId() == R.id.skydrive)
 			{
 				//upload to skydrive
-				File file = sharefile;
-				displayToast("Starting upload to SkyDrive!");
-				uploadSkyDrive(file, SKYDRIVE_HOME);
+				if(sharefile == null)
+				{
+					displayToast("You have not chosen a file to upload or you exited the upload screen and your selection has been reset. Please go back to the file browser and select your file again.");
+				}
+				else
+				{
+					File file = sharefile;
+					displayToast("Starting upload to SkyDrive!");
+					uploadSkyDrive(file, SKYDRIVE_HOME);
+					//filesToshare.remove(draggedIndex);
+					//draggedIndex = -1;
+				}
 			}
 			else if(view.getId() == R.id.box)
 			{
-				//Box upload code
-				UploadBox upload = new UploadBox(this, 0l, sharefile);
-				upload.run();
-				filesToshare.remove(draggedIndex);
-				draggedIndex = -1;
+				if(sharefile == null)
+				{
+					displayToast("You have not chosen a file to upload. Please choose a file from the file browser.");
+				}
+				else
+				{
+					//Box upload code
+					UploadBox upload = new UploadBox(this, 0l, sharefile);
+					upload.run();
+					//filesToshare.remove(draggedIndex);
+					//draggedIndex = -1;
+				}
+			}
+			else if(view.getId() == R.id.otherservices)
+			{
+				if(sharefile == null)
+				{
+					displayToast("You have not chosen a file to upload or you exited the upload screen and your selection has been reset. Please go back to the file browser and select your file again.");
+				}
+				else
+				{
+					remove = 0;
+					displayToast(sharefile.getName() + " has been downloaded to \"Beanstalk Downloads\" on the SD card and will not be removed when you exit this screen.");
+				}
 			}
 			adapter.notifyDataSetChanged();
 		case DragEvent.ACTION_DRAG_ENDED:
 			// Hide the trash can
-			allServices.setVisibility(4);
+			//allServices.setVisibility(4);
 			uploadcloud.setVisibility(0);
 			cloudcontainer.setVisibility(0);
 			new Handler().postDelayed(new Runnable() {
@@ -285,7 +337,6 @@ OnItemLongClickListener {
     	
     	UploadSkyDrive upSky = new UploadSkyDrive(this, upFile, mClient);
     	upSky.execute();
-    	sharefile = null;
     }
     
     private LiveConnectClient authSkyDrive()
@@ -327,7 +378,7 @@ OnItemLongClickListener {
 			    {
 			    	if(sharefile == null)
 					{
-						displayToast("You have not chosen a file to upload. Please choose a file from the file browser.");
+			    		displayToast("You have not chosen a file to upload or you exited the upload screen and your selection has been reset. Please go back to the file browser and select your file again.");
 					}
 					else
 					{
@@ -341,7 +392,6 @@ OnItemLongClickListener {
 						//If files is null, don't allow upload
 						UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile);
 						uploadDrop.execute();	
-						sharefile = null;
 					}
 			    }
 
@@ -459,7 +509,13 @@ OnItemLongClickListener {
 
 		 return ext;
 		}
-
+	private void remove()
+	 {
+		 if(sharefile != null && remove == 1)
+		 {
+			 sharefile.delete();
+		 }
+	 }
 	
     
 }

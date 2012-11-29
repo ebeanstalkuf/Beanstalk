@@ -53,7 +53,8 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // This will cancel the putFile operation
-                request.abort();
+                cancel(true);
+                displayToast("Upload Cancelled");
             }
         });
         dialog.show();
@@ -140,6 +141,10 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
     @Override
     protected void onProgressUpdate(Long... progress)
     {
+		if(isCancelled())
+    	{
+    		request.abort();
+    	}
     	int percentDone = (int) (100.0*(double) progress[0]/fileLength + 0.5);
     	dialog.setProgress(percentDone);
     }
