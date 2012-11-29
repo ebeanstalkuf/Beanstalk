@@ -165,7 +165,7 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
     }
 
     @Override
-    protected void onPostExecute(Boolean result) throws IllegalArgumentException {
+    protected void onPostExecute(Boolean result) {
 		mDialog.dismiss();
         if (result) {
             //showToast("Successfully downloaded " + filename.fileName() + " to: " + sdpath);

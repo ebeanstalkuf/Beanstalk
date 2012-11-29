@@ -221,7 +221,11 @@ public class SaveScreen extends ListActivity {
 			}
 		});
     }
-    
+    public void onRestart()
+    {
+    	super.onRestart();
+    	this.recreate();
+    }
     public void boxSetShit()
     {
         adapter = new MyArrayAdapter(this, 0, items);
@@ -271,6 +275,7 @@ public class SaveScreen extends ListActivity {
     	if (keyCode == KeyEvent.KEYCODE_BACK)
     	{
     		finish();
+    		cloudService = "nothing";
     		return true;
     	}
         return super.onKeyLongPress(keyCode, event);
