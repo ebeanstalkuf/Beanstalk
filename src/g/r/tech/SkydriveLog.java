@@ -29,6 +29,7 @@ public class SkydriveLog extends Activity {
     private ProgressDialog mInitializeDialog;
     private Button mSignInButton, mLogoutButton, register;
     private TextView logState;
+    LiveConnectClient mClient;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,10 @@ public class SkydriveLog extends Activity {
                 if (status == LiveStatus.CONNECTED) {
                 	logState.setText(R.string.signedIn);
                     launchMainActivity(session);
+                    
+                    UploadSkyDrive upSky = new UploadSkyDrive(SkydriveLog.this, mClient);
+                    upSky.filterSkyDrive(UploadSkyDrive.SKYDRIVE_HOME);
+                    
                     Home.setSkydriveLog(true);
                     
                 } else {
@@ -156,7 +161,8 @@ public class SkydriveLog extends Activity {
     private void launchMainActivity(LiveConnectSession session) {
         assert session != null;
         mApp.setSession(session);
-        mApp.setConnectClient(new LiveConnectClient(session));
+        mClient = new LiveConnectClient(session);
+        mApp.setConnectClient(mClient);
         //startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 

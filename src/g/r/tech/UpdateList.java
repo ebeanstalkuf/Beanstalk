@@ -131,7 +131,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 				//Clicked on a file
 				else
 				{
-					DownloadFile download = new DownloadFile(pContext, mApi, files.get(index));
+					DownloadDropbox download = new DownloadDropbox(pContext, mApi, files.get(index));
 					download.execute();
 				}	
         	

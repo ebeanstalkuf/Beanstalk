@@ -17,6 +17,7 @@ import android.content.ClipDescription;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -65,8 +66,8 @@ OnItemLongClickListener {
     private boolean loggedIn;
     File skyFile;
     LiveAuthClient mAuth;
-	protected String skyFolderID;
-	protected boolean skyFolderFound;
+	static String skyFolderID;
+	static boolean skyFolderFound;
     
     Context context;
     int flag;
@@ -166,6 +167,9 @@ OnItemLongClickListener {
 				return filesToshare.size();
 			}
 		});
+        
+
+        
 	}
 
 	//@Override
@@ -181,6 +185,7 @@ OnItemLongClickListener {
 		case DragEvent.ACTION_DRAG_STARTED:
 			// Drag has started
 			// If called for trash resize the view and return true
+
 			allServices.setVisibility(0);
 			uploadcloud.setVisibility(4);
 			cloudcontainer.setVisibility(4);
@@ -222,6 +227,7 @@ OnItemLongClickListener {
 			// If called for trash can then delete the item and reload the grid
 			// view
 			if (view.getId() == R.id.dropbox ) {
+				//upload to dropbox 
 				File file = null;//new File("beanstalk.jpg");
 				uploadDropbox(file);
 				filesToshare.remove(draggedIndex);
@@ -231,15 +237,8 @@ OnItemLongClickListener {
 			{
 				//upload to skydrive
 				File file = sharefile;
-				if(authSkyDrive())
-				{
-					displayToast("Starting upload to SkyDrive!");
-					uploadSkyDrive(file, SKYDRIVE_HOME);
-				}
-				else
-				{
-					displayToast("Couldn't authenticate SkyDrive...");
-				}
+				displayToast("Starting upload to SkyDrive!");
+				uploadSkyDrive(file, SKYDRIVE_HOME);
 			}
 			else if(view.getId() == R.id.box)
 			{
@@ -281,147 +280,28 @@ OnItemLongClickListener {
 	
     private void uploadSkyDrive(File upFile, String uploadPath)
     {
+    	mClient = authSkyDrive();
     	skyFile = upFile;
-
-        final ProgressDialog uploadProgressDialog = 
-        		new ProgressDialog(this);
-        uploadProgressDialog.setMax(100);
-        uploadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        uploadProgressDialog.setMessage("Uploading...");
-        uploadProgressDialog.setProgress(0);
-        uploadProgressDialog.setCancelable(true);
-        uploadProgressDialog.show();
-        
-        
-        
-        OverwriteOption overwrite = OverwriteOption.Overwrite;
-        
-        filterSkyDrive(SKYDRIVE_HOME);
-        if(!skyFolderFound)
-        {
-        	createFolderSkyDrive();
-        	if(skyFolderFound)
-        		displayToast("Created folder Beanstalk.");
-        	else
-        		displayToast("Error creating folder.");
-        }
-        
-        displayToast("Folder id is: " + skyFolderID);
-        //createFolderSkyDrive();
-
-        final LiveOperation operation =
-                mClient.uploadAsync(uploadPath,
-                                    skyFile.getName(),
-                                    skyFile,
-                                    overwrite,//will overwrite the file if existing
-                                    new LiveUploadOperationListener() {
-            @Override
-            public void onUploadProgress(int totalBytes,
-                                         int bytesRemaining,
-                                         LiveOperation operation) {
-                int percentCompleted = computePercentCompleted(totalBytes, bytesRemaining);
-
-                uploadProgressDialog.setProgress(percentCompleted);
-            }
-
-            @Override
-            public void onUploadFailed(LiveOperationException exception,
-                                       LiveOperation operation) {
-                uploadProgressDialog.dismiss();
-                displayToast(exception.getMessage());
-            }
-
-            @Override
-            public void onUploadCompleted(LiveOperation operation) {
-                uploadProgressDialog.dismiss();
-                displayToast("Upload of " + skyFile.getName() +" Complete!");
-/*                JSONObject result = operation.getResult();
-                if (result.has(JsonKeys.ERROR)) {
-                    JSONObject error = result.optJSONObject(JsonKeys.ERROR);
-                    String message = error.optString(JsonKeys.MESSAGE);
-                    String code = error.optString(JsonKeys.CODE);
-                    showToast(code + ": " + message);
-                    return;
-                }*/
-
-                //loadFolder(mCurrentFolderId);
-            }
-        }, null);
-
-        uploadProgressDialog.setOnCancelListener(new OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                operation.cancel();
-            }
-        });
-    }
-    
-    public void createFolderSkyDrive(){
     	
-        final LiveOperationListener opListener = new LiveOperationListener() {
-            public void onError(LiveOperationException exception, LiveOperation operation) {
-                   displayToast("Error creating folder: " + exception.getMessage());
-               }
-            public void onComplete(LiveOperation operation) {
-                JSONObject result = operation.getResult();
-                String text = "Folder created:\n" +
-                    "\nID = " + result.optString("id") +
-                    "\nName = " + result.optString("name");
-                   displayToast(text);
-               }
-           };
-   			try {
-                JSONObject body = new JSONObject();
-                body.put("name", "Beanstalk");
-                body.put("description", "Folder used by the Android app Beanstalk");
-                mClient.postAsync(SKYDRIVE_HOME, body, opListener);    
-            }
-            catch(JSONException ex) {
-                displayToast("Error building folder: " + ex.getMessage());
-            }
+    	UploadSkyDrive upSky = new UploadSkyDrive(this, upFile, mClient);
+    	upSky.execute();
+    	sharefile = null;
     }
     
-    private void filterSkyDrive(String folderID)
+    private LiveConnectClient authSkyDrive()
     {
-    	mClient.getAsync(folderID + "/files", new LiveOperationListener() {
-            @Override
-            public void onComplete(LiveOperation operation) {
-            	
-                JSONObject result = operation.getResult();
-                if (result.has(JsonKeys.ERROR)) {
-                    JSONObject error = result.optJSONObject(JsonKeys.ERROR);
-                    String message = error.optString(JsonKeys.MESSAGE);
-                    String code = error.optString(JsonKeys.CODE);
-                    displayToast(code + ": " + message);
-                    return;
-                }
-                //ArrayList<SkyDriveObject> fill;// = skAdapter.getSkyDriveObjs();
-                //fill.clear();
-                
-                JSONArray data = result.optJSONArray(JsonKeys.DATA);
-                for (int i = 0; i < data.length(); i++) {
-                    SkyDriveObject skyDriveObj = SkyDriveObject.create(data.optJSONObject(i));
-                    if(skyDriveObj.getName().equalsIgnoreCase("Beanstalk") &&
-                    		skyDriveObj.getType().equalsIgnoreCase("folder"))
-                    {
-                    	skyFolderFound = true;
-                    	skyFolderID = skyDriveObj.getId(); 
-                    }
-                    //fill.add(skyDriveObj);
-                }
-            }
-            @Override
-            public void onError(LiveOperationException exception, LiveOperation operation) {
-            	   //progressDialog.dismiss();
-                   displayToast(exception.getMessage());
-            }
-        });
-    }
-
-    protected void displayToast(String message)
-    {
-    	Toast msg = Toast.makeText(context, message, Toast.LENGTH_LONG);
-    	msg.show();
+    	//Skydrive logged in stuff    	
+		mApp = (LiveSdkSampleApplication) getApplication();
+        mClient = mApp.getConnectClient();
+        if(mClient == null)
+        {
+        	displayToast("You have not logged into Skydrive!");
+        	loggedIn = false;
+        	return mClient;
+        }
+        loggedIn = true;
+        //filterSkyDrive(SKYDRIVE_HOME);
+        return mClient;
     }
     
     public void uploadDropbox(File file)
@@ -454,7 +334,7 @@ OnItemLongClickListener {
 						//Store Path the Beanstalk Downloads
 						sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/";
 				    					    	
-						displayToast("Uploading from: " + sdpath + sharefile.getName());
+						//displayToast("Uploading from: " + sdpath + sharefile.getName());
 						String uploadPath = "/Beanstalk/";
 				    	//end testing
 						//sharefile is the static variable
@@ -467,21 +347,6 @@ OnItemLongClickListener {
 
 		    }
 	    }
-    }
-    
-    private boolean authSkyDrive()
-    {
-    	//Skydrive logged in stuff    	
-		mApp = (LiveSdkSampleApplication) getApplication();
-        mClient = mApp.getConnectClient();
-        if(mClient == null)
-        {
-        	displayToast("You have not logged into Skydrive!");
-        	loggedIn = false;
-        	return loggedIn;
-        }
-        loggedIn = true;
-        return loggedIn;
     }
     
     private int computePercentCompleted(int totalBytes, int bytesRemaining) {
@@ -540,6 +405,12 @@ OnItemLongClickListener {
         	displayToast(mErrorMsg);
         	return false;
         }
+    }
+    
+    protected void displayToast(String message)
+    {
+    	Toast msg = Toast.makeText(context, message, Toast.LENGTH_LONG);
+    	msg.show();
     }
 	
 	@Override

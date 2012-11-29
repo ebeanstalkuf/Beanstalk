@@ -34,7 +34,7 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
 /**
  * Here we show getting metadata for the files and folders in dropbox. Creation of the "file browser" and the process of downloading a file.
  */
-public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
+public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
     /** Called when the activity is first created. */
 	Activity activity;
 	private Context mContext;
@@ -58,7 +58,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
     // won't be able to use this code for two simultaneous downloads.
         
     @SuppressWarnings("deprecation")
-	public DownloadFile(Context context, DropboxAPI<?> api, Entry file) {
+	public DownloadDropbox(Context context, DropboxAPI<?> api, Entry file) {
         // We set the context this way so we don't accidentally leak activities
         mContext = context.getApplicationContext();
         pContext = context;
@@ -166,7 +166,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean result) {
-        mDialog.dismiss();
+		mDialog.dismiss();
         if (result) {
             //showToast("Successfully downloaded " + filename.fileName() + " to: " + sdpath);
         	UploadScreen.sharefile = sdpath;
