@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Stack;
 
 import skydrive.SkyDriveAlbum;
 import skydrive.SkyDriveAudio;
@@ -70,6 +71,7 @@ public class SaveScreen extends Activity {
     ListView sdListView;
     ListView skListView;
     ListView boxListView;
+    Stack<File> prevSDFolders = new Stack<File>();
     private FileOutputStream mFos;
     TextView t;
     Button b;
@@ -119,35 +121,18 @@ public class SaveScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
-        sdAdapter = new SDCardListAdapter(this);
-        
+                
         welcomeText = (TextView) findViewById(R.id.initialText);
-        
-        sdListView = (ListView) findViewById(android.R.id.list);
-        File file[] = Environment.getExternalStorageDirectory().listFiles(); 
-        //SDCardBrowser.update(file);
-        
-        sdFiles = sdAdapter.getFiles();
-    	sdFiles.clear();
-    	
-    	for(int i=0; i < file.length; i++) {
-    		sdFiles.add(file[i]);
-    	}
-        
-
        
         sdcardfiles = (Button) findViewById(R.id.sdcard_fileb);
         sdcardfiles.setOnClickListener(new View.OnClickListener() {
-			
-        	
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 		    	//get rid of initial text
 		        welcomeText.setVisibility(8);
 				cloudService = "sdcard";
-				sdListView.setAdapter(sdAdapter);
-		        
+				updateSD(Environment.getExternalStorageDirectory());
 			}
 		});
                         
@@ -353,6 +338,15 @@ public class SaveScreen extends Activity {
     		    {
     		    	return true;
     		    }
+            }
+            else if(cloudService.equals("sdcard"))
+            {
+            	if (prevSDFolders.isEmpty()) {
+                    return false;
+                }
+
+                updateSD(prevSDFolders.pop());
+                return true;
             }
     	}
             return super.onKeyUp(keyCode, event);
@@ -794,6 +788,47 @@ public class SaveScreen extends Activity {
 
 		 return ext;
 		}
+    public void updateSD(final File folder)
+    {
+    	sdAdapter = new SDCardListAdapter(this);
+    	sdListView = (ListView) findViewById(android.R.id.list);
+        File file[] = folder.listFiles();
+        //SDCardBrowser.update(file);
+        
+        sdFiles = sdAdapter.getFiles();
+    	sdFiles.clear();
+    	
+    	for(int i=0; i < file.length; i++) {
+    		sdFiles.add(file[i]);
+    	}
+    	//Folder is empty
+    	if(sdFiles.size() < 1)
+    	{
+    		showToast("This folder is empty");
+    	}
+    	sdListView.setAdapter(sdAdapter);
+    	dbListView.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+				//Check if directory
+				int index = position;
+				if(sdFiles.get(index).isDirectory())
+				{
+					//Store folder
+					prevSDFolders.push(folder);
+					//Call UpdateSD with the clicked directory as the parameter
+					updateSD(sdFiles.get(index));
+				}
+				else
+				{
+					UploadScreen.sharefile = sdFiles.get(index);
+		        	//Pass the file
+					Intent openUploadScreen = new Intent(getApplicationContext(), UploadScreen.class);
+					startActivity(openUploadScreen);
+				}
+			}
+    	});
+    }
 }
 
 
