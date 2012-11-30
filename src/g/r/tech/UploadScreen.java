@@ -267,7 +267,7 @@ OnItemLongClickListener {
 				else
 				{
 					File file = sharefile;
-					displayToast("Starting upload to SkyDrive!");
+					//displayToast("Starting upload to SkyDrive!");
 					uploadSkyDrive(file, SKYDRIVE_HOME);
 					//filesToshare.remove(draggedIndex);
 					//draggedIndex = -1;

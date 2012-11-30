@@ -72,6 +72,10 @@ public class SkydriveLog extends Activity {
                             if (status == LiveStatus.CONNECTED) {
                             	logState.setText(R.string.signedIn);
                                 launchMainActivity(session);
+                                
+                                //UploadSkyDrive upSky = new UploadSkyDrive(SkydriveLog.this, mClient);
+                                //upSky.filterSkyDrive(UploadSkyDrive.SKYDRIVE_HOME);
+                                
                                 Home.setSkydriveLog(true);
                             } else {
                                 showToast("Login did not connect. Status is " + status + ".");
@@ -104,6 +108,10 @@ public class SkydriveLog extends Activity {
                         mApp.setSession(null);
                         mApp.setConnectClient(null);
                         logState.setText(R.string.signedOut);
+                        
+                        UploadSkyDrive.skyFolderFound = false;
+                        UploadSkyDrive.skyFolderID = null;
+                        
                         Home.setSkydriveLog(false);
                         //getParent().finish();                  
                     }
@@ -144,8 +152,8 @@ public class SkydriveLog extends Activity {
                 	logState.setText(R.string.signedIn);
                     launchMainActivity(session);
                     
-                    UploadSkyDrive upSky = new UploadSkyDrive(SkydriveLog.this, mClient);
-                    upSky.filterSkyDrive(UploadSkyDrive.SKYDRIVE_HOME);
+                    //UploadSkyDrive upSky = new UploadSkyDrive(SkydriveLog.this, mClient);
+                    //upSky.filterSkyDrive(UploadSkyDrive.SKYDRIVE_HOME);
                     
                     Home.setSkydriveLog(true);
                     

@@ -50,6 +50,8 @@ public class UploadSkyDrive {
     private ProgressDialog mInitializeDialog;
     
     TextView resultTextView;
+
+	protected boolean uploadVar;
     
     public UploadSkyDrive(Context context, File file, LiveConnectClient client)
     {
@@ -58,12 +60,13 @@ public class UploadSkyDrive {
     	mClient = client;
     	//this.uploadPath = uploadPath;
 		skyFile = file;
+		uploadVar = false;
 		//String filePath = "";//data.getStringExtra(FilePicker.EXTRA_FILE_PATH);
-		if(!skyFolderFound || skyFolderID == null)
+		/*if(!skyFolderFound && skyFolderID == null)
 		{
 			showToast("Finding Beanstalk folder...");
 			filterSkyDrive(SKYDRIVE_HOME);
-		}
+		}*/
 
     }
     
@@ -72,17 +75,23 @@ public class UploadSkyDrive {
     	this.context = context.getApplicationContext();
     	cntxt = context;
     	mClient = client;
+    	uploadVar = false;
     }
     
     
     public Boolean execute() {
         
-        //filterSkyDrive(SKYDRIVE_HOME);
-
-        
+    	uploadVar = true;
+        filterSkyDrive(SKYDRIVE_HOME);        
         //showToast("Folder id is: " + skyFolderID);
         //createFolderSkyDrive();
 
+
+		return true;
+    }
+    
+    private void upload()
+    {
         if(skyFolderID != null)
         {
         	
@@ -95,7 +104,8 @@ public class UploadSkyDrive {
             uploadProgressDialog.setCancelable(true);
             uploadProgressDialog.show();
             
-            
+            //showToast("Folder id: "+ skyFolderID);
+            //showToast("File name: "+ skyFile.getName());
             
             OverwriteOption overwrite = OverwriteOption.Overwrite;
             
@@ -123,7 +133,7 @@ public class UploadSkyDrive {
 
                 @Override
                 public void onUploadCompleted(LiveOperation operation) {
-                    uploadProgressDialog.dismiss();
+                    uploadProgressDialog.dismiss(); 
                     showToast("Upload of " + skyFile.getName() +" complete!");
                     JSONObject result = operation.getResult();
                     if (result.has(JsonKeys.ERROR)) {
@@ -149,7 +159,6 @@ public class UploadSkyDrive {
         {
         	showToast("Please return to the SkyDrive sign-in page to create a Beanstalk folder.");
         }
-		return true;
     }
     
     public void createFolderSkyDrive(){
@@ -177,6 +186,8 @@ public class UploadSkyDrive {
 	                showToast(text);*/
 	                skyFolderID = result.optString("id");
 	                skyFolderFound = true;
+	                if(uploadVar)
+	                	upload();
                }
            };
    			try {
@@ -197,7 +208,7 @@ public class UploadSkyDrive {
         		new ProgressDialog(cntxt);
         searchDialog.setMessage("Checking Beanstalk Folder...");
         searchDialog.setCancelable(true);
-        searchDialog.show();
+        searchDialog.show(); 
     	
     	mClient.getAsync(folderID + "/files", new LiveOperationListener() {
             @Override
@@ -226,6 +237,14 @@ public class UploadSkyDrive {
                     }
                     //fill.add(skyDriveObj);
                 }
+            	if(!skyFolderFound && skyFolderID == null )
+            	{
+            		createFolderSkyDrive();
+            	}
+            	else if(uploadVar && (skyFolderFound && skyFolderID != null))
+            	{
+            		upload();
+            	}
             }
             @Override
             public void onError(LiveOperationException exception, LiveOperation operation) {
@@ -234,10 +253,7 @@ public class UploadSkyDrive {
             }
         });
     	
-    	if(!skyFolderFound && skyFolderID == null )
-    	{
-    		createFolderSkyDrive();
-    	}
+
     }
     
     protected void showToast(String message) {
