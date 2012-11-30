@@ -8,6 +8,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import skydrive.SkyDriveAlbum;
+import skydrive.SkyDriveAudio;
+import skydrive.SkyDriveFile;
+import skydrive.SkyDriveFolder;
+import skydrive.SkyDriveObject;
+import skydrive.SkyDrivePhoto;
+import skydrive.SkyDriveVideo;
+import skydrive.SkyDriveObject.Visitor;
+
+import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -24,6 +34,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -31,6 +42,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.box.androidlib.Box;
 import com.box.androidlib.DAO.BoxFile;
@@ -44,7 +56,7 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 
-public class SaveScreen extends ListActivity {
+public class SaveScreen extends Activity {
 	Button dropboxfiles;
 	Button sdcardfiles;
 	Button skydrivefiles;
@@ -216,7 +228,7 @@ public class SaveScreen extends ListActivity {
 		        items = new TreeListItem[0];
 		        boxListView = (ListView) findViewById(android.R.id.list);
 		        
-		        boxSetShit();
+		        boxSetShit(boxListView);
 
 			}
 		});
@@ -226,11 +238,87 @@ public class SaveScreen extends ListActivity {
     	super.onRestart();
     	this.recreate();
     }
-    public void boxSetShit()
+    public void boxSetShit(ListView x)
     {
         adapter = new MyArrayAdapter(this, 0, items);
-        setListAdapter(adapter);
+        x.setAdapter(adapter);
+        x.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, final int position, long id) {
+				/**
+		         * Demonstrates some of the actions you can perform on files and folders
+		         */
 
+		        if(items[position].type == TreeListItem.TYPE_FOLDER)
+		        {
+		        	folderId = items[position].id;
+		        	refresh();
+		        	/*
+		            Intent i = new Intent(SaveScreen.this, SaveScreen.class);
+		            i.putExtra("folder_id", items[position].id);
+		            startActivity(i);
+		            */
+		        }
+		        else
+		        {
+		        	/**
+		             * Download a file and put it into the SD card. In your app, you can put the file wherever you have access to.
+		             */
+		            final Box box = Box.getInstance(Constants.API_KEY);
+		            final java.io.File destinationFile = new java.io.File(Environment.getExternalStorageDirectory() + "/"
+		                                                                  + URLEncoder.encode(items[position].name));
+
+		            final ProgressDialog downloadDialog = new ProgressDialog(SaveScreen.this);
+		            downloadDialog.setMessage("Downloading " + items[position].name);
+		            downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		            downloadDialog.setMax((int) items[position].file.getSize());
+		            downloadDialog.setCancelable(true);
+		            downloadDialog.show();
+
+		            Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
+
+		            final Cancelable cancelable = box.download(authToken, items[position].id , destinationFile, null, new FileDownloadListener() {
+
+		                @Override
+		                public void onComplete(final String status) {
+		                    downloadDialog.dismiss();
+		                    if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_OK)) {
+		                    	
+		                        File sdpath = new File(Environment.getExternalStorageDirectory() + "/"+ URLEncoder.encode(items[position].name));
+		                        UploadScreen.sharefile = destinationFile;
+		            			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
+		            			startActivity(openUploadScreen);
+		                    	
+		                        Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+		                    }
+		                    else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
+		                        Toast.makeText(getApplicationContext(), "Download canceled.", Toast.LENGTH_LONG).show();
+		                    }
+		                }
+
+		                @Override
+		                public void onIOException(final IOException e) {
+		                    e.printStackTrace();
+		                    downloadDialog.dismiss();
+		                    Toast.makeText(getApplicationContext(), "Download failed " + e.getMessage(), Toast.LENGTH_LONG).show();
+		                }
+
+		                @Override
+		                public void onProgress(final long bytesDownloaded) {
+		                    downloadDialog.setProgress((int) bytesDownloaded);
+		                }
+		            });
+		            downloadDialog.setOnCancelListener(new OnCancelListener() {
+
+		                @Override
+		                public void onCancel(DialogInterface dialog) {
+		                    cancelable.cancel();
+		                }
+		            });
+		        }
+				
+			}
+        });
         // Go get the account tree
         refresh();
     }
@@ -482,27 +570,68 @@ public class SaveScreen extends ListActivity {
     private class MyArrayAdapter extends ArrayAdapter<TreeListItem> {
 
         private final Context context;
+        private final LayoutInflater mInflater;
+        private View myView;
 
         public MyArrayAdapter(Context contextt, int textViewResourceId, TreeListItem[] objects) {
             super(contextt, textViewResourceId, objects);
             context = contextt;
+            mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            TextView tv = new TextView(context);
+        	myView = convertView != null ? convertView : null;
             if (items[position].type == TreeListItem.TYPE_FOLDER) {
-                tv.append("FOLDER: ");
+            	if (myView == null) {
+                    myView = mInflater.inflate(R.layout.screen5_rowlayout, parent, false);
+                }
+            	TextView tv = (TextView) myView.findViewById(R.id.label);
+                ImageView img = (ImageView) myView.findViewById(R.id.icon);
+            	tv.setText(items[position].name);
+            	img.setImageResource(R.drawable.folder);
             }
             else if (items[position].type == TreeListItem.TYPE_FILE) {
-                tv.append("FILE: ");
+            	if (myView == null) {
+                    myView = mInflater.inflate(R.layout.screen5_rowlayout, parent, false);
+                }
+            	TextView tv = (TextView) myView.findViewById(R.id.label);
+                ImageView img = (ImageView) myView.findViewById(R.id.icon);
+            	tv.setText(items[position].name);
+            	
+            	String extensionType = filename(items[position].name);
+                
+                if( extensionType.equalsIgnoreCase("jpg") || extensionType.equalsIgnoreCase("png") || extensionType.equalsIgnoreCase("gif") 
+                    	|| extensionType.equalsIgnoreCase("bmp") || extensionType.equalsIgnoreCase("psd") || extensionType.equalsIgnoreCase("tif") 
+                    	|| extensionType.equalsIgnoreCase("tiff") || extensionType.equalsIgnoreCase("ai") || extensionType.equalsIgnoreCase("svg"))
+                {
+                	img.setImageResource(R.drawable.photo);
+                }
+                else if( extensionType.equalsIgnoreCase("mp3") || extensionType.equalsIgnoreCase("m4a") || extensionType.equalsIgnoreCase("wav") 
+                		|| extensionType.equalsIgnoreCase("flac") || extensionType.equalsIgnoreCase("aac") || extensionType.equalsIgnoreCase("m4p")
+                		|| extensionType.equalsIgnoreCase("mmf") || extensionType.equalsIgnoreCase("ogg") || extensionType.equalsIgnoreCase("Opus")
+                		|| extensionType.equalsIgnoreCase("raw") || extensionType.equalsIgnoreCase("vox") || extensionType.equalsIgnoreCase("wma") 
+                		|| extensionType.equalsIgnoreCase("alac") || extensionType.equalsIgnoreCase("aiff"))
+                {
+                	img.setImageResource(R.drawable.music); 
+                }
+                else if( extensionType.equalsIgnoreCase("mov") || extensionType.equalsIgnoreCase("divx") || extensionType.equalsIgnoreCase("xvid")
+                		|| extensionType.equalsIgnoreCase("asf") || extensionType.equalsIgnoreCase("avi") || extensionType.equalsIgnoreCase("m1v")
+                		|| extensionType.equalsIgnoreCase("m2v") || extensionType.equalsIgnoreCase("m4v") || extensionType.equalsIgnoreCase("fla")
+                		|| extensionType.equalsIgnoreCase("flv") || extensionType.equalsIgnoreCase("sol") || extensionType.equalsIgnoreCase("mpeg")
+                		|| extensionType.equalsIgnoreCase("mpe") || extensionType.equalsIgnoreCase("mpg") || extensionType.equalsIgnoreCase("MP4")
+                		|| extensionType.equalsIgnoreCase("wmv") || extensionType.equalsIgnoreCase("swf") || extensionType.equalsIgnoreCase("fcp")
+                		|| extensionType.equalsIgnoreCase("ppj") )
+                {
+                	img.setImageResource(R.drawable.video);
+                }
+                else
+                {
+                	img.setImageResource(R.drawable.document);
+                }
             }
-            tv.append(items[position].name);
-            tv.append("\n");
-            tv.append(DateFormat.getDateFormat(getApplicationContext()).format(new Date(items[position].updated * 1000)));
-            tv.setPadding(10, 20, 10, 20);
-            tv.setTypeface(Typeface.DEFAULT_BOLD);
-            return tv;
+            
+            return myView;
         }
 
         @Override
@@ -572,13 +701,13 @@ public class SaveScreen extends ListActivity {
             }
         });
     }
-    
+    /*
     @Override
     protected void onListItemClick(ListView l, View v, final int position, long id) {
 
         /**
          * Demonstrates some of the actions you can perform on files and folders
-         */
+         
 
         if(items[position].type == TreeListItem.TYPE_FOLDER)
         {
@@ -588,13 +717,13 @@ public class SaveScreen extends ListActivity {
             Intent i = new Intent(SaveScreen.this, SaveScreen.class);
             i.putExtra("folder_id", items[position].id);
             startActivity(i);
-            */
+            
         }
         else
         {
         	/**
              * Download a file and put it into the SD card. In your app, you can put the file wherever you have access to.
-             */
+             
             final Box box = Box.getInstance(Constants.API_KEY);
             final java.io.File destinationFile = new java.io.File(Environment.getExternalStorageDirectory() + "/"
                                                                   + URLEncoder.encode(items[position].name));
@@ -649,5 +778,22 @@ public class SaveScreen extends ListActivity {
             });
         }
     }
+*/
+    public String filename(String fileName){
+		 String filename_Without_Ext = "";
+		 String ext = "";
+
+		 int dotposition= fileName.lastIndexOf(".");
+		 if(dotposition <= 0)
+		 {
+			 ext = "nothing";
+			 return ext;
+		 }
+		 filename_Without_Ext = fileName.substring(0,dotposition);
+		 ext = fileName.substring(dotposition + 1, fileName.length());
+
+		 return ext;
+		}
 }
+
 
