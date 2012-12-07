@@ -16,6 +16,7 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
@@ -25,6 +26,8 @@ import android.os.Handler;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -72,6 +75,7 @@ OnItemLongClickListener {
     Context context;
     int flag;
     Button allServices;
+    Button homeGear;
     //cloud and container on upload screen that holds the files and disappears when dragged
     GridView uploadcloud, cloudcontainer;
     static File sharefile = null;
@@ -81,17 +85,20 @@ OnItemLongClickListener {
     ArrayList filesToshare;
 	private BaseAdapter adapter;
 	private int draggedIndex = -1;
-
+    //Animation animScale;
 
 
     @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        setContentView(R.layout.upload);
+        setContentView(R.layout.upload);        
         uploadcloud = (GridView) findViewById(R.id.Upcloud);
         cloudcontainer = (GridView) findViewById(R.id.default_file);
         //allServices = (Button) findViewById(R.id.uploadall);
+        homeGear = (Button) findViewById(R.id.settings);
+        
+       //animScale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
         
         //array list for collision
         filesToshare = new ArrayList();
@@ -168,7 +175,14 @@ OnItemLongClickListener {
 				return filesToshare.size();
 			}
 		});
-        
+    
+        homeGear.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent goHome = new Intent(v.getContext(), Home.class);
+    			startActivityForResult(goHome,0);
+			}
+		});
 
         
 	}
@@ -230,16 +244,19 @@ OnItemLongClickListener {
 			// Drag has entered view bounds
 			// If called for trash can then scale it.
 			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
-				view.animate().scaleX(1.5f);
-				view.animate().scaleY(1.5f);
+				//view.bringToFront();
+				view.animate().scaleX(1.2f);
+				view.animate().scaleY(1.2f);
 			}
 			return true;
 		case DragEvent.ACTION_DRAG_EXITED:
 			// Drag exited view bounds
 			// If called for trash can then reset it.
 			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
+
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
+				//view.invalidate();
 			}
 			view.invalidate();
 			return true;
@@ -306,6 +323,7 @@ OnItemLongClickListener {
 			//allServices.setVisibility(4);
 			uploadcloud.setVisibility(0);
 			cloudcontainer.setVisibility(0);
+			//view.invalidate();
 			new Handler().postDelayed(new Runnable() {
 
 				@Override
