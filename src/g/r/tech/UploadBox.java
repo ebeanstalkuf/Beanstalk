@@ -72,7 +72,7 @@ public class UploadBox extends ListActivity{
 		final SharedPreferences prefs = pcontext.getSharedPreferences(Constants.PREFS_FILE_NAME, 0);
         authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
         if (authToken == null) {
-            displayToast( "You are not logged in.");
+            displayToast( "Shucks! I can't see anything over here. Try logging in again.");
             return;
         }
         //Create input stream
@@ -86,7 +86,7 @@ public class UploadBox extends ListActivity{
                         @Override
                         public void onComplete(BoxFile file, final String status) {
                             if (status.equals(FileUploadListener.STATUS_UPLOAD_OK)) {
-                                displayToast( "Successfully uploaded " + upFile.getName());
+                                displayToast( "Yahoo! Successfully uploaded " + upFile.getName());
                                 // I commented this out because I will refresh the tree when you go to the file browser
                                 //refresh();
                             }
@@ -94,7 +94,7 @@ public class UploadBox extends ListActivity{
                                 displayToast("Upload cancelled.");
                             }
                             else {
-                                displayToast("Upload failed - " + status);
+                                displayToast("Silly clouds...looks like we had a problem moving things around. Try again.");
                             }
                             dialog.dismiss();
                         }
@@ -102,21 +102,21 @@ public class UploadBox extends ListActivity{
                         @Override
                         public void onIOException(final IOException e) {
                             e.printStackTrace();
-                            displayToast( "Upload failed - " + e.getMessage());
+                            displayToast( "Silly clouds...looks like we had a problem moving things around. Try again.");
                             dialog.dismiss();
                         }
 
                         @Override
                         public void onMalformedURLException(final MalformedURLException e) {
                             e.printStackTrace();
-                            displayToast( "Upload failed - " + e.getMessage());
+                            displayToast( "Silly clouds...looks like we had a problem moving things around. Try again.");
                             dialog.dismiss();
                         }
 
                         @Override
                         public void onFileNotFoundException(final FileNotFoundException e) {
                             e.printStackTrace();
-                            displayToast( "Upload failed - " + e.getMessage());
+                            displayToast( "Silly clouds...looks like we had a problem moving things around. Try again.");
                             dialog.dismiss();
                         }
 
@@ -128,7 +128,7 @@ public class UploadBox extends ListActivity{
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
-            displayToast("An error has occurred with the file. Check the file path and try again.");
+            displayToast("Silly clouds...looks like we had a problem moving things around. Try again.");
             return;
         }
 	}

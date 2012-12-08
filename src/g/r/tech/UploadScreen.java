@@ -279,7 +279,7 @@ OnItemLongClickListener {
 				//upload to skydrive
 				if(sharefile == null)
 				{
-					displayToast("You have not chosen a file to upload or you exited the upload screen and your selection has been reset. Please go back to the file browser and select your file again.");
+					displayToast("Well this is embarassing...I don't know what to upload! Please go back to the file browser and select your file again.");
 				}
 				else
 				{
@@ -294,7 +294,7 @@ OnItemLongClickListener {
 			{
 				if(sharefile == null)
 				{
-					displayToast("You have not chosen a file to upload. Please choose a file from the file browser.");
+					displayToast("Well this is embarassing...I don't know what to upload! Please go back to the file browser and select your file again.");
 				}
 				else
 				{
@@ -309,12 +309,12 @@ OnItemLongClickListener {
 			{
 				if(sharefile == null)
 				{
-					displayToast("You have not chosen a file to upload or you exited the upload screen and your selection has been reset. Please go back to the file browser and select your file again.");
+					displayToast("Well this is embarassing...I don't know what to upload! Please go back to the file browser and select your file again.");
 				}
 				else
 				{
 					remove = 0;
-					displayToast(sharefile.getName() + " has been downloaded to \"Beanstalk Downloads\" on the SD card and will not be removed when you exit this screen.");
+					displayToast("Yahoo! Successfully saved " + sharefile.getName() + " to your SD card!");
 				}
 			}
 			adapter.notifyDataSetChanged();
@@ -364,7 +364,7 @@ OnItemLongClickListener {
         mClient = mApp.getConnectClient();
         if(mClient == null)
         {
-        	displayToast("You have not logged into Skydrive!");
+        	displayToast("Shucks! I can't see anything over here. Try logging into Skydrive.");
         	loggedIn = false;
         	return mClient;
         }
@@ -378,14 +378,14 @@ OnItemLongClickListener {
 	    AndroidAuthSession session = buildSession();
 	    if(flag == 1)
 	    {
-	    	displayToast("You have not logged into Dropbox!");
+	    	displayToast("Shucks! I can't see anything over here. Try logging into Dropbox.");
 	    }
 	    else
 	    {
 	    	dropApi = new DropboxAPI<AndroidAuthSession>(session);
 		    if(flag == 1)
 		    {
-		    	displayToast("You have not logged into Dropbox!");
+		    	displayToast("Shucks! I can't see anything over here. Try logging into Dropbox.");
 		    }
 		    else
 		    {
@@ -396,7 +396,7 @@ OnItemLongClickListener {
 			    {
 			    	if(sharefile == null)
 					{
-			    		displayToast("You have not chosen a file to upload or you exited the upload screen and your selection has been reset. Please go back to the file browser and select your file again.");
+			    		displayToast("Well this is embarassing...I don't know what to save! Please go back to the file browser and select your file again.");
 					}
 					else
 					{
@@ -458,7 +458,7 @@ OnItemLongClickListener {
     	String sdcardstatus = Environment.getExternalStorageState();
         if(sdcardstatus.equals(Environment.MEDIA_REMOVED))
         {
-        	mErrorMsg ="Error: Your device is not showing an SD Card. Beanstalk can only upload a file from an SD card";
+        	mErrorMsg ="Your device is not showing an SD Card. Beanstalk needs an SD card to work properly.";
         	displayToast(mErrorMsg);
         	return false;
         }
@@ -469,7 +469,7 @@ OnItemLongClickListener {
         }
         else
         {
-        	mErrorMsg = "Error: Your device's SD Card is not mounted. Beanstalk can only upload a file from an SD card";
+        	mErrorMsg = "Your device is not showing an SD Card. Beanstalk needs an SD card to work properly.";
         	displayToast(mErrorMsg);
         	return false;
         }

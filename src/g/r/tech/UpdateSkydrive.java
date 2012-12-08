@@ -133,11 +133,11 @@ public class UpdateSkydrive extends ListActivity {
                 {
                 	if(mCurrentFolderId.equals("me/skydrive"))
                 	{
-                		showToast("The main SkyDrive folder is empty");
+                		showToast("Whoops! Looks like the main folder is empty.");
                 	}
                 	else
                 	{
-                		showToast("This folder is empty.");
+                		showToast("Whoops! Looks like this folder is empty.");
                 	}
                 }
                skAdapter.notifyDataSetChanged();
@@ -350,7 +350,7 @@ public class UpdateSkydrive extends ListActivity {
         mClient = app.getConnectClient();
         if(mClient == null)
         {
-        	showToast("You have not logged into Skydrive!");
+        	showToast("Shucks! I can't see anything over here. Try logging in again.");
         	connected = 0;
         	return;
         }

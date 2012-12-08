@@ -148,7 +148,7 @@ public class SaveScreen extends Activity {
 				    AndroidAuthSession session = buildSession();
 				    if(flag == 1)
 				    {
-				    	showToast("You have not logged into Dropbox!");
+				    	showToast("Shucks! I can't see anything over here. Try logging in again.");
 				    	//Clear list
 				    	dbListView.setAdapter(null);
 				    	cloudService = "nothing";
@@ -193,12 +193,12 @@ public class SaveScreen extends Activity {
 		        final SharedPreferences prefs = getSharedPreferences(Constants.PREFS_FILE_NAME, 0);
 		        authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
 		        if (authToken == null) {
-		            Toast.makeText(getApplicationContext(), "You are not logged in.", Toast.LENGTH_SHORT).show();
+		            Toast.makeText(getApplicationContext(), "Shucks! I can't see anything over here. Try logging in again.", Toast.LENGTH_SHORT).show();
 		            finish();
 		            return;
 		        }
 		        else {
-		        	Toast.makeText(getApplicationContext(), "You are logged in to Box...", Toast.LENGTH_SHORT).show();
+		        	//Toast.makeText(getApplicationContext(), "You are logged in to Box...", Toast.LENGTH_SHORT).show();
 		        }
 
 		        // View your root folder by default (folder_id = 0l), or this activity
@@ -260,7 +260,7 @@ public class SaveScreen extends Activity {
 		            downloadDialog.setCancelable(true);
 		            downloadDialog.show();
 
-		            Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
+		            //Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
 
 		            final Cancelable cancelable = box.download(authToken, items[position].id , destinationFile, null, new FileDownloadListener() {
 
@@ -274,7 +274,7 @@ public class SaveScreen extends Activity {
 		            			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
 		            			startActivity(openUploadScreen);
 		                    	
-		                        Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+		                        //Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
 		                    }
 		                    else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
 		                        Toast.makeText(getApplicationContext(), "Download canceled.", Toast.LENGTH_LONG).show();
@@ -285,7 +285,7 @@ public class SaveScreen extends Activity {
 		                public void onIOException(final IOException e) {
 		                    e.printStackTrace();
 		                    downloadDialog.dismiss();
-		                    Toast.makeText(getApplicationContext(), "Download failed " + e.getMessage(), Toast.LENGTH_LONG).show();
+		                    Toast.makeText(getApplicationContext(), "Whoops! Looks like we lost our footing climbing up the stalk. Try getting that file again.", Toast.LENGTH_LONG).show();
 		                }
 
 		                @Override
@@ -641,12 +641,12 @@ public class SaveScreen extends Activity {
             @Override
             public void onComplete(BoxFolder boxFolder, String status) {
                 if (!status.equals(GetAccountTreeListener.STATUS_LISTING_OK)) {
-                    Toast.makeText(getApplicationContext(), "There was an error.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Aww dang! There was an error logging into Box. Try logging in again.", Toast.LENGTH_SHORT).show();
                     finish();
                     return;
                 }
                 else {
-                	Toast.makeText(getApplicationContext(), "There was no error getting the list.", Toast.LENGTH_SHORT).show();
+                	//Toast.makeText(getApplicationContext(), "There was no error getting the list.", Toast.LENGTH_SHORT).show();
                 }
 
                 /**
@@ -691,7 +691,7 @@ public class SaveScreen extends Activity {
 
             @Override
             public void onIOException(final IOException e) {
-                Toast.makeText(getApplicationContext(), "Failed to get tree - " + e.getMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Failed to get tree - " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -804,7 +804,7 @@ public class SaveScreen extends Activity {
     	//Folder is empty
     	if(sdFiles.size() < 1)
     	{
-    		showToast("This folder is empty");
+    		showToast("Whoops! Looks like this folder is empty.");
     	}
     	sdListView.setAdapter(sdAdapter);
     	dbListView.setOnItemClickListener(new OnItemClickListener(){

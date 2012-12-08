@@ -176,7 +176,7 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
 			activity.startActivity(openUploadScreen);
         } else {
             // Couldn't download it, so show an error
-            showToast("Error: Problem Downloading " + filename.fileName() + " to: " + sdpath + ". Please try again.");
+            showToast("Whoops! Looks like we lost our footing climbing up the stalk. Try getting " + filename.fileName() + " again.");
         }
     }
 

@@ -156,11 +156,11 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
     	String resultMsg;
     	if(result)
     	{
-    		resultMsg = "Successfully uploaded " + upFile.getName();
+    		resultMsg = "Yahoo! Successfully uploaded " + upFile.getName();
     	}
     	else
     	{
-    		resultMsg = error;
+    		resultMsg = "Silly clouds...looks like we had a problem moving things around. Try again.";
     	}
     	displayToast(resultMsg);
     }

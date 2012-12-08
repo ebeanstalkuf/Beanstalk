@@ -109,7 +109,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 		//Folder is empty
 		if(files.size() < 1)
 		{
-			showToast("This folder is empty");
+			showToast("Whoops! Looks like this folder is empty.");
 		}
 		
 		dbListView.setTextFilterEnabled(true);

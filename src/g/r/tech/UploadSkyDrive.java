@@ -134,13 +134,13 @@ public class UploadSkyDrive {
                 @Override
                 public void onUploadCompleted(LiveOperation operation) {
                     uploadProgressDialog.dismiss(); 
-                    showToast("Upload of " + skyFile.getName() +" complete!");
+                    showToast("Yahoo! Upload of " + skyFile.getName() +" complete!");
                     JSONObject result = operation.getResult();
                     if (result.has(JsonKeys.ERROR)) {
                         JSONObject error = result.optJSONObject(JsonKeys.ERROR);
                         String message = error.optString(JsonKeys.MESSAGE);
                         String code = error.optString(JsonKeys.CODE);
-                        showToast(code + ": " + message);
+                        //showToast(code + ": " + message);
                         return;
                     }
 
@@ -157,7 +157,7 @@ public class UploadSkyDrive {
         }
         else
         {
-        	showToast("Please return to the SkyDrive sign-in page to create a Beanstalk folder.");
+        	showToast("Whoops! Looks like there was a problem. Check and make sure you have a Beanstalk folder on Skydrive");
         }
     }
     
@@ -175,7 +175,7 @@ public class UploadSkyDrive {
         final LiveOperationListener opListener = new LiveOperationListener() {
             public void onError(LiveOperationException exception, LiveOperation operation) {
             		createDialog.dismiss();
-                   showToast("Error creating folder: " + exception.getMessage());
+                   showToast("Shoot! There was a problem making a Beanstalk folder.");
                }
             public void onComplete(LiveOperation operation) {
             		createDialog.dismiss();
@@ -198,7 +198,7 @@ public class UploadSkyDrive {
             }
             catch(JSONException ex) {
             	createDialog.dismiss();
-                showToast("Error building folder: " + ex.getMessage());
+                showToast("Shoot! There was a problem making a Beanstalk folder.");
             }
     }
     
@@ -219,7 +219,7 @@ public class UploadSkyDrive {
                     JSONObject error = result.optJSONObject(JsonKeys.ERROR);
                     String message = error.optString(JsonKeys.MESSAGE);
                     String code = error.optString(JsonKeys.CODE);
-                    showToast(code + ": " + message);
+                    //showToast(code + ": " + message);
                     return;
                 }
                 //ArrayList<SkyDriveObject> fill;// = skAdapter.getSkyDriveObjs();
@@ -249,7 +249,7 @@ public class UploadSkyDrive {
             @Override
             public void onError(LiveOperationException exception, LiveOperation operation) {
             	   searchDialog.dismiss();
-                   showToast(exception.getMessage());
+                   //showToast(exception.getMessage());
             }
         });
     	
