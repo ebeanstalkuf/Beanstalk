@@ -179,6 +179,8 @@ OnItemLongClickListener {
         homeGear.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				remove();
+		    	sharefile = null;
 				Intent goHome = new Intent(v.getContext(), Home.class);
     			startActivityForResult(goHome,0);
 			}
@@ -533,6 +535,7 @@ OnItemLongClickListener {
 		 {
 			 sharefile.delete();
 		 }
+		 remove = 1;
 	 }
 	
     
