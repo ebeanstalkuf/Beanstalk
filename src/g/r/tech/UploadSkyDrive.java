@@ -99,11 +99,18 @@ public class UploadSkyDrive {
             		new ProgressDialog(cntxt);
             uploadProgressDialog.setMax(100);
             uploadProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            uploadProgressDialog.setMessage("Uploading...");
+            uploadProgressDialog.setMessage("Uploading " + skyFile.getName());
             uploadProgressDialog.setProgress(0);
-            uploadProgressDialog.setCancelable(true);
+            uploadProgressDialog.setCancelable(false);
+            uploadProgressDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // This will cancel the putFile operation
+                    uploadProgressDialog.cancel();
+                }
+            });
+           
             uploadProgressDialog.show();
-            
+            uploadProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
             //showToast("Folder id: "+ skyFolderID);
             //showToast("File name: "+ skyFile.getName());
             
@@ -147,13 +154,13 @@ public class UploadSkyDrive {
                     //loadFolder(mCurrentFolderId);
                 }
             }, null);
-
-            uploadProgressDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // This will cancel the putFile operation
+            uploadProgressDialog.setOnCancelListener(new OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
                     operation.cancel();
                 }
             });
+            
         }
         else
         {
@@ -169,7 +176,7 @@ public class UploadSkyDrive {
         createDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         createDialog.setMessage("Creating Beanstalk Folder...");
         //createDialog.setProgress(0);
-        createDialog.setCancelable(true);
+        createDialog.setCancelable(false);
         createDialog.show();
     	
         final LiveOperationListener opListener = new LiveOperationListener() {
@@ -207,7 +214,7 @@ public class UploadSkyDrive {
         final ProgressDialog searchDialog = 
         		new ProgressDialog(cntxt);
         searchDialog.setMessage("Checking Beanstalk Folder...");
-        searchDialog.setCancelable(true);
+        searchDialog.setCancelable(false);
         searchDialog.show(); 
     	
     	mClient.getAsync(folderID + "/files", new LiveOperationListener() {

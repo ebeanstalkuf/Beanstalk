@@ -79,7 +79,7 @@ OnItemLongClickListener {
     //cloud and container on upload screen that holds the files and disappears when dragged
     GridView uploadcloud, cloudcontainer;
     static File sharefile = null;
-    private int remove = 1;
+    static int remove = 1;
 	
     //variables for collision test
     ArrayList filesToshare;

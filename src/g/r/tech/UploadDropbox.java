@@ -3,10 +3,12 @@ package g.r.tech;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -32,6 +34,9 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
 	private UploadRequest request;
 	private Context context;
 	private final ProgressDialog dialog;
+	Boolean mCanceled = false;
+	private FileInputStream fis;
+	
 	
 	private String error;
 	
@@ -53,8 +58,32 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // This will cancel the putFile operation
-                cancel(true);
-                displayToast("Upload Cancelled");
+            	mCanceled = true;
+            	
+                // This will cancel the getThumbnail operation by closing
+                // its stream
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        });
+        dialog.setOnCancelListener(new OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            	// This will cancel the putFile operation
+            	mCanceled = true;
+            	
+                // This will cancel the getThumbnail operation by closing
+                // its stream
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                    }
+                }
             }
         });
         dialog.show();
@@ -66,8 +95,11 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
 	 */
     @Override
     protected Boolean doInBackground(Void... params) {
+    	if (mCanceled) {
+            return false;
+        }
     	//return true;
-    	FileInputStream fis = null;
+    	fis = null;
     	try{
     		//displayToast("Uploading: " + upFile);
 			fis = new FileInputStream(upFile);
@@ -141,10 +173,6 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
     @Override
     protected void onProgressUpdate(Long... progress)
     {
-		if(isCancelled())
-    	{
-    		request.abort();
-    	}
     	int percentDone = (int) (100.0*(double) progress[0]/fileLength + 0.5);
     	dialog.setProgress(percentDone);
     }
@@ -160,7 +188,14 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
     	}
     	else
     	{
-    		resultMsg = "Silly clouds...looks like we had a problem moving things around. Try again.";
+    		if(mCanceled)
+    		{
+    			resultMsg = "Upload Canceled";
+    		}
+    		else
+    		{
+    			resultMsg = "Silly clouds...looks like we had a problem moving things around. Try again.";
+    		}
     	}
     	displayToast(resultMsg);
     }

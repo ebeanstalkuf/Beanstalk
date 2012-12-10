@@ -24,6 +24,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -72,6 +73,7 @@ public class SaveScreen extends Activity {
     ListView skListView;
     ListView boxListView;
     Stack<File> prevSDFolders = new Stack<File>();
+    Stack<Long> prevBoxFolders = new Stack<Long>();
     private FileOutputStream mFos;
     TextView t;
     Button b;
@@ -84,6 +86,7 @@ public class SaveScreen extends Activity {
 	UpdateList updatedb;
 	SDCardListAdapter sdAdapter;
 	ArrayList<File> sdFiles;
+	File sdpath;
     
     int i = 0;
     int flag = 0;
@@ -236,6 +239,7 @@ public class SaveScreen extends Activity {
 
 		        if(items[position].type == TreeListItem.TYPE_FOLDER)
 		        {
+		        	prevBoxFolders.push(folderId);
 		        	folderId = items[position].id;
 		        	refresh();
 		        	/*
@@ -246,6 +250,37 @@ public class SaveScreen extends Activity {
 		        }
 		        else
 		        {
+		        	//Check SD Card status
+		            String sdcardstatus = Environment.getExternalStorageState();
+		            if(sdcardstatus.equals(Environment.MEDIA_MOUNTED_READ_ONLY))
+		            {
+		            	mErrorMsg = "Error: Your SD card has been mounted as Read Only. Please re-mount with write access.";
+		            	return;
+		            }
+		            else if(sdcardstatus.equals(Environment.MEDIA_REMOVED))
+		            {
+		            	mErrorMsg ="Error: Your device is not showing an SD Card. Beanstalk can only download a file to an SD card";
+		            	return;
+		            }
+		            //Make sure SD Card is mounted
+		            if(sdcardstatus.equals(Environment.MEDIA_MOUNTED))
+		            {
+		            	//if the card is mounted, then set up the path to the sd card.filename.xxx
+		            	//Check if Beanstalk Downloads folder exists
+		            	File bfolder = new File(Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads");
+		            	if(!bfolder.exists())
+		            	{
+		            		bfolder.mkdirs();
+		            	}
+		            	
+		            	sdpath = new File(bfolder, items[position].name);
+		            
+		            }
+		            else
+		            {
+		            	mErrorMsg = "Error: Your device's SD Card is not mounted. Beanstalk can only download a file to an SD card";
+		            	return;
+		            }
 		        	/**
 		             * Download a file and put it into the SD card. In your app, you can put the file wherever you have access to.
 		             */
@@ -254,30 +289,37 @@ public class SaveScreen extends Activity {
 		                                                                  + URLEncoder.encode(items[position].name));
 
 		            final ProgressDialog downloadDialog = new ProgressDialog(SaveScreen.this);
-		            downloadDialog.setMessage("Downloading " + items[position].name);
+		            downloadDialog.setMessage("Preparing File...");
 		            downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		            downloadDialog.setMax((int) items[position].file.getSize());
 		            downloadDialog.setCancelable(true);
+		            downloadDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
+		                public void onClick(DialogInterface dialog, int which) {
+		                    // This will cancel the putFile operation
+		                	downloadDialog.cancel();
+		                }
+		            });
 		            downloadDialog.show();
 
 		            //Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
 
-		            final Cancelable cancelable = box.download(authToken, items[position].id , destinationFile, null, new FileDownloadListener() {
+		            final Cancelable cancelable = box.download(authToken, items[position].id , sdpath, null, new FileDownloadListener() {
 
 		                @Override
 		                public void onComplete(final String status) {
 		                    downloadDialog.dismiss();
 		                    if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_OK)) {
-		                    	
-		                        File sdpath = new File(Environment.getExternalStorageDirectory() + "/"+ URLEncoder.encode(items[position].name));
-		                        UploadScreen.sharefile = destinationFile;
+		                        UploadScreen.sharefile = sdpath;
 		            			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
 		            			startActivity(openUploadScreen);
 		                    	
 		                        //Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
 		                    }
 		                    else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
-		                        Toast.makeText(getApplicationContext(), "Download canceled.", Toast.LENGTH_LONG).show();
+		                        Toast.makeText(getApplicationContext(), "Download Canceled.", Toast.LENGTH_LONG).show();
+		                        if(sdpath.exists())
+		                        {
+		                        	sdpath.delete();
+		                        }
 		                    }
 		                }
 
@@ -290,7 +332,7 @@ public class SaveScreen extends Activity {
 
 		                @Override
 		                public void onProgress(final long bytesDownloaded) {
-		                    downloadDialog.setProgress((int) bytesDownloaded);
+		                    downloadDialog.setProgress((int) (((float)(items[position].file.getSize() - (items[position].file.getSize() - bytesDownloaded))) / items[position].file.getSize() * 100));
 		                }
 		            });
 		            downloadDialog.setOnCancelListener(new OnCancelListener() {
@@ -346,6 +388,16 @@ public class SaveScreen extends Activity {
                 }
 
                 updateSD(prevSDFolders.pop());
+                return true;
+            }
+            else if(cloudService.equals("box"))
+            {
+            	if (prevBoxFolders.isEmpty()) {
+                    return false;
+                }
+
+                folderId = prevBoxFolders.pop();
+                refresh();
                 return true;
             }
     	}
@@ -635,12 +687,14 @@ public class SaveScreen extends Activity {
     }
     
     private void refresh() {
+    	final ProgressDialog progressDialog = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         final Box box = Box.getInstance(Constants.API_KEY);
         box.getAccountTree(authToken, folderId, new String[] {Box.PARAM_ONELEVEL}, new GetAccountTreeListener() {
 
             @Override
             public void onComplete(BoxFolder boxFolder, String status) {
                 if (!status.equals(GetAccountTreeListener.STATUS_LISTING_OK)) {
+                	progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Aww dang! There was an error logging into Box. Try logging in again.", Toast.LENGTH_SHORT).show();
                     finish();
                     return;
@@ -687,11 +741,13 @@ public class SaveScreen extends Activity {
                 adapter.notifyDataSetChanged();
                // ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 //progressBar.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onIOException(final IOException e) {
                 //Toast.makeText(getApplicationContext(), "Failed to get tree - " + e.getMessage(), Toast.LENGTH_LONG).show();
+            	progressDialog.dismiss();
             }
         });
     }
@@ -822,6 +878,7 @@ public class SaveScreen extends Activity {
 				else
 				{
 					UploadScreen.sharefile = sdFiles.get(index);
+					UploadScreen.remove = 0;
 		        	//Pass the file
 					Intent openUploadScreen = new Intent(getApplicationContext(), UploadScreen.class);
 					startActivity(openUploadScreen);

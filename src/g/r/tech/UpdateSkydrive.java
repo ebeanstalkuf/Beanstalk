@@ -165,7 +165,9 @@ public class UpdateSkydrive extends ListActivity {
 
                     @Override
                     public void visit(SkyDrivePhoto photo) {
-                        //DOWNLOAD CALL
+                    	//Download File
+                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
+    					download.run(photo.getId(), photo.getName());
                     }
 
                     @Override
@@ -176,17 +178,23 @@ public class UpdateSkydrive extends ListActivity {
 
                     @Override
                     public void visit(SkyDriveFile file) {
-                        //INSERT DOWNLOAD CALL
+                    	//Download File
+                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
+                    	download.run(file.getId(), file.getName());
                     }
 
                     @Override
                     public void visit(SkyDriveVideo video) {
-                        //INSERT DOWNLOAD CALL
+                    	//Download File
+                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
+                    	download.run(video.getId(), video.getName());
                     }
 
                     @Override
                     public void visit(SkyDriveAudio audio) {
-                        //INSERT DOWNLOAD CALL
+                    	//Download File
+                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
+                    	download.run(audio.getId(), audio.getName());
                     }
                 });
             }

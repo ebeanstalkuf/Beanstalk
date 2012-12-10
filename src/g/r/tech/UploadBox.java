@@ -122,7 +122,7 @@ public class UploadBox extends ListActivity{
 
                         @Override
                         public void onProgress(final long bytesUploaded) {
-                            dialog.setProgress((int) bytesUploaded);
+                            dialog.setProgress((int)(((float)(upFile.length() - (upFile.length() - bytesUploaded))) / upFile.length() * 100));
                         }
                     });
         }

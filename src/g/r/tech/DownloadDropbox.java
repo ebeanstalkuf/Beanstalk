@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.ProgressListener;
 import com.dropbox.client2.DropboxAPI.DropboxFileInfo;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.ThumbFormat;
@@ -65,7 +67,9 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
         mApi = api;
         filename = file;
         mDialog = new ProgressDialog(context);
+        mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mDialog.setMessage("Preparing File...");
+        mDialog.setCancelable(true);
         mDialog.setButton("Cancel", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 mCanceled = true;
@@ -81,6 +85,23 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
                 }
             }
         });
+        mDialog.setOnCancelListener(new OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            	mCanceled = true;
+                mErrorMsg = "Download Canceled";
+
+                // This will cancel the getThumbnail operation by closing
+                // its stream
+                if (mFos != null) {
+                    try {
+                        mFos.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        });
+        
 
        mDialog.show();
     }
@@ -138,7 +159,18 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
 
             // This downloads the file
             try {
-                DropboxFileInfo info = mApi.getFile(path, null, mFos, null);
+                DropboxFileInfo info = mApi.getFile(path, null, mFos, new ProgressListener() {
+                    @Override
+                    public long progressInterval() {
+                        // Update the progress bar every half-second or so
+                        return 500;
+                    }
+
+                    @Override
+                    public void onProgress(long bytes, long total) {
+                        publishProgress(bytes);
+                    }
+                });
                 Log.i("File download:", "The file's rev is: " + info.getMetadata().rev);
                 // /path/to/new/file.txt now has stuff in it.
             } catch (DropboxException e) {
@@ -176,7 +208,18 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
 			activity.startActivity(openUploadScreen);
         } else {
             // Couldn't download it, so show an error
-            showToast("Whoops! Looks like we lost our footing climbing up the stalk. Try getting " + filename.fileName() + " again.");
+        	if(mCanceled)
+        	{
+        		showToast("Upload Canceled");
+        	}
+        	else
+        	{
+        		showToast("Whoops! Looks like we lost our footing climbing up the stalk. Try getting " + filename.fileName() + " again.");
+        	}
+            if(sdpath.exists())
+            {
+            	sdpath.delete();
+            }
         }
     }
 
