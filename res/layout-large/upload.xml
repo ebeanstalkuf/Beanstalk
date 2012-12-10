@@ -60,7 +60,7 @@
 
         <GridView
             android:id="@+id/Upcloud"
-            android:layout_width="210dp"
+            android:layout_width="190dp"
             android:layout_height="120dp"
             android:background="@drawable/empty_upload_cloud"
             android:numColumns="3"
