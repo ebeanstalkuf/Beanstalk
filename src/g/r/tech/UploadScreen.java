@@ -216,7 +216,7 @@ OnItemLongClickListener {
 			// Drag has started
 			// If called for trash resize the view and return true
 
-			allServices.setVisibility(0);
+			//allServices.setVisibility(0);
 			uploadcloud.setVisibility(4);
 			cloudcontainer.setVisibility(4);
 			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices || view.getId() == R.id.uploadall) {
@@ -316,7 +316,7 @@ OnItemLongClickListener {
 			adapter.notifyDataSetChanged();
 		case DragEvent.ACTION_DRAG_ENDED:
 			// Hide the trash can
-			allServices.setVisibility(4);
+			//allServices.setVisibility(4);
 			uploadcloud.setVisibility(0);
 			cloudcontainer.setVisibility(0);
 			//view.invalidate();
