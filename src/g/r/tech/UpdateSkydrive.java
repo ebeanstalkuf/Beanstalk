@@ -1,5 +1,8 @@
 package g.r.tech;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,6 +38,7 @@ import skydrive.SkyDriveVideo;
 import skydrive.util.JsonKeys;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -166,8 +170,17 @@ public class UpdateSkydrive extends ListActivity {
                     @Override
                     public void visit(SkyDrivePhoto photo) {
                     	//Download File
-                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
-    					download.run(photo.getId(), photo.getName());
+                    	if(photo.getSize() > 52430000 && !connectedWifi())
+    		            {
+    		            	//Greater than 50 megabytes
+    		            	dataCap(photo);
+    		            }
+    		            else
+    		            {
+    		            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+        					download.run(photo.getId(), photo.getName());
+    		            }
+
                     }
 
                     @Override
@@ -179,22 +192,46 @@ public class UpdateSkydrive extends ListActivity {
                     @Override
                     public void visit(SkyDriveFile file) {
                     	//Download File
-                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
-                    	download.run(file.getId(), file.getName());
+                    	if(file.getSize() > 52430000 && !connectedWifi())
+    		            {
+    		            	//Greater than 50 megabytes
+    		            	dataCap(file);
+    		            }
+    		            else
+    		            {
+    		            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+        					download.run(file.getId(), file.getName());
+    		            }
                     }
 
                     @Override
                     public void visit(SkyDriveVideo video) {
                     	//Download File
-                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
-                    	download.run(video.getId(), video.getName());
+                    	if(video.getSize() > 52430000 && !connectedWifi())
+    		            {
+    		            	//Greater than 50 megabytes
+    		            	dataCap(video);
+    		            }
+    		            else
+    		            {
+    		            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+        					download.run(video.getId(), video.getName());
+    		            }
                     }
 
                     @Override
                     public void visit(SkyDriveAudio audio) {
                     	//Download File
-                    	DownloadSkydrive download = new DownloadSkydrive(pContext);
-                    	download.run(audio.getId(), audio.getName());
+                    	if(audio.getSize() > 52430000 && !connectedWifi())
+    		            {
+    		            	//Greater than 50 megabytes
+    		            	dataCap(audio);
+    		            }
+    		            else
+    		            {
+    		            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+        					download.run(audio.getId(), audio.getName());
+    		            }
                     }
                 });
             }
@@ -364,4 +401,91 @@ public class UpdateSkydrive extends ListActivity {
         }
         connected = 1;
 	}
+	public void dataCap(final SkyDrivePhoto photo)
+    {
+    	AlertDialog dataCap = new AlertDialog.Builder(pContext).create();
+    	dataCap.setTitle("Data Usage Warning");
+    	dataCap.setMessage("The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?");
+    	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Just go back to what you were doing
+            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+				download.run(photo.getId(), photo.getName());
+            }
+        });
+    	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Stop doing what your doing
+            }
+        });
+    	dataCap.show();
+    }
+	public void dataCap(final SkyDriveFile file)
+    {
+    	AlertDialog dataCap = new AlertDialog.Builder(pContext).create();
+    	dataCap.setTitle("Data Usage Warning");
+    	dataCap.setMessage("The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?");
+    	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Just go back to what you were doing
+            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+				download.run(file.getId(), file.getName());
+            }
+        });
+    	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Stop doing what your doing
+            }
+        });
+    	dataCap.show();
+    }
+	public void dataCap(final SkyDriveVideo video)
+    {
+    	AlertDialog dataCap = new AlertDialog.Builder(pContext).create();
+    	dataCap.setTitle("Data Usage Warning");
+    	dataCap.setMessage("The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?");
+    	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Just go back to what you were doing
+            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+				download.run(video.getId(), video.getName());
+            }
+        });
+    	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Stop doing what your doing
+            }
+        });
+    	dataCap.show();
+    }
+	public void dataCap(final SkyDriveAudio audio)
+    {
+    	AlertDialog dataCap = new AlertDialog.Builder(pContext).create();
+    	dataCap.setTitle("Data Usage Warning");
+    	dataCap.setMessage("The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?");
+    	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Just go back to what you were doing
+            	DownloadSkydrive download = new DownloadSkydrive(pContext);
+				download.run(audio.getId(), audio.getName());
+            }
+        });
+    	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Stop doing what your doing
+            }
+        });
+    	dataCap.show();
+    }
+	public boolean connectedWifi()
+    {
+    	ConnectivityManager conMan = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //wifi
+        State wifi = conMan.getNetworkInfo(1).getState();
+        if (wifi == NetworkInfo.State.DISCONNECTED) 
+        {
+      	  return false;
+        }
+        return true;
+    }
 }

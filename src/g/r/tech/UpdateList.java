@@ -1,5 +1,8 @@
 package g.r.tech;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -21,6 +24,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -60,6 +64,7 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 	static Entry dirent = null;
 	Activity activity;
 	ProgressDialog progressDialog;
+	Boolean variable;
     public UpdateList(Context context, DropboxAPI <?> api, ListView x, String dropboxPath)
     {
     	//Passable context
@@ -131,8 +136,18 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 				//Clicked on a file
 				else
 				{
-					DownloadDropbox download = new DownloadDropbox(pContext, mApi, files.get(index));
-					download.execute();
+					//Check size and if connected to Wifi
+		            if(files.get(index).bytes > 52430000 && !connectedWifi())
+		            {
+		            	//Greater than 50 megabytes
+		            	dataCap(index);
+		            }
+		            else
+		            {
+		            	DownloadDropbox download = new DownloadDropbox(pContext, mApi, files.get(index));
+						download.execute();
+		            }
+					
 				}	
         	
 			}
@@ -291,4 +306,34 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 
 		 return ext;
 		}
+	 public void dataCap(final int index)
+	    {
+	    	AlertDialog dataCap = new AlertDialog.Builder(pContext).create();
+	    	dataCap.setTitle("Data Usage Warning");
+	    	dataCap.setMessage("The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?");
+	    	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	                // Just go back to what you were doing
+	            	DownloadDropbox download = new DownloadDropbox(pContext, mApi, files.get(index));
+					download.execute();
+	            }
+	        });
+	    	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	                // Stop doing what your doing
+	            }
+	        });
+	    	dataCap.show();
+	    }
+	 public boolean connectedWifi()
+	    {
+	    	ConnectivityManager conMan = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+	        //wifi
+	        State wifi = conMan.getNetworkInfo(1).getState();
+	        if (wifi == NetworkInfo.State.DISCONNECTED) 
+	        {
+	      	  return false;
+	        }
+	        return true;
+	    }
 }

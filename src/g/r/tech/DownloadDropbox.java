@@ -210,7 +210,7 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
             // Couldn't download it, so show an error
         	if(mCanceled)
         	{
-        		showToast("Upload Canceled");
+        		showToast("Download Canceled");
         	}
         	else
         	{

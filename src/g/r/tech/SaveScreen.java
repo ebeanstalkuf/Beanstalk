@@ -122,14 +122,7 @@ public class SaveScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
         
-      ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-      //wifi
-      State wifi = conMan.getNetworkInfo(1).getState();
-      if (wifi == NetworkInfo.State.DISCONNECTED) 
-      {
-    	  //Not conncted to wifi
-    	  connectedWifi = 0;
-      }
+      
     	    
     	welcomeText = (TextView) findViewById(R.id.initialText);
        
@@ -310,73 +303,16 @@ public class SaveScreen extends Activity {
 		        	/**
 		             * Download a file and put it into the SD card. In your app, you can put the file wherever you have access to.
 		             */
-		            //Check size
-		            if(items[position].file.getSize() > 52430000)
+		            if(items[position].file.getSize() > 52430000 && !connectedWifi())
 		            {
 		            	//Greater than 50 megabytes
-		            	if(!dataCap())
-		            	{
-		            		return;
-		            	}
+		            	dataCap(position);
 		            }
-		            final Box box = Box.getInstance(Constants.API_KEY);
-		            final java.io.File destinationFile = new java.io.File(Environment.getExternalStorageDirectory() + "/"
-		                                                                  + URLEncoder.encode(items[position].name));
-
-		            final ProgressDialog downloadDialog = new ProgressDialog(SaveScreen.this);
-		            downloadDialog.setMessage("Preparing File...");
-		            downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		            downloadDialog.setCancelable(true);
-		            downloadDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
-		                public void onClick(DialogInterface dialog, int which) {
-		                    // This will cancel the putFile operation
-		                	downloadDialog.cancel();
-		                }
-		            });
-		            downloadDialog.show();
-
-		            //Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
-
-		            final Cancelable cancelable = box.download(authToken, items[position].id , sdpath, null, new FileDownloadListener() {
-
-		                @Override
-		                public void onComplete(final String status) {
-		                    downloadDialog.dismiss();
-		                    if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_OK)) {
-		                        UploadScreen.sharefile = sdpath;
-		            			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
-		            			startActivity(openUploadScreen);
-		                    	
-		                        //Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
-		                    }
-		                    else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
-		                        Toast.makeText(getApplicationContext(), "Download Canceled.", Toast.LENGTH_LONG).show();
-		                        if(sdpath.exists())
-		                        {
-		                        	sdpath.delete();
-		                        }
-		                    }
-		                }
-
-		                @Override
-		                public void onIOException(final IOException e) {
-		                    e.printStackTrace();
-		                    downloadDialog.dismiss();
-		                    Toast.makeText(getApplicationContext(), "Whoops! Looks like we lost our footing climbing up the stalk. Try getting that file again.", Toast.LENGTH_LONG).show();
-		                }
-
-		                @Override
-		                public void onProgress(final long bytesDownloaded) {
-		                    downloadDialog.setProgress((int) (((float)(items[position].file.getSize() - (items[position].file.getSize() - bytesDownloaded))) / items[position].file.getSize() * 100));
-		                }
-		            });
-		            downloadDialog.setOnCancelListener(new OnCancelListener() {
-
-		                @Override
-		                public void onCancel(DialogInterface dialog) {
-		                    cancelable.cancel();
-		                }
-		            });
+		            else
+		            {
+		            	downloadBox(position);
+		            }
+		            
 		        }
 				
 			}
@@ -532,18 +468,7 @@ public class SaveScreen extends Activity {
     	 private View inflateSDCardListItem(ViewGroup parent) {
              return sdInflater.inflate(R.layout.screen5_rowlayout, parent, false);
          }
-    	 
-    	 /*public String getExt(String fileName){
-    		 String filename_Without_Ext = "";
-    		 String ext = "";
-
-    		 int dotposition= fileName.lastIndexOf(".");
-    		 filename_Without_Ext = fileName.substring(0,dotposition);
-    		 ext = fileName.substring(dotposition + 1, fileName.length());
-
-    		 return ext;
-    		}*/
-    	 
+    	     	 
     	 private String shorten(String path){
     		 String x = path;
     		 if (path.contains("/mnt/sdcard/")){
@@ -785,84 +710,7 @@ public class SaveScreen extends Activity {
             }
         });
     }
-    /*
-    @Override
-    protected void onListItemClick(ListView l, View v, final int position, long id) {
-
-        /**
-         * Demonstrates some of the actions you can perform on files and folders
-         
-
-        if(items[position].type == TreeListItem.TYPE_FOLDER)
-        {
-        	folderId = items[position].id;
-        	refresh();
-        	/*
-            Intent i = new Intent(SaveScreen.this, SaveScreen.class);
-            i.putExtra("folder_id", items[position].id);
-            startActivity(i);
-            
-        }
-        else
-        {
-        	/**
-             * Download a file and put it into the SD card. In your app, you can put the file wherever you have access to.
-             
-            final Box box = Box.getInstance(Constants.API_KEY);
-            final java.io.File destinationFile = new java.io.File(Environment.getExternalStorageDirectory() + "/"
-                                                                  + URLEncoder.encode(items[position].name));
-
-            final ProgressDialog downloadDialog = new ProgressDialog(SaveScreen.this);
-            downloadDialog.setMessage("Downloading " + items[position].name);
-            downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            downloadDialog.setMax((int) items[position].file.getSize());
-            downloadDialog.setCancelable(true);
-            downloadDialog.show();
-
-            Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
-
-            final Cancelable cancelable = box.download(authToken, items[position].id, destinationFile, null, new FileDownloadListener() {
-
-                @Override
-                public void onComplete(final String status) {
-                    downloadDialog.dismiss();
-                    if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_OK)) {
-                    	
-                        File sdpath = new File(Environment.getExternalStorageDirectory() + "/"
-                                + URLEncoder.encode(items[position].name));
-                        UploadScreen.sharefile = destinationFile;
-            			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
-            			startActivity(openUploadScreen);
-                    	
-                        Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
-                    }
-                    else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
-                        Toast.makeText(getApplicationContext(), "Download canceled.", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onIOException(final IOException e) {
-                    e.printStackTrace();
-                    downloadDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Download failed " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onProgress(final long bytesDownloaded) {
-                    downloadDialog.setProgress((int) bytesDownloaded);
-                }
-            });
-            downloadDialog.setOnCancelListener(new OnCancelListener() {
-
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    cancelable.cancel();
-                }
-            });
-        }
-    }
-*/
+    
     public String filename(String fileName){
 		 String filename_Without_Ext = "";
 		 String ext = "";
@@ -911,17 +759,26 @@ public class SaveScreen extends Activity {
 				}
 				else
 				{
-					UploadScreen.sharefile = sdFiles.get(index);
-					UploadScreen.remove = 0;
-		        	//Pass the file
-					Intent openUploadScreen = new Intent(getApplicationContext(), UploadScreen.class);
-					startActivity(openUploadScreen);
+					if(sdFiles.get(index).length() > 52430000 && !connectedWifi())
+		            {
+		            	//Greater than 50 megabytes
+		            	dataCap(0,index);
+		            }
+		            else
+		            {
+		            	UploadScreen.sharefile = sdFiles.get(index);
+						UploadScreen.remove = 0;
+			        	//Pass the file
+						Intent openUploadScreen = new Intent(getApplicationContext(), UploadScreen.class);
+						startActivity(openUploadScreen);
+		            }
+					
 				}
 			}
     	});
     }
     
-    public boolean dataCap()
+    public void dataCap(final int position)
     {
     	AlertDialog dataCap = new AlertDialog.Builder(this).create();
     	dataCap.setTitle("Data Usage Warning");
@@ -929,17 +786,102 @@ public class SaveScreen extends Activity {
     	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Just go back to what you were doing
-            	variable = true;
+            	downloadBox(position);
             }
         });
     	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Stop doing what your doing
-            	variable = false;
             }
         });
     	dataCap.show();
-    	return variable;
+    }
+    public void dataCap(final int position, final int index)
+    {
+    	AlertDialog dataCap = new AlertDialog.Builder(this).create();
+    	dataCap.setTitle("Data Usage Warning");
+    	dataCap.setMessage("The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?");
+    	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Just go back to what you were doing
+            	downloadBox(position);
+            }
+        });
+    	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Stop doing what your doing
+            }
+        });
+    	dataCap.show();
+    }
+    public void downloadBox(final int position)
+    {
+    	final Box box = Box.getInstance(Constants.API_KEY);
+        final ProgressDialog downloadDialog = new ProgressDialog(SaveScreen.this);
+        downloadDialog.setMessage("Preparing File...");
+        downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        downloadDialog.setCancelable(true);
+        downloadDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // This will cancel the putFile operation
+            	downloadDialog.cancel();
+            }
+        });
+        downloadDialog.show();
+
+        //Toast.makeText(getApplicationContext(), "Click BACK to cancel the download.", Toast.LENGTH_SHORT).show();
+
+        final Cancelable cancelable = box.download(authToken, items[position].id , sdpath, null, new FileDownloadListener() {
+
+            @Override
+            public void onComplete(final String status) {
+                downloadDialog.dismiss();
+                if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_OK)) {
+                    UploadScreen.sharefile = sdpath;
+        			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
+        			startActivity(openUploadScreen);
+                	
+                    //Toast.makeText(getApplicationContext(), "File downloaded to " + destinationFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                }
+                else if (status.equals(FileDownloadListener.STATUS_DOWNLOAD_CANCELLED)) {
+                    Toast.makeText(getApplicationContext(), "Download Canceled.", Toast.LENGTH_LONG).show();
+                    if(sdpath.exists())
+                    {
+                    	sdpath.delete();
+                    }
+                }
+            }
+
+            @Override
+            public void onIOException(final IOException e) {
+                e.printStackTrace();
+                downloadDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "Whoops! Looks like we lost our footing climbing up the stalk. Try getting that file again.", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onProgress(final long bytesDownloaded) {
+                downloadDialog.setProgress((int) (((float)(items[position].file.getSize() - (items[position].file.getSize() - bytesDownloaded))) / items[position].file.getSize() * 100));
+            }
+        });
+        downloadDialog.setOnCancelListener(new OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                cancelable.cancel();
+            }
+        });
+    }
+    public boolean connectedWifi()
+    {
+    	ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        //wifi
+        State wifi = conMan.getNetworkInfo(1).getState();
+        if (wifi == NetworkInfo.State.DISCONNECTED) 
+        {
+      	  return false;
+        }
+        return true;
     }
 }
 /*The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?   */

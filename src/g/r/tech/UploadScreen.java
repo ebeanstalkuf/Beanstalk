@@ -347,6 +347,10 @@ OnItemLongClickListener {
     private void uploadSkyDrive(File upFile, String uploadPath)
     {
     	mClient = authSkyDrive();
+    	if(mClient == null)
+    	{
+    		return;
+    	}
     	skyFile = upFile;
     	
     	UploadSkyDrive upSky = new UploadSkyDrive(this, upFile, mClient);
