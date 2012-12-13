@@ -28,28 +28,37 @@
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        android:weightSum="100" >
-
+        android:weightSum="4"
+        android:gravity="center" >
 
             <Button
-                android:id="@+id/dropbox"           
-                android:layout_width="90dp"
+                android:id="@+id/dropbox"
+                android:layout_width="0px"
                 android:layout_height="75dp"
+                android:layout_gravity="top"
+                android:layout_weight="1"
                 android:background="@drawable/dropboxbutton" />
+
             <Button
                 android:id="@+id/box"           
-                android:layout_width="90dp"
+                android:layout_width="0px"
+                android:layout_weight="1"
+                android:layout_gravity="top"
                 android:layout_height="75dp"
                 android:background="@drawable/boxbutton" />
             <Button
-                android:id="@+id/skydrive"           
-                android:layout_width="90dp"
+                android:id="@+id/skydrive"
+                android:layout_gravity="top"           
+                android:layout_width="0px"
+                android:layout_weight="1"
                 android:layout_height="75dp"
                 android:background="@drawable/skydrivebutton" />
 
             <Button
-                android:id="@+id/otherservices"           
-                android:layout_width="90dp"
+                android:id="@+id/otherservices" 
+                android:layout_gravity="top"          
+                android:layout_width="0px"
+                android:layout_weight="1"
                 android:layout_height="75dp"
                 android:background="@drawable/sdcardbutton" />
 
