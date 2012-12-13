@@ -499,7 +499,7 @@ public class SaveScreen extends Activity {
              return sdInflater.inflate(R.layout.screen5_rowlayout, parent, false);
          }
     	 
-    	 public String getExt(String fileName){
+    	 /*public String getExt(String fileName){
     		 String filename_Without_Ext = "";
     		 String ext = "";
 
@@ -508,7 +508,7 @@ public class SaveScreen extends Activity {
     		 ext = fileName.substring(dotposition + 1, fileName.length());
 
     		 return ext;
-    		}
+    		}*/
     	 
     	 private String shorten(String path){
     		 String x = path;
@@ -535,7 +535,7 @@ public class SaveScreen extends Activity {
             }
             else
             {
-            	String extensionType = getExt(marker.getPath());
+            	String extensionType = filename(marker.getPath());
                 
                 if( extensionType.equalsIgnoreCase("jpg") || extensionType.equalsIgnoreCase("png") || extensionType.equalsIgnoreCase("gif") 
                     	|| extensionType.equalsIgnoreCase("bmp") || extensionType.equalsIgnoreCase("psd") || extensionType.equalsIgnoreCase("tif") 
