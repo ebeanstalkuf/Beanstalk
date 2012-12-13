@@ -131,3 +131,7 @@ bin/classes/g/r/tech/Intro.class
 bin/classes/g/r/tech/SkydriveLog.class
 
 .DS_Store
+
+.metadata/.plugins/org.eclipse.debug.core/.launches/g.r.tech.Intro.launch
+
+*.launch
