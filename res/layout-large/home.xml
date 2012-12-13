@@ -36,7 +36,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="28dp"
             android:src="@drawable/greenlight"
             android:visibility="gone" />
 
@@ -45,7 +45,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="28dp"
             android:src="@drawable/redlight"
             android:visibility="visible" />
 "
@@ -56,7 +56,7 @@
             android:layout_height="100dp"
             android:layout_above="@+id/Boxbutton"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/dropboxtitle" />
 
         <ImageView
@@ -64,7 +64,7 @@
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="40dp"
             android:src="@drawable/green_arrow" />
     </LinearLayout>
 
