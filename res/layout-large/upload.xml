@@ -61,27 +61,6 @@
         </GridView>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/otherservices"
-        android:layout_alignRight="@+id/uploadall"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="53dp"
-        android:text="Hold and Drag to Send File"
-        android:textColor="#448d51" />
-
-    <Button
-        android:id="@+id/uploadall"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/ll2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:background="@drawable/upload_all"
-        android:visibility="gone" />
-
     <Button
         android:id="@+id/box"
         android:layout_width="70dp"
@@ -117,5 +96,15 @@
         android:layout_marginTop="89dp"
         android:background="@drawable/upload_all"
         android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/otherservices"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="51dp"
+        android:text="Hold and Drag to Send File"
+        android:textColor="#448d51" />
 
 </RelativeLayout>
