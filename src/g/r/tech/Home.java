@@ -84,7 +84,7 @@ public class Home extends Activity {
         
         //Check internet
         ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(!conMan.getActiveNetworkInfo().isConnected())
+        if(conMan.getActiveNetworkInfo() == null || !conMan.getActiveNetworkInfo().isConnected())
         {
         	showToast("Beanstalk requires an Internet connection. Please connect to the Internet and restart the application.");
         	return;
