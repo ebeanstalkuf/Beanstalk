@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,9 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -76,6 +80,8 @@ public class SaveScreen extends Activity {
 	SDCardListAdapter sdAdapter;
 	ArrayList<File> sdFiles;
 	File sdpath;
+	static int connectedWifi = 1;
+	Boolean variable;
 	
 	public static final String CLOSE_A_ON_RESUME = "CLOSE_A_ON_RESUME";
     
@@ -115,8 +121,17 @@ public class SaveScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
-                
-        welcomeText = (TextView) findViewById(R.id.initialText);
+        
+      ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+      //wifi
+      State wifi = conMan.getNetworkInfo(1).getState();
+      if (wifi == NetworkInfo.State.DISCONNECTED) 
+      {
+    	  //Not conncted to wifi
+    	  connectedWifi = 0;
+      }
+    	    
+    	welcomeText = (TextView) findViewById(R.id.initialText);
        
         sdcardfiles = (Button) findViewById(R.id.sdcard_fileb);
         sdcardfiles.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +230,7 @@ public class SaveScreen extends Activity {
     public void onRestart()
     {
     	super.onRestart();
+    	connectedWifi = 1;
     	this.recreate();
     }
     
@@ -294,6 +310,15 @@ public class SaveScreen extends Activity {
 		        	/**
 		             * Download a file and put it into the SD card. In your app, you can put the file wherever you have access to.
 		             */
+		            //Check size
+		            if(items[position].file.getSize() > 52430000)
+		            {
+		            	//Greater than 50 megabytes
+		            	if(!dataCap())
+		            	{
+		            		return;
+		            	}
+		            }
 		            final Box box = Box.getInstance(Constants.API_KEY);
 		            final java.io.File destinationFile = new java.io.File(Environment.getExternalStorageDirectory() + "/"
 		                                                                  + URLEncoder.encode(items[position].name));
@@ -895,6 +920,28 @@ public class SaveScreen extends Activity {
 			}
     	});
     }
+    
+    public boolean dataCap()
+    {
+    	AlertDialog dataCap = new AlertDialog.Builder(this).create();
+    	dataCap.setTitle("Data Usage Warning");
+    	dataCap.setMessage("The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?");
+    	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Just go back to what you were doing
+            	variable = true;
+            }
+        });
+    	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Stop doing what your doing
+            	variable = false;
+            }
+        });
+    	dataCap.show();
+    	return variable;
+    }
 }
+/*The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?   */
 
 
