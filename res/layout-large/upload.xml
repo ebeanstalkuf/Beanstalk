@@ -23,25 +23,6 @@
         android:background="@drawable/settings" />
 
     <Button
-        android:id="@+id/uploadall"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:background="@drawable/upload_all"
-        android:visibility="invisible" />
-
-    <Button
-        android:id="@+id/dropbox"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignLeft="@+id/otherservices"
-        android:layout_below="@+id/uploadall"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/dropbox_icon" />
-
-    <Button
         android:id="@+id/otherservices"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -92,11 +73,20 @@
         android:textColor="#448d51" />
 
     <Button
+        android:id="@+id/uploadall"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/ll2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/upload_all"
+        android:visibility="gone" />
+
+    <Button
         android:id="@+id/box"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_below="@+id/dropbox"
-        android:layout_marginTop="34dp"
+        android:layout_above="@+id/draggable_cloud"
         android:layout_toRightOf="@+id/settings"
         android:background="@drawable/box_icon" />
 
@@ -108,5 +98,24 @@
         android:layout_alignBottom="@+id/box"
         android:layout_toLeftOf="@+id/search"
         android:background="@drawable/skydrive_icon" />
+
+    <Button
+        android:id="@+id/dropbox"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/box"
+        android:layout_alignLeft="@+id/otherservices"
+        android:layout_marginBottom="47dp"
+        android:background="@drawable/dropbox_icon" />
+
+    <Button
+        android:id="@+id/uploadall"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="89dp"
+        android:background="@drawable/upload_all"
+        android:visibility="invisible" />
 
 </RelativeLayout>
