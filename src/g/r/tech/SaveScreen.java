@@ -705,7 +705,7 @@ public class SaveScreen extends Activity {
                 if (!status.equals(GetAccountTreeListener.STATUS_LISTING_OK)) {
                 	progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Aww dang! There was an error logging into Box. Try logging in again.", Toast.LENGTH_SHORT).show();
-                    finish();
+                    //finish();
                     return;
                 }
                 else {
