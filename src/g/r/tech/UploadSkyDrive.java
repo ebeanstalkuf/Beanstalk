@@ -102,7 +102,7 @@ public class UploadSkyDrive {
             uploadAllProgressDialog = new ProgressDialog(cntxt);
             uploadAllProgressDialog.setMax(100);
             uploadAllProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            uploadAllProgressDialog.setMessage("Uploading " + skyFile.getName());
+            uploadAllProgressDialog.setMessage("Uploading to SkyDrive...");
             uploadAllProgressDialog.setProgress(0);
             uploadAllProgressDialog.setCancelable(false);
             uploadAllProgressDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {

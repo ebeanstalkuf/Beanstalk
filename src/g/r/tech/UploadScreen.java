@@ -60,7 +60,7 @@ OnItemLongClickListener {
     
     Context context;
     int flag;
-    Button allServices;
+    //Button allServices;
     Button homeGear;
     //cloud and container on upload screen that holds the files and disappears when dragged
     GridView uploadcloud, cloudcontainer;
@@ -81,7 +81,7 @@ OnItemLongClickListener {
         setContentView(R.layout.upload);        
         uploadcloud = (GridView) findViewById(R.id.Upcloud);
         cloudcontainer = (GridView) findViewById(R.id.default_file);
-        allServices = (Button) findViewById(R.id.uploadall);
+        //allServices = (Button) findViewById(R.id.uploadall);
         homeGear = (Button) findViewById(R.id.settings);
         
        //animScale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
@@ -397,6 +397,7 @@ OnItemLongClickListener {
     
     private void uploadAll()
     {
+    	displayToast("Starting upload of " + sharefile.getName() + " to all services!");
     	mClient = authSkyDrive();
     	AndroidAuthSession session = buildSession();
     	dropApi = new DropboxAPI<AndroidAuthSession>(session);
@@ -409,10 +410,18 @@ OnItemLongClickListener {
 			String uploadPath = "/Beanstalk/";
 			//sharefile is the static variable
 			//If files is null, don't allow upload
-			UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile, mClient, UPLOAD_ALL_ON);
-			uploadDrop.execute();	
+			if(flag != 1){
+				UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile, mClient, UPLOAD_ALL_ON);
+				uploadDrop.execute();	
+			}
+			else
+			{
+				displayToast("Shucks! I can't see anything over here. Try logging into Dropbox.");
+	    		UploadBox uploadBox = new UploadBox(UploadScreen.this, 0l, sharefile, mClient, UploadScreen.UPLOAD_ALL_ON);
+	    		uploadBox.run();
+			}
 		}
-    	displayToast("Uploads Complete!");
+    	//displayToast("Uploading Complete!");
     }
     
     private int computePercentCompleted(int totalBytes, int bytesRemaining) {

@@ -105,7 +105,10 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
 		
 		dialog = new ProgressDialog(cntxt);
 		dialog.setMax(100);
-		dialog.setMessage("Uploading " + file.getName());
+		if(!uploadAll)
+			dialog.setMessage("Uploading " + file.getName());
+		else
+			dialog.setMessage("Uploading to Dropbox...");
 		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		dialog.setProgress(0);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
@@ -162,7 +165,7 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
                @Override
                 public long progressInterval() {
                     // Update the progress bar every half-second or so
-                    return 500;
+                    return 250;
                 }
 				
 				@Override
@@ -242,8 +245,10 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
     			resultMsg = "Oops, something went wrong with Dropbox, moving on to Box...";
     			displayToast(resultMsg);
     		}
-    		UploadBox uploadBox = new UploadBox(upScreenContext, 0l, upFile, mClient, UploadScreen.UPLOAD_ALL_ON);
-    		uploadBox.run();
+    		if(!mCanceled){
+	    		UploadBox uploadBox = new UploadBox(upScreenContext, 0l, upFile, mClient, UploadScreen.UPLOAD_ALL_ON);
+	    		uploadBox.run();
+    		}
     	}
     	else
     	{

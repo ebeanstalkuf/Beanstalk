@@ -68,7 +68,10 @@ public class UploadBox extends ListActivity{
 		
 		dialog = new ProgressDialog(cntxt);
 		dialog.setMax(100);
-		dialog.setMessage("Uploading " + file.getName());
+		if(!uploadAll)
+			dialog.setMessage("Uploading " + file.getName());
+		else
+			dialog.setMessage("Uploading to Box...");
 		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		dialog.setProgress(0);
 		folderId = boxPath;
@@ -96,8 +99,10 @@ public class UploadBox extends ListActivity{
         		skipBox = true;
                 if(skipBox)
                 {
-                	UploadSkyDrive upSky = new UploadSkyDrive(upScreenContext, upFile, mClient, UploadScreen.UPLOAD_ALL_ON);
-                	upSky.execute();
+                	if(mClient != null){
+	                	UploadSkyDrive upSky = new UploadSkyDrive(upScreenContext, upFile, mClient, UploadScreen.UPLOAD_ALL_ON);
+	                	upSky.execute();
+                	}
                 }
                 return;
         	}
