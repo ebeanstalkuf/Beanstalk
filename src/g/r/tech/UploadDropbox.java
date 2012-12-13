@@ -24,6 +24,7 @@ import com.dropbox.client2.exception.DropboxParseException;
 import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
+import com.microsoft.live.LiveConnectClient;
 
 public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
 	
@@ -36,10 +37,11 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
 	private final ProgressDialog dialog;
 	Boolean mCanceled = false;
 	private FileInputStream fis;
-	
-	
 	private String error;
 	
+	private boolean uploadAll = false;
+	private Context upScreenContext;
+	private LiveConnectClient mClient; //used for UploadAll
 	
 	public UploadDropbox(Context cntxt, DropboxAPI<AndroidAuthSession> api, String dropboxPath, File file)
 	{
@@ -49,6 +51,57 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
 		apiObj = api;
 		uploadPath = dropboxPath;
 		upFile = file;
+		
+		dialog = new ProgressDialog(cntxt);
+		dialog.setMax(100);
+		dialog.setMessage("Uploading " + file.getName());
+		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		dialog.setProgress(0);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // This will cancel the putFile operation
+            	mCanceled = true;
+            	
+                // This will cancel the getThumbnail operation by closing
+                // its stream
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        });
+        dialog.setOnCancelListener(new OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            	// This will cancel the putFile operation
+            	mCanceled = true;
+            	
+                // This will cancel the getThumbnail operation by closing
+                // its stream
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        });
+        dialog.show();
+	}
+	
+	public UploadDropbox(Context cntxt, DropboxAPI<AndroidAuthSession> api, String dropboxPath, File file, LiveConnectClient mClient, boolean uploadAll)
+	{
+		upScreenContext = cntxt;
+		context = cntxt.getApplicationContext();
+		
+		fileLength = file.length();
+		apiObj = api;
+		uploadPath = dropboxPath;
+		upFile = file;
+		this.uploadAll = uploadAll;
+		this.mClient = mClient;
 		
 		dialog = new ProgressDialog(cntxt);
 		dialog.setMax(100);
@@ -182,22 +235,38 @@ public class UploadDropbox extends AsyncTask<Void, Long, Boolean> {
     {
     	dialog.dismiss();
     	String resultMsg;
-    	if(result)
+    	if(uploadAll)
     	{
-    		resultMsg = "Yahoo! Successfully uploaded " + upFile.getName();
+    		if(!result)
+    		{
+    			resultMsg = "Oops, something went wrong with Dropbox, moving on to Box...";
+    			displayToast(resultMsg);
+    		}
+    		UploadBox uploadBox = new UploadBox(upScreenContext, 0l, upFile, mClient, UploadScreen.UPLOAD_ALL_ON);
+    		uploadBox.run();
     	}
     	else
     	{
-    		if(mCanceled)
-    		{
-    			resultMsg = "Upload Canceled";
-    		}
-    		else
-    		{
-    			resultMsg = "Silly clouds...looks like we had a problem moving things around. Try again.";
-    		}
+        	
+        	if(result)
+        	{
+        		resultMsg = "Yahoo! Successfully uploaded " + upFile.getName();
+        	}
+        	else
+        	{
+        		if(mCanceled)
+        		{
+        			resultMsg = "Upload Canceled";
+        		}
+        		else
+        		{
+        			resultMsg = "Silly clouds...looks like we had a problem moving things around. Try again.";
+        		}
+        	}
+        	displayToast(resultMsg);
     	}
-    	displayToast(resultMsg);
+
+
     }
     
     protected void displayToast(String message)

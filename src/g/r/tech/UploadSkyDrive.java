@@ -47,7 +47,10 @@ public class UploadSkyDrive {
     //Skydrive logged in state stuff
     private LiveSdkSampleApplication mApp;
     private LiveAuthClient mAuthClient;
-    private ProgressDialog mInitializeDialog;
+    
+    private ProgressDialog uploadAllProgressDialog;
+    
+    private boolean uploadAll = false;
     
     TextView resultTextView;
 
@@ -78,15 +81,43 @@ public class UploadSkyDrive {
     	uploadVar = false;
     }
     
+    public UploadSkyDrive(Context context, File file, LiveConnectClient client, boolean uploadAll)
+    {
+    	this.context = context.getApplicationContext();
+    	cntxt = context;
+    	mClient = client;
+    	//this.uploadPath = uploadPath;
+		skyFile = file;
+		uploadVar = false;
+		this.uploadAll = uploadAll;
+
+    }
+    
     
     public Boolean execute() {
         
     	uploadVar = true;
+    	if(uploadAll)
+    	{
+            uploadAllProgressDialog = new ProgressDialog(cntxt);
+            uploadAllProgressDialog.setMax(100);
+            uploadAllProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            uploadAllProgressDialog.setMessage("Uploading " + skyFile.getName());
+            uploadAllProgressDialog.setProgress(0);
+            uploadAllProgressDialog.setCancelable(false);
+            uploadAllProgressDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // This will cancel the putFile operation
+                    uploadAllProgressDialog.cancel();
+                }
+            });
+           
+            uploadAllProgressDialog.show();
+            uploadAllProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+    	}
         filterSkyDrive(SKYDRIVE_HOME);        
         //showToast("Folder id is: " + skyFolderID);
         //createFolderSkyDrive();
-
-
 		return true;
     }
     
@@ -109,7 +140,9 @@ public class UploadSkyDrive {
                 }
             });
            
-            uploadProgressDialog.show();
+            if(!uploadAll)
+            	uploadProgressDialog.show();
+            
             uploadProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
             //showToast("Folder id: "+ skyFolderID);
             //showToast("File name: "+ skyFile.getName());
@@ -128,20 +161,33 @@ public class UploadSkyDrive {
                                              LiveOperation operation) {
                     int percentCompleted = computePercentCompleted(totalBytes, bytesRemaining);
 
-                    uploadProgressDialog.setProgress(percentCompleted);
+                    if(!uploadAll)
+                    	uploadProgressDialog.setProgress(percentCompleted);
+                    else
+                    	uploadAllProgressDialog.setProgress(percentCompleted);
                 }
 
                 @Override
                 public void onUploadFailed(LiveOperationException exception,
                                            LiveOperation operation) {
-                    uploadProgressDialog.dismiss();
-                    showToast(exception.getMessage());
+                	if(!uploadAll) {
+                		uploadProgressDialog.dismiss();
+                	}                		
+                	else
+                		uploadAllProgressDialog.dismiss();
+                    showToast("Uh oh...something went wrong when uploading to SkyDrive.");
                 }
 
                 @Override
                 public void onUploadCompleted(LiveOperation operation) {
-                    uploadProgressDialog.dismiss(); 
-                    showToast("Yahoo! Upload of " + skyFile.getName() +" complete!");
+                	if(!uploadAll){
+                		uploadProgressDialog.dismiss();
+                        showToast("Yahoo! Upload of " + skyFile.getName() +" complete!");
+                	}
+                	else {
+                		uploadAllProgressDialog.dismiss();
+                	}
+
                     JSONObject result = operation.getResult();
                     if (result.has(JsonKeys.ERROR)) {
                         JSONObject error = result.optJSONObject(JsonKeys.ERROR);
@@ -154,12 +200,23 @@ public class UploadSkyDrive {
                     //loadFolder(mCurrentFolderId);
                 }
             }, null);
-            uploadProgressDialog.setOnCancelListener(new OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    operation.cancel();
-                }
-            });
+            if(!uploadAll) {
+	            uploadProgressDialog.setOnCancelListener(new OnCancelListener() {
+	                @Override
+	                public void onCancel(DialogInterface dialog) {
+	                    operation.cancel();
+	                }
+	            });
+            }
+            else
+            {
+	            uploadAllProgressDialog.setOnCancelListener(new OnCancelListener() {
+	                @Override
+	                public void onCancel(DialogInterface dialog) {
+	                    operation.cancel();
+	                }
+	            });
+            }
             
         }
         else
@@ -177,7 +234,9 @@ public class UploadSkyDrive {
         createDialog.setMessage("Creating Beanstalk Folder...");
         //createDialog.setProgress(0);
         createDialog.setCancelable(false);
-        createDialog.show();
+        
+        if(!uploadAll)
+        	createDialog.show();
     	
         final LiveOperationListener opListener = new LiveOperationListener() {
             public void onError(LiveOperationException exception, LiveOperation operation) {
@@ -194,7 +253,10 @@ public class UploadSkyDrive {
 	                skyFolderID = result.optString("id");
 	                skyFolderFound = true;
 	                if(uploadVar)
+	                {
 	                	upload();
+	                }
+	                	
                }
            };
    			try {
@@ -211,11 +273,15 @@ public class UploadSkyDrive {
     
     public void filterSkyDrive(String folderID)
     {
-        final ProgressDialog searchDialog = 
-        		new ProgressDialog(cntxt);
-        searchDialog.setMessage("Checking Beanstalk Folder...");
-        searchDialog.setCancelable(false);
-        searchDialog.show(); 
+		 final ProgressDialog searchDialog = 
+	        		new ProgressDialog(cntxt);
+		 searchDialog.setMessage("Checking Beanstalk Folder...");
+		 searchDialog.setCancelable(false);
+    	if(!uploadAll)
+    	{
+	        searchDialog.show(); 
+    	}
+
     	
     	mClient.getAsync(folderID + "/files", new LiveOperationListener() {
             @Override

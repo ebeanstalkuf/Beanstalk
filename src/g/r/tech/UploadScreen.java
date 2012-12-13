@@ -44,6 +44,8 @@ OnItemLongClickListener {
     final static private String ACCOUNT_PREFS_NAME = "prefs";
     final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
     final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
+    final static public boolean UPLOAD_ALL_ON = true;
+    final static public boolean UPLOAD_ALL_OFF = false;
    
     //SkyDrive variables
     private LiveConnectClient mClient;
@@ -295,6 +297,10 @@ OnItemLongClickListener {
 					//draggedIndex = -1;
 				}
 			}
+			else if(view.getId() == R.id.uploadall)
+			{
+				uploadAll();
+			}
 			else if(view.getId() == R.id.otherservices)
 			{
 				if(sharefile == null)
@@ -373,38 +379,39 @@ OnItemLongClickListener {
 	    else
 	    {
 	    	dropApi = new DropboxAPI<AndroidAuthSession>(session);
-		    if(flag == 1)
-		    {
-		    	displayToast("Shucks! I can't see anything over here. Try logging into Dropbox.");
-		    }
-		    else
-		    {
-		    	//testing
-			    boolean sdStatus = checkSDCardStatus();
-			    String sdpath;
-			    if(sdStatus)
-			    {
-			    	if(sharefile == null)
-					{
-			    		displayToast("Well this is embarassing...I don't know what to save! Please go back to the file browser and select your file again.");
-					}
-					else
-					{
-						//Store Path the Beanstalk Downloads
-						sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/";
-				    					    	
-						//displayToast("Uploading from: " + sdpath + sharefile.getName());
-						String uploadPath = "/Beanstalk/";
-				    	//end testing
-						//sharefile is the static variable
-						//If files is null, don't allow upload
-						UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile);
-						uploadDrop.execute();	
-					}
-			    }
-
-		    }
+	    	if(sharefile == null)
+			{
+	    		displayToast("Well this is embarassing...I don't know what to save! Please go back to the file browser and select your file again.");
+			}
+			else
+			{			    					    	
+				String uploadPath = "/Beanstalk/";
+				//sharefile is the static variable
+				//If files is null, don't allow upload
+				UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile);
+				uploadDrop.execute();	
+			}
+		    
 	    }
+    }
+    
+    private void uploadAll()
+    {
+    	mClient = authSkyDrive();
+    	AndroidAuthSession session = buildSession();
+    	dropApi = new DropboxAPI<AndroidAuthSession>(session);
+    	if(sharefile == null)
+		{
+    		displayToast("Well this is embarassing...I don't know what to save! Please go back to the file browser and select your file again.");
+		}
+		else
+		{			    					    	
+			String uploadPath = "/Beanstalk/";
+			//sharefile is the static variable
+			//If files is null, don't allow upload
+			UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile, mClient, UPLOAD_ALL_ON);
+			uploadDrop.execute();	
+		}
     }
     
     private int computePercentCompleted(int totalBytes, int bytesRemaining) {
