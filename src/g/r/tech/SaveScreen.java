@@ -5,21 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Stack;
 
-import skydrive.SkyDriveAlbum;
-import skydrive.SkyDriveAudio;
-import skydrive.SkyDriveFile;
-import skydrive.SkyDriveFolder;
-import skydrive.SkyDriveObject;
-import skydrive.SkyDrivePhoto;
-import skydrive.SkyDriveVideo;
-import skydrive.SkyDriveObject.Visitor;
-
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,16 +16,16 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.format.DateFormat;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -44,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.box.androidlib.Box;
 import com.box.androidlib.DAO.BoxFile;
@@ -87,6 +75,8 @@ public class SaveScreen extends Activity {
 	SDCardListAdapter sdAdapter;
 	ArrayList<File> sdFiles;
 	File sdpath;
+	
+	public static final String CLOSE_A_ON_RESUME = "CLOSE_A_ON_RESUME";
     
     int i = 0;
     int flag = 0;
@@ -226,6 +216,25 @@ public class SaveScreen extends Activity {
     	super.onRestart();
     	this.recreate();
     }
+    
+    @Override
+    public void onResume(){
+      super.onResume();
+
+      //Retrieve the message
+      SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+      boolean IShouldClose=mPrefs.getBoolean(SaveScreen.CLOSE_A_ON_RESUME,false);
+
+      if (IShouldClose){
+
+         //remove the message (will always close here otherwise)
+         mPrefs.edit().remove(SaveScreen.CLOSE_A_ON_RESUME).commit();
+
+         //Terminate A
+         finish();
+      }
+  }
+    
     public void boxSetShit(ListView x)
     {
         adapter = new MyArrayAdapter(this, 0, items);

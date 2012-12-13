@@ -4,30 +4,19 @@ package g.r.tech;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import skydrive.SkyDriveObject;
-import skydrive.util.JsonKeys;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -44,11 +33,6 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.microsoft.live.LiveAuthClient;
 import com.microsoft.live.LiveConnectClient;
-import com.microsoft.live.LiveOperation;
-import com.microsoft.live.LiveOperationException;
-import com.microsoft.live.LiveOperationListener;
-import com.microsoft.live.LiveUploadOperationListener;
-import com.microsoft.live.OverwriteOption;
 
 public class UploadScreen extends Activity implements OnDragListener,
 OnItemLongClickListener {
@@ -179,15 +163,19 @@ OnItemLongClickListener {
         homeGear.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				remove();
-		    	sharefile = null;
-				Intent goHome = new Intent(v.getContext(), Home.class);
-    			startActivityForResult(goHome,0);
+				closeDatShit();
 			}
 		});
 
         
 	}
+    
+    public void closeDatShit()
+    {
+		SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+	    mPrefs.edit().putBoolean(SaveScreen.CLOSE_A_ON_RESUME,true).commit();
+	    finish();
+    }
 	public void onPause()
     {
     	super.onPause();
