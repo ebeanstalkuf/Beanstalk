@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -393,7 +394,7 @@ public class SaveScreen extends Activity {
             else if(cloudService.equals("sdcard"))
             {
             	if (prevSDFolders.isEmpty()) {
-                    return false;
+            		return super.onKeyUp(keyCode, event);
                 }
 
                 updateSD(prevSDFolders.pop());
@@ -402,9 +403,8 @@ public class SaveScreen extends Activity {
             else if(cloudService.equals("box"))
             {
             	if (prevBoxFolders.isEmpty()) {
-                    return false;
+            		return super.onKeyUp(keyCode, event);
                 }
-
                 folderId = prevBoxFolders.pop();
                 refresh();
                 return true;
