@@ -86,8 +86,8 @@ OnItemLongClickListener {
         
         //array list for collision
         filesToshare = new ArrayList();
-        
-        String extensionType = filename(sharefile);
+		String fileName = sharefile.getName();
+        String extensionType = filename(fileName);
         
         if( extensionType.equalsIgnoreCase("jpg") || extensionType.equalsIgnoreCase("png") || extensionType.equalsIgnoreCase("gif") 
         	|| extensionType.equalsIgnoreCase("bmp") || extensionType.equalsIgnoreCase("psd") || extensionType.equalsIgnoreCase("tif") 
@@ -505,18 +505,22 @@ OnItemLongClickListener {
 	
       }
 		
-	 public String filename(File sharefile){
-		
-		 String fileName = sharefile.getName();
-		 String filename_Without_Ext = "";
-		 String ext = "";
+	    public String filename(String fileName){
+	    	
+			 String filename_Without_Ext = "";
+			 String ext = "";
 
-		 int dotposition= fileName.lastIndexOf(".");
-		 filename_Without_Ext = fileName.substring(0,dotposition);
-		 ext = fileName.substring(dotposition + 1, fileName.length());
+			 int dotposition= fileName.lastIndexOf(".");
+			 if(dotposition <= 0)
+			 {
+				 ext = "nothing";
+				 return ext;
+			 }
+			 filename_Without_Ext = fileName.substring(0,dotposition);
+			 ext = fileName.substring(dotposition + 1, fileName.length());
 
-		 return ext;
-		}
+			 return ext;
+			}
 	private void remove()
 	 {
 		 if(sharefile != null && remove == 1)
