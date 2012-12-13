@@ -63,13 +63,13 @@
                 android:background="@drawable/sdcardbutton" />
 
     </LinearLayout>
-    <TextView
+    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/search"
         android:layout_centerHorizontal="true"
-        android:text="Drag to Send File"
+        android:text="Hold and Drag to Send File"
         android:textColor="#448d51" />
 
     <RelativeLayout

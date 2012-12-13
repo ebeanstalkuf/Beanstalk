@@ -69,7 +69,7 @@
         android:layout_alignRight="@+id/uploadall"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="53dp"
-        android:text="Drag to Send File"
+        android:text="Hold and Drag to Send File"
         android:textColor="#448d51" />
 
     <Button
