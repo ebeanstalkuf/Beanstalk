@@ -201,7 +201,11 @@ public class Home extends Activity {
         }
        
     }
-
+	public void onRestart()
+    {
+    	super.onRestart();
+    	this.recreate();
+    }
 	public static void setDropboxLog(boolean mLoggedIn) {
 		// TODO Auto-generated method stub
 		if (mLoggedIn == true)
