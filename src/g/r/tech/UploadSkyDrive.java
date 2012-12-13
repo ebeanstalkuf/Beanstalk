@@ -140,10 +140,12 @@ public class UploadSkyDrive {
                 }
             });
            
-            if(!uploadAll)
+            if(!uploadAll){
             	uploadProgressDialog.show();
+                uploadProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+            }
             
-            uploadProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+
             //showToast("Folder id: "+ skyFolderID);
             //showToast("File name: "+ skyFile.getName());
             

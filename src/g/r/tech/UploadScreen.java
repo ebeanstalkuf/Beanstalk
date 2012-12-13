@@ -330,7 +330,7 @@ OnItemLongClickListener {
 					findViewById(R.id.otherservices).setVisibility(View.VISIBLE);
 				}
 			}, 1000l);
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices || view.getId() == R.id.uploadall) {
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
 			} else {
@@ -412,6 +412,7 @@ OnItemLongClickListener {
 			UploadDropbox uploadDrop = new UploadDropbox(UploadScreen.this, dropApi, uploadPath, sharefile, mClient, UPLOAD_ALL_ON);
 			uploadDrop.execute();	
 		}
+    	displayToast("Uploads Complete!");
     }
     
     private int computePercentCompleted(int totalBytes, int bytesRemaining) {
@@ -505,6 +506,11 @@ OnItemLongClickListener {
 		OtherServices.setVisibility(View.VISIBLE);
 		OtherServices.setOnDragListener(UploadScreen.this);
 		OtherServices.setOnDragListener(UploadScreen.this);
+		
+		View UploadAll = findViewById(R.id.uploadall);
+		UploadAll.setVisibility(View.VISIBLE);
+		UploadAll.setOnDragListener(UploadScreen.this);
+		UploadAll.setOnDragListener(UploadScreen.this);
 
 
 		draggedIndex = position;
