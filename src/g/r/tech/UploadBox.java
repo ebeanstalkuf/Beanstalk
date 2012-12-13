@@ -10,6 +10,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.widget.Toast;
@@ -51,6 +52,20 @@ public class UploadBox extends ListActivity{
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // This will cancel the putFile operation
+            	if(cancelable == null)
+            	{
+            		return;
+            	}
+            	cancelable.cancel();
+            }
+        });
+        dialog.setOnCancelListener(new OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            	if(cancelable == null)
+            	{
+            		return;
+            	}
             	cancelable.cancel();
             }
         });

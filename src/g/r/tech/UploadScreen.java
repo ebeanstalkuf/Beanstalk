@@ -402,6 +402,8 @@ OnItemLongClickListener {
     private void uploadAll()
     {
     	displayToast("Starting upload of " + sharefile.getName() + " to all services!");
+    	//Set it so the file will not be removed
+    	remove = 0;
     	mClient = authSkyDrive();
     	AndroidAuthSession session = buildSession();
     	dropApi = new DropboxAPI<AndroidAuthSession>(session);

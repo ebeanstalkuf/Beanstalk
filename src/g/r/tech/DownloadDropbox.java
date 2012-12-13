@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.math.*;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -142,7 +143,7 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
             	//sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/" + filename.fileName();
             	//Create File called filename in Beanstalk Downloads
             	sdpath = new File(bfolder, filename.fileName());
-            
+                    
             }
             else
             {
@@ -227,6 +228,32 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
         Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
         error.show();
     }
+    /*
+    public String duplicate(String fileName){
+		 String filename_Without_Ext = "";
+		 String ext = "";
+
+		 int dotposition= fileName.lastIndexOf(".");
+		 if(dotposition <= 0)
+		 {
+			 filename_Without_Ext = fileName;
+		 }
+		 else
+		 {
+			 filename_Without_Ext = fileName.substring(0,dotposition);
+			 ext = fileName.substring(dotposition, fileName.length());
+		 }
+		 
+		 //Add (2) to filename
+		 StringBuilder s = new StringBuilder();
+		 s.append(filename_Without_Ext);
+		 s.append("(2)");
+		 if(ext.length() > 0)
+		 {
+			 s.append(ext);
+		 }
+		 return s.toString();
+		}*/
 
     
     

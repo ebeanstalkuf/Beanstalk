@@ -114,8 +114,6 @@ public class SaveScreen extends Activity {
     // Activity request codes
     private static final int REQUEST_CODE_FILE_PICKER = 1;
     
-    
-    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -745,7 +743,7 @@ public class SaveScreen extends Activity {
     		showToast("Whoops! Looks like this folder is empty.");
     	}
     	sdListView.setAdapter(sdAdapter);
-    	dbListView.setOnItemClickListener(new OnItemClickListener(){
+    	sdListView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 				//Check if directory
@@ -775,6 +773,7 @@ public class SaveScreen extends Activity {
 					
 				}
 			}
+			
     	});
     }
     
