@@ -110,7 +110,7 @@
             android:layout_below="@+id/ll2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="23dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:background="@drawable/upload_all" />
 
 </RelativeLayout>

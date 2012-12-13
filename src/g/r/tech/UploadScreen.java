@@ -79,7 +79,7 @@ OnItemLongClickListener {
         setContentView(R.layout.upload);        
         uploadcloud = (GridView) findViewById(R.id.Upcloud);
         cloudcontainer = (GridView) findViewById(R.id.default_file);
-        //allServices = (Button) findViewById(R.id.uploadall);
+        allServices = (Button) findViewById(R.id.uploadall);
         homeGear = (Button) findViewById(R.id.settings);
         
        //animScale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
@@ -214,10 +214,10 @@ OnItemLongClickListener {
 			// Drag has started
 			// If called for trash resize the view and return true
 
-			//allServices.setVisibility(0);
+			allServices.setVisibility(0);
 			uploadcloud.setVisibility(4);
 			cloudcontainer.setVisibility(4);
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices ) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices || view.getId() == R.id.uploadall) {
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
 				return true;
@@ -233,7 +233,7 @@ OnItemLongClickListener {
 		case DragEvent.ACTION_DRAG_ENTERED:
 			// Drag has entered view bounds
 			// If called for trash can then scale it.
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices || view.getId() == R.id.uploadall) {
 				//view.bringToFront();
 				view.animate().scaleX(1.2f);
 				view.animate().scaleY(1.2f);
@@ -242,7 +242,7 @@ OnItemLongClickListener {
 		case DragEvent.ACTION_DRAG_EXITED:
 			// Drag exited view bounds
 			// If called for trash can then reset it.
-			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices) {
+			if (view.getId() == R.id.dropbox || view.getId() == R.id.skydrive || view.getId() == R.id.box || view.getId() == R.id.otherservices || view.getId() == R.id.uploadall) {
 
 				view.animate().scaleX(1.0f);
 				view.animate().scaleY(1.0f);
@@ -310,7 +310,7 @@ OnItemLongClickListener {
 			adapter.notifyDataSetChanged();
 		case DragEvent.ACTION_DRAG_ENDED:
 			// Hide the trash can
-			//allServices.setVisibility(4);
+			allServices.setVisibility(4);
 			uploadcloud.setVisibility(0);
 			cloudcontainer.setVisibility(0);
 			//view.invalidate();
