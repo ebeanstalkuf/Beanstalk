@@ -109,7 +109,7 @@ public class UploadBox extends ListActivity{
         if (authToken == null) {
         	if(uploadAll)
         	{
-        		displayToast( "Oops! Looks like you aren't logged into Box. Moving on to SkyDrive...");
+        		displayToast( "Oops! Looks like you aren't logged into Box.");
         		dialog.dismiss();
         		skipBox = true;
                 if(skipBox)

@@ -401,18 +401,19 @@ OnItemLongClickListener {
     
     private void uploadAll()
     {
-    	displayToast("Starting upload of " + sharefile.getName() + " to all services!");
-    	//Set it so the file will not be removed
-    	remove = 0;
-    	mClient = authSkyDrive();
-    	AndroidAuthSession session = buildSession();
-    	dropApi = new DropboxAPI<AndroidAuthSession>(session);
     	if(sharefile == null)
 		{
     		displayToast("Well this is embarassing...I don't know what to save! Please go back to the file browser and select your file again.");
 		}
 		else
-		{			    					    	
+		{
+			displayToast("Starting upload of " + sharefile.getName() + " to all services!");
+			//Set it so the file will not be removed
+			remove = 0;
+			mClient = authSkyDrive();
+			AndroidAuthSession session = buildSession();
+			dropApi = new DropboxAPI<AndroidAuthSession>(session);
+    				    					    	
 			String uploadPath = "/Beanstalk/";
 			//sharefile is the static variable
 			//If files is null, don't allow upload

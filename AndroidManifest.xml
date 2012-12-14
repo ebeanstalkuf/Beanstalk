@@ -8,8 +8,8 @@
     </uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-sdk android:minSdkVersion="15" />
-
+    <uses-sdk android:minSdkVersion="12" />
+    
     <application
         android:name=".LiveSdkSampleApplication"
         android:icon="@drawable/ic_launcher3"

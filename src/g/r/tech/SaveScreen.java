@@ -803,7 +803,11 @@ public class SaveScreen extends Activity {
     	dataCap.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Just go back to what you were doing
-            	downloadBox(position);
+            	UploadScreen.sharefile = sdFiles.get(index);
+				UploadScreen.remove = 0;
+	        	//Pass the file
+				Intent openUploadScreen = new Intent(getApplicationContext(), UploadScreen.class);
+				startActivity(openUploadScreen);
             }
         });
     	dataCap.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
