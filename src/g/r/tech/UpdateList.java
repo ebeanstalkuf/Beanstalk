@@ -301,6 +301,11 @@ public class UpdateList extends AsyncTask<Void, Long, Boolean> {
 		 String ext = "";
 
 		 int dotposition= fileName.lastIndexOf(".");
+		 if(dotposition <= 0)
+		 {
+			 ext = "nothing";
+			 return ext;
+		 }
 		 filename_Without_Ext = fileName.substring(0,dotposition);
 		 ext = fileName.substring(dotposition + 1, fileName.length());
 

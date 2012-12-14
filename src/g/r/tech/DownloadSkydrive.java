@@ -147,6 +147,13 @@ public class DownloadSkydrive {
         	
         	sdpath = new File(bfolder, name);
         
+        	//Check if it exists, if it does add a (2)
+        	int i = 1;
+        	while(sdpath.exists())
+        	{
+        		sdpath = new File(bfolder, duplicate(sdpath.getName(), i));
+        		i++;
+        	}
         }
         else
         {
@@ -219,4 +226,39 @@ public class DownloadSkydrive {
 	private int computePrecentCompleted(int totalBytes, int bytesRemaining) {
         return (int) (((float)(totalBytes - bytesRemaining)) / totalBytes * 100);
     }
+	public String duplicate(String fileName, int i){
+		 String filename_Without_Ext = "";
+		 String ext = "";
+
+		 int dotposition= fileName.lastIndexOf(".");
+		 if(dotposition <= 0)
+		 {
+			 filename_Without_Ext = fileName;
+		 }
+		 else
+		 {
+			 filename_Without_Ext = fileName.substring(0,dotposition);
+			 ext = fileName.substring(dotposition, fileName.length());
+		 }
+		 
+		 //Add (number) to filename
+		 StringBuilder s = new StringBuilder();
+		 if(i > 1)
+		 {
+			 int numberlength = filename_Without_Ext.lastIndexOf("(");
+			 s.append(filename_Without_Ext.substring(0, numberlength));
+			 s.append("(" + Integer.toString(i) + ")");
+		 }
+		 else
+		 {
+			 s.append(filename_Without_Ext);
+			 s.append("(1)");
+		 }
+		 
+		 if(ext.length() > 0)
+		 {
+			 s.append(ext);
+		 }
+		 return s.toString();
+		}
 }

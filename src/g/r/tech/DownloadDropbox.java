@@ -143,6 +143,14 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
             	//sdpath = Environment.getExternalStorageDirectory().getPath() + "/Beanstalk Downloads/" + filename.fileName();
             	//Create File called filename in Beanstalk Downloads
             	sdpath = new File(bfolder, filename.fileName());
+            	
+            	//Check if it exists, if it does add a (x) at the end
+            	int i = 1;
+            	while(sdpath.exists())
+            	{
+            		sdpath = new File(bfolder, duplicate(sdpath.getName(), i));
+            		i++;
+            	}
                     
             }
             else
@@ -228,8 +236,7 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
         Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
         error.show();
     }
-    /*
-    public String duplicate(String fileName){
+    public String duplicate(String fileName, int i){
 		 String filename_Without_Ext = "";
 		 String ext = "";
 
@@ -244,16 +251,26 @@ public class DownloadDropbox extends AsyncTask<Void, Long, Boolean> {
 			 ext = fileName.substring(dotposition, fileName.length());
 		 }
 		 
-		 //Add (2) to filename
+		 //Add (number) to filename
 		 StringBuilder s = new StringBuilder();
-		 s.append(filename_Without_Ext);
-		 s.append("(2)");
+		 if(i > 1)
+		 {
+			 int numberlength = filename_Without_Ext.lastIndexOf("(");
+			 s.append(filename_Without_Ext.substring(0, numberlength));
+			 s.append("(" + Integer.toString(i) + ")");
+		 }
+		 else
+		 {
+			 s.append(filename_Without_Ext);
+			 s.append("(1)");
+		 }
+		 
 		 if(ext.length() > 0)
 		 {
 			 s.append(ext);
 		 }
 		 return s.toString();
-		}*/
+		}
 
     
     

@@ -82,6 +82,7 @@ public class SaveScreen extends Activity {
 	File sdpath;
 	static int connectedWifi = 1;
 	Boolean variable;
+	static int intlength;
 	
 	public static final String CLOSE_A_ON_RESUME = "CLOSE_A_ON_RESUME";
     
@@ -291,7 +292,14 @@ public class SaveScreen extends Activity {
 		            	}
 		            	
 		            	sdpath = new File(bfolder, items[position].name);
-		            
+		            	
+		            	//Check if it exists, if it does add a (x) at the end
+		            	int i = 1;
+		            	while(sdpath.exists())
+		            	{
+		            		sdpath = new File(bfolder, duplicate(sdpath.getName(), i));
+		            		i++;
+		            	}
 		            }
 		            else
 		            {
@@ -886,6 +894,41 @@ public class SaveScreen extends Activity {
         }
         return true;
     }
+    public String duplicate(String fileName, int i){
+		 String filename_Without_Ext = "";
+		 String ext = "";
+
+		 int dotposition= fileName.lastIndexOf(".");
+		 if(dotposition <= 0)
+		 {
+			 filename_Without_Ext = fileName;
+		 }
+		 else
+		 {
+			 filename_Without_Ext = fileName.substring(0,dotposition);
+			 ext = fileName.substring(dotposition, fileName.length());
+		 }
+		 
+		 //Add (number) to filename
+		 StringBuilder s = new StringBuilder();
+		 if(i > 1)
+		 {
+			 int numberlength = filename_Without_Ext.lastIndexOf("(");
+			 s.append(filename_Without_Ext.substring(0, numberlength));
+			 s.append("(" + Integer.toString(i) + ")");
+		 }
+		 else
+		 {
+			 s.append(filename_Without_Ext);
+			 s.append("(1)");
+		 }
+		 
+		 if(ext.length() > 0)
+		 {
+			 s.append(ext);
+		 }
+		 return s.toString();
+		}
 }
 /*The file you selected is over 50 MB and you are not connected to WiFi. This may incur data fees with your cellular provider. Do you want to continue?   */
 
