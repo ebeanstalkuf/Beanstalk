@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-package g.r.tech;
+package com.nimbus.app.beanstalk;
 
 public class Constants {
 

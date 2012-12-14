@@ -1,4 +1,4 @@
-package g.r.tech;
+package com.nimbus.app.beanstalk;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -62,9 +62,10 @@ import com.microsoft.live.LiveOperation;
 import com.microsoft.live.LiveOperationException;
 import com.microsoft.live.LiveOperationListener;
 import com.microsoft.live.LiveStatus;
+import com.nimbus.app.beanstalk.LiveSdkSampleApplication;
+import com.nimbus.app.beanstalk.SaveScreen;
 
-import g.r.tech.LiveSdkSampleApplication;
-import g.r.tech.SaveScreen;
+import com.nimbus.app.beanstalk.R;
 
 public class UpdateSkydrive extends ListActivity {
 	private static final String HOME_FOLDER = "me/skydrive";

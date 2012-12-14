@@ -1,4 +1,4 @@
-package g.r.tech;
+package com.nimbus.app.beanstalk;
 
 import android.app.Activity;
 import android.content.Intent;

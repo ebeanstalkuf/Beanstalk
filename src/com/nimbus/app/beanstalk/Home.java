@@ -1,4 +1,6 @@
-package g.r.tech;
+package com.nimbus.app.beanstalk;
+
+import com.nimbus.app.beanstalk.R;
 
 import java.util.Arrays;
 

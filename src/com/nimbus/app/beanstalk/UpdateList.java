@@ -1,4 +1,4 @@
-package g.r.tech;
+package com.nimbus.app.beanstalk;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nimbus.app.beanstalk.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

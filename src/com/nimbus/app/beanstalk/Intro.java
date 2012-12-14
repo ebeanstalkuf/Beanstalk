@@ -1,5 +1,6 @@
-package g.r.tech;
+package com.nimbus.app.beanstalk;
 
+import com.nimbus.app.beanstalk.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,6 +1,8 @@
-package g.r.tech;
+package com.nimbus.app.beanstalk;
 
 //import android.os.Handler;			//needed for the upload all image used in ACTION_DRAG_ENDED
+import com.nimbus.app.beanstalk.R;
+
 import java.io.File;
 import java.util.ArrayList;
 

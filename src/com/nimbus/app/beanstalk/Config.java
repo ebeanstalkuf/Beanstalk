@@ -1,4 +1,4 @@
-package g.r.tech;
+package com.nimbus.app.beanstalk;
 
 final public class Config {
     public static final String CLIENT_ID = "00000000480DC92A";
