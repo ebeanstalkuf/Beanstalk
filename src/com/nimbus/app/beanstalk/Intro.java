@@ -32,7 +32,7 @@ public class Intro extends Activity {
         		finally
         		{
         			//define new intent
-        			Intent openHome = new Intent("g.r.tech.HOME");
+        			Intent openHome = new Intent("com.nimbus.app.beanstalk.HOME");
         			startActivity(openHome);
         		}
         	}
