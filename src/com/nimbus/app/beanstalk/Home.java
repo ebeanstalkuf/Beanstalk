@@ -142,17 +142,7 @@ public class Home extends Activity {
 			}
 			
 		});
-        MoveCloud.setOnLongClickListener(new View.OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				// TODO Auto-generated method stub
-				Intent openUploadScreen = new Intent(v.getContext(), UploadScreen.class);
-				startActivityForResult(openUploadScreen, 0);
-				return true;
-			}
-		});
-        
+               
         //Dropbox logged in stuff.
         AndroidAuthSession session = buildSession();
         mApi = new DropboxAPI<AndroidAuthSession>(session);
