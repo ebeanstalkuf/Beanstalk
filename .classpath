@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="libs/httpmime-4.1.1.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/drive-v2r33lv1.12.0-beta"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
