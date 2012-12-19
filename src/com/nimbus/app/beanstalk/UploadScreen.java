@@ -12,11 +12,15 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.DragEvent;
+import android.view.Menu;
+import android.widget.ShareActionProvider;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
@@ -28,6 +32,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.net.Uri;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -75,7 +80,6 @@ OnItemLongClickListener {
 	private BaseAdapter adapter;
 	private int draggedIndex = -1;
     //Animation animScale;
-
 
     @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
@@ -219,12 +223,61 @@ OnItemLongClickListener {
     	remove();
     	sharefile = null;
     }
-	//@Override
-	//public boolean onCreateOptionsMenu(Menu menu) {
-		//getMenuInflater().inflate(R.menu.activity_main, menu);
-		//return true;
-	//}
+	
+    //Share Option in Action Bar
+    private ShareActionProvider myShareActionProvider;
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.share);
+        myShareActionProvider = (ShareActionProvider)item.getActionProvider();
+        myShareActionProvider.setShareHistoryFileName(
+        ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+        myShareActionProvider.setShareIntent(createShareIntent());
+        return true;
+    }
+    
+    private Intent createShareIntent() {
+    	  Intent shareIntent = new Intent(Intent.ACTION_SEND); 
+    	  
+    	  shareIntent.putExtra(Intent.EXTRA_EMAIL, "");  
+    	  shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharefile.getName()); 
+    	  shareIntent.putExtra(Intent.EXTRA_TEXT, "File shared by Beanstalk"); 
+    	  
+    	  
+    	  //For some reason right now it is sending the file name and text but does not attach the file.
+    	  if(sharefile != null){
+    	   shareIntent.putExtra(Intent.EXTRA_STREAM, sharefile);
+    	   shareIntent.setType( "*/*" ); //allows us to share any file type that sharefile may be
+    	  }
+    	  	 //Toast.makeText(this, "share intent created", Toast.LENGTH_SHORT).show();
+    	     return shareIntent; 
+    }
+	
+    private void setShareIntent(Intent shareIntent) {
+    	  if (myShareActionProvider != null) {
+    	   myShareActionProvider.setShareIntent(shareIntent); 
+    	  } 
+    }
+    
+/*	@Override
+	  public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case R.id.email:
+	      Toast.makeText(this, "email selected", Toast.LENGTH_SHORT)
+	          .show();
+	      break;
+	    case R.id.mms:
+	      Toast.makeText(this, "mms selected", Toast.LENGTH_SHORT)
+	          .show();
+	      break;
 
+	    default:
+	      break;
+	    }
+	    return true;
+	  }*/
 	
 	@Override
 	public boolean onDrag(View view, DragEvent dragEvent) {
