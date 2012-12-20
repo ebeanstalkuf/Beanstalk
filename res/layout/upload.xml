@@ -95,6 +95,7 @@
             android:layout_alignBottom="@+id/Upcloud"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="14dp"
+            android:adjustViewBounds="true"
             android:numColumns="auto_fit"
             android:columnWidth="120dp"
             android:visibility="visible"

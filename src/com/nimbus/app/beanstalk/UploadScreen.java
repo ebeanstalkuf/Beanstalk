@@ -13,6 +13,11 @@ import android.content.ClipDescription;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,6 +28,7 @@ import android.widget.ShareActionProvider;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -566,12 +572,48 @@ OnItemLongClickListener {
     	msg.show();
     }
 	
+    /*WORK IN PROGRESS FOR CUSTOM DRAG SHADOW VIEW
+    //Building custom ShadowBuilder so icon size when dragged is larger
+    private static class MyDragShadowBuilder extends View.DragShadowBuilder {
+    	 private static Drawable shadow;
+
+    	 //overrides the original shadow builder and pulls in the various components
+    	 public MyDragShadowBuilder(View v) {
+    	  super(v);
+    	  shadow = new ColorDrawable(Color.LTGRAY);
+    	    }
+
+    	 //gathers the views existing size measurements and doubles it
+    	 @Override
+    	    public void onProvideShadowMetrics (Point size, Point touch){
+    	        int width = 2 * getView().getWidth();
+    	        int height = 2 * getView().getHeight();
+
+    	        shadow.setBounds(0, 0, width, height);
+    	        size.set(width, height);
+    	        touch.set(width / 2, height / 2);
+    	    }
+
+    	 	//creates the canvas that draws the new view
+    	    @Override
+    	    public void onDrawShadow(Canvas canvas) {
+    	        shadow.draw(canvas);
+    	    }
+
+    	}*/
+    
+    
+    
 	@Override
 	public boolean onItemLongClick(AdapterView gridView, View view,
 			int position, long row) {
 		ClipData.Item item = new ClipData.Item((String) view.getTag());
 		ClipData clipData = new ClipData((CharSequence) view.getTag(),
 				new String[] { ClipDescription.MIMETYPE_TEXT_PLAIN }, item);
+		
+		//Custom dragshadow builder
+		//DragShadowBuilder myShadow = new MyDragShadowBuilder(view);
+		
 		view.startDrag(clipData, new View.DragShadowBuilder(view), null, 0);
 		
 		View DropBox = findViewById(R.id.dropbox);
