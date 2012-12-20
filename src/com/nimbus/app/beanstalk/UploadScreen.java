@@ -74,7 +74,7 @@ OnItemLongClickListener {
     GridView uploadcloud, cloudcontainer;
     static File sharefile = null;
     static int remove = 1;
-	
+    
     //variables for collision test
     ArrayList filesToshare;
 	private BaseAdapter adapter;
@@ -247,8 +247,9 @@ OnItemLongClickListener {
     	  
     	  
     	  //For some reason right now it is sending the file name and text but does not attach the file.
-    	  if(sharefile != null){
-    	   shareIntent.putExtra(Intent.EXTRA_STREAM, sharefile);
+    	  if(sharefile != null){	  
+    	   shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(sharefile));
+    	   //Toast.makeText(this, "share intent with Attachment is made", Toast.LENGTH_SHORT).show();
     	   shareIntent.setType( "*/*" ); //allows us to share any file type that sharefile may be
     	  }
     	  	 //Toast.makeText(this, "share intent created", Toast.LENGTH_SHORT).show();
