@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget32"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/upload_default_background" >
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="fill_parent"
+        android:layout_height="175dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:gravity="center" >
+
+
+            <Button
+                android:id="@+id/dropbox_fileb"           
+                android:layout_width="0px"
+                android:layout_weight="1"
+                android:layout_gravity="top"
+                android:layout_height="175dp"
+                android:background="@drawable/dropboxbutton" />
+            <Button
+                android:id="@+id/box_fileb"           
+                android:layout_width="0px"
+                android:layout_weight="1"
+                android:layout_gravity="top"
+                android:layout_height="175dp"
+                android:background="@drawable/boxbutton" />
+            <Button
+                android:id="@+id/skydrive_fileb"           
+                android:layout_width="0px"
+                android:layout_weight="1"
+                android:layout_gravity="top"
+                android:layout_height="175dp"
+                android:background="@drawable/skydrivebutton" />
+
+            <Button
+                android:id="@+id/sdcard_fileb"           
+                android:layout_width="0px"
+                android:layout_weight="1"
+                android:layout_gravity="top"
+                android:layout_height="175dp"
+                android:background="@drawable/sdcardbutton" />
+
+	</LinearLayout>
+    
+    <TextView
+        android:id="@+id/filebrowserpath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/ll2"
+        android:ellipsize="end"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="#FFFF"
+        android:textSize="18dp" 
+        android:visibility="invisible"/>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/filebrowserpath"
+        android:cacheColorHint="@android:color/transparent"
+
+        android:divider="#808080"
+        android:dividerHeight="2dp"
+        tools:listitem="@android:layout/simple_list_item_1" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/top_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="23dp"
+        android:layout_alignBaseline="@+id/filebrowserpath"
+        android:layout_alignBottom="@+id/filebrowserpath"
+        android:layout_alignParentLeft="true"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/initialText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/filebrowserpath"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:textSize="26dp"
+        android:text="Tap to View Files"
+        android:textColor="#448d51" />
+
+</RelativeLayout>
+

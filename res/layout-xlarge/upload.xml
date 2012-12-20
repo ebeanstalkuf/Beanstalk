@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget32"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/upload_default_background" >
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/search"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/settings" />
+
+    <Button
+        android:id="@+id/otherservices"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_above="@+id/settings"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="66dp"
+        android:background="@drawable/sd_icon" />
+
+    <RelativeLayout
+        android:id="@+id/draggable_cloud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/otherservices"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="79dp" >
+
+        <GridView
+            android:id="@+id/Upcloud"
+            android:layout_width="250dp"
+            android:layout_height="160dp"
+            android:background="@drawable/empty_upload_cloud"
+            android:numColumns="3"
+            android:visibility="visible" >
+        </GridView>
+
+        <GridView
+            android:id="@+id/default_file"
+            android:layout_width="92dp"
+            android:layout_height="98dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/select_file"
+            android:columnWidth="120dp"
+            android:numColumns="auto_fit"
+            android:visibility="visible" >
+        </GridView>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/box"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_above="@+id/draggable_cloud"
+        android:layout_toRightOf="@+id/settings"
+        android:background="@drawable/box_icon" />
+
+    <Button
+        android:id="@+id/skydrive"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_alignBaseline="@+id/box"
+        android:layout_alignBottom="@+id/box"
+        android:layout_toLeftOf="@+id/search"
+        android:background="@drawable/skydrive_icon" />
+
+    <Button
+        android:id="@+id/dropbox"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_above="@+id/box"
+        android:layout_alignLeft="@+id/otherservices"
+        android:layout_marginBottom="47dp"
+        android:background="@drawable/dropbox_icon" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/otherservices"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="51dp"
+        android:textSize="22dp"
+        android:text="Hold and Drag to Send File"
+        android:textColor="#448d51" />
+
+    <Button
+        android:id="@+id/uploadall"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_above="@+id/dropbox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="139dp"
+        android:background="@drawable/upload_all"
+        android:visibility="visible" />
+
+</RelativeLayout>
