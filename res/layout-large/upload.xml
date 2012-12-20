@@ -103,7 +103,7 @@
         android:layout_height="120dp"
         android:layout_above="@+id/dropbox"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="18dp"
         android:background="@drawable/upload_all"
         android:visibility="visible" />
 
