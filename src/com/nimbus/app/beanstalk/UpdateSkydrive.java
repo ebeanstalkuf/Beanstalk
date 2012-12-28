@@ -129,11 +129,32 @@ public class UpdateSkydrive extends ListActivity {
                 ArrayList<SkyDriveObject> fill = skAdapter.getSkyDriveObjs();
                 fill.clear();
                 JSONArray data = result.optJSONArray(JsonKeys.DATA);
+                int uknobjs = 0;
                 for (int i = 0; i < data.length(); i++) {
-                    SkyDriveObject skyDriveObj = SkyDriveObject.create(data.optJSONObject(i));
+                	//Check for unknown object type
+                	SkyDriveObject skyDriveObj;
+                	try
+                	{
+                		skyDriveObj = SkyDriveObject.create(data.optJSONObject(i));
+                	}
+                	catch (AssertionError e)
+                	{
+                		//Add that an additional file threw an error
+                		uknobjs = uknobjs + 1;
+                		continue;
+                	}
                     fill.add(skyDriveObj);
                 }
                 progressDialog.dismiss();
+                if(uknobjs == 1)
+                {
+                	showToast("Uh-oh! " + Integer.toString(uknobjs) + " file contains an Unknown SkyDriveObject type and could not be displayed.");
+                }
+                else if(uknobjs > 1)
+                {
+                	showToast("Uh-oh! " + Integer.toString(uknobjs) + " files contain an Unknown SkyDriveObject type and could not be displayed.");
+                }
+                
                 if(fill.size() < 1)
                 {
                 	if(mCurrentFolderId.equals("me/skydrive"))
