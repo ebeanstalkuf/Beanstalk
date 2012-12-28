@@ -549,6 +549,22 @@ public class SaveScreen extends Activity {
                     //String shortPath = shorten(longPath);
                     setName(marker.getName());
                 }
+                else if( extensionType.equalsIgnoreCase("zip") || extensionType.equalsIgnoreCase("tar") || extensionType.equalsIgnoreCase("iso") 
+                		|| extensionType.equalsIgnoreCase("bz2") || extensionType.equalsIgnoreCase("gz") || extensionType.equalsIgnoreCase("lz")
+                		|| extensionType.equalsIgnoreCase("lzma") || extensionType.equalsIgnoreCase("lzo") || extensionType.equalsIgnoreCase("xz")
+                		|| extensionType.equalsIgnoreCase("z") || extensionType.equalsIgnoreCase("7z") || extensionType.equalsIgnoreCase("s7z") 
+                		|| extensionType.equalsIgnoreCase("apk") || extensionType.equalsIgnoreCase("zz") || extensionType.equalsIgnoreCase("zipx") || extensionType.equalsIgnoreCase("tbz2") 
+                		|| extensionType.equalsIgnoreCase("tgz") || extensionType.equalsIgnoreCase(".tar.gz") || extensionType.equalsIgnoreCase("rar") || extensionType.equalsIgnoreCase("sit"))
+                {
+                	if (sdView == null) {
+                        sdView = inflateSDCardListItem(parent);
+                    }
+
+                    setIcon(R.drawable.zip);
+                    //String longPath = marker.getPath();
+                    //String shortPath = shorten(longPath);
+                    setName(marker.getName());
+                }
                 else
                 {
                 	if (sdView == null) {
@@ -637,6 +653,15 @@ public class SaveScreen extends Activity {
                 		|| extensionType.equalsIgnoreCase("ppj") )
                 {
                 	img.setImageResource(R.drawable.video);
+                }
+                else if( extensionType.equalsIgnoreCase("zip") || extensionType.equalsIgnoreCase("tar") || extensionType.equalsIgnoreCase("iso") 
+                		|| extensionType.equalsIgnoreCase("bz2") || extensionType.equalsIgnoreCase("gz") || extensionType.equalsIgnoreCase("lz")
+                		|| extensionType.equalsIgnoreCase("lzma") || extensionType.equalsIgnoreCase("lzo") || extensionType.equalsIgnoreCase("xz")
+                		|| extensionType.equalsIgnoreCase("z") || extensionType.equalsIgnoreCase("7z") || extensionType.equalsIgnoreCase("s7z") 
+                		|| extensionType.equalsIgnoreCase("apk") || extensionType.equalsIgnoreCase("zz") || extensionType.equalsIgnoreCase("zipx") || extensionType.equalsIgnoreCase("tbz2") 
+                		|| extensionType.equalsIgnoreCase("tgz") || extensionType.equalsIgnoreCase(".tar.gz") || extensionType.equalsIgnoreCase("rar") || extensionType.equalsIgnoreCase("sit"))
+                {
+                	img.setImageResource(R.drawable.zip);
                 }
                 else
                 {

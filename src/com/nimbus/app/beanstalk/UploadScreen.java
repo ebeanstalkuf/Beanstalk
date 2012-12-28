@@ -133,6 +133,15 @@ OnItemLongClickListener {
         {
         	filesToshare.add(R.drawable.video_upload);
         }
+        else if( extensionType.equalsIgnoreCase("zip") || extensionType.equalsIgnoreCase("tar") || extensionType.equalsIgnoreCase("iso") 
+        		|| extensionType.equalsIgnoreCase("bz2") || extensionType.equalsIgnoreCase("gz") || extensionType.equalsIgnoreCase("lz")
+        		|| extensionType.equalsIgnoreCase("lzma") || extensionType.equalsIgnoreCase("lzo") || extensionType.equalsIgnoreCase("xz")
+        		|| extensionType.equalsIgnoreCase("z") || extensionType.equalsIgnoreCase("7z") || extensionType.equalsIgnoreCase("s7z") 
+        		|| extensionType.equalsIgnoreCase("apk") || extensionType.equalsIgnoreCase("zz") || extensionType.equalsIgnoreCase("zipx") || extensionType.equalsIgnoreCase("tbz2") 
+        		|| extensionType.equalsIgnoreCase("tgz") || extensionType.equalsIgnoreCase(".tar.gz") || extensionType.equalsIgnoreCase("rar") || extensionType.equalsIgnoreCase("sit"))
+        {
+        	filesToshare.add(R.drawable.zip_upload);
+        }
         else
         {
         	filesToshare.add(R.drawable.document_upload);

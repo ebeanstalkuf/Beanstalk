@@ -330,8 +330,52 @@ public class UpdateSkydrive extends ListActivity {
                     if (mView == null) {
                         mView = inflateNewSkyDriveListItem();
                     }
+                    
+                    //12-28-12 - Casey - This will double check the file extension types to ensure all icons across services are uniformly identified even if SkyDrive doesn't recognize them as a particular filetype (i.e Zip, psd, etc)
+                    String extensionType = filename(file.getName());
+                    
+                    if( extensionType.equalsIgnoreCase("jpg") || extensionType.equalsIgnoreCase("png") || extensionType.equalsIgnoreCase("gif") 
+                        	|| extensionType.equalsIgnoreCase("bmp") || extensionType.equalsIgnoreCase("psd") || extensionType.equalsIgnoreCase("tif") 
+                        	|| extensionType.equalsIgnoreCase("tiff") || extensionType.equalsIgnoreCase("ai") || extensionType.equalsIgnoreCase("svg"))
+                    {
+                        setIcon(R.drawable.photo);
+                        //setName(dropBoxObj.fileName());
+                    }
+                    else if( extensionType.equalsIgnoreCase("mp3") || extensionType.equalsIgnoreCase("m4a") || extensionType.equalsIgnoreCase("wav") 
+                    		|| extensionType.equalsIgnoreCase("flac") || extensionType.equalsIgnoreCase("aac") || extensionType.equalsIgnoreCase("m4p")
+                    		|| extensionType.equalsIgnoreCase("mmf") || extensionType.equalsIgnoreCase("ogg") || extensionType.equalsIgnoreCase("Opus")
+                    		|| extensionType.equalsIgnoreCase("raw") || extensionType.equalsIgnoreCase("vox") || extensionType.equalsIgnoreCase("wma") 
+                    		|| extensionType.equalsIgnoreCase("alac") || extensionType.equalsIgnoreCase("aiff"))
+                    {
+                        setIcon(R.drawable.music);
+                        //setName(dropBoxObj.fileName());
+                    }
+                    else if( extensionType.equalsIgnoreCase("mov") || extensionType.equalsIgnoreCase("divx") || extensionType.equalsIgnoreCase("xvid")
+                    		|| extensionType.equalsIgnoreCase("asf") || extensionType.equalsIgnoreCase("avi") || extensionType.equalsIgnoreCase("m1v")
+                    		|| extensionType.equalsIgnoreCase("m2v") || extensionType.equalsIgnoreCase("m4v") || extensionType.equalsIgnoreCase("fla")
+                    		|| extensionType.equalsIgnoreCase("flv") || extensionType.equalsIgnoreCase("sol") || extensionType.equalsIgnoreCase("mpeg")
+                    		|| extensionType.equalsIgnoreCase("mpe") || extensionType.equalsIgnoreCase("mpg") || extensionType.equalsIgnoreCase("MP4")
+                    		|| extensionType.equalsIgnoreCase("wmv") || extensionType.equalsIgnoreCase("swf") || extensionType.equalsIgnoreCase("fcp")
+                    		|| extensionType.equalsIgnoreCase("ppj") )
+                    {
+                        setIcon(R.drawable.video);
+                        //setName(dropBoxObj.fileName());
+                    }
+                    else if( extensionType.equalsIgnoreCase("zip") || extensionType.equalsIgnoreCase("tar") || extensionType.equalsIgnoreCase("iso") 
+                    		|| extensionType.equalsIgnoreCase("bz2") || extensionType.equalsIgnoreCase("gz") || extensionType.equalsIgnoreCase("lz")
+                    		|| extensionType.equalsIgnoreCase("lzma") || extensionType.equalsIgnoreCase("lzo") || extensionType.equalsIgnoreCase("xz")
+                    		|| extensionType.equalsIgnoreCase("z") || extensionType.equalsIgnoreCase("7z") || extensionType.equalsIgnoreCase("s7z") 
+                    		|| extensionType.equalsIgnoreCase("apk") || extensionType.equalsIgnoreCase("zz") || extensionType.equalsIgnoreCase("zipx") || extensionType.equalsIgnoreCase("tbz2") 
+                    		|| extensionType.equalsIgnoreCase("tgz") || extensionType.equalsIgnoreCase(".tar.gz") || extensionType.equalsIgnoreCase("rar") || extensionType.equalsIgnoreCase("sit"))
+                    {
+                        setIcon(R.drawable.zip);
+                        //setName(dropBoxObj.fileName());
+                    }
+                    else
+                    {
+                        setIcon(R.drawable.document);
+                    }
 
-                    setIcon(R.drawable.document);
                     setName(file);
                     //setDescription(file);
                 }
@@ -379,6 +423,7 @@ public class UpdateSkydrive extends ListActivity {
                     setName(audio);
                     //setDescription(audio);
                 }
+                
 
                 private void setName(SkyDriveObject skyDriveObj) {
                     TextView tv = (TextView) mView.findViewById(R.id.label);
@@ -395,6 +440,22 @@ public class UpdateSkydrive extends ListActivity {
                     tv.setText(description);
                 }
 */
+           	 private String filename(String fileName){
+        		 String filename_Without_Ext = "";
+        		 String ext = "";
+
+        		 int dotposition= fileName.lastIndexOf(".");
+        		 if(dotposition <= 0)
+        		 {
+        			 ext = "nothing";
+        			 return ext;
+        		 }
+        		 filename_Without_Ext = fileName.substring(0,dotposition);
+        		 ext = fileName.substring(dotposition + 1, fileName.length());
+
+        		 return ext;
+        		}
+                
                 private View inflateNewSkyDriveListItem() {
                     return mInflater.inflate(R.layout.screen5_rowlayout, parent, false);
                 }
