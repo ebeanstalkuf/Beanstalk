@@ -20,57 +20,53 @@
         android:layout_alignTop="@+id/whiteBox"
         android:layout_centerHorizontal="true"
         android:src="@drawable/dropboxtitle" />
-    
-    <TextView
-        android:id="@+id/logState"
-        android:layout_below="@+id/dropboxHeader"
-        android:paddingTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <Button
+        android:id="@+id/bLogout"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/bLogin"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="@string/signedOut"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/signout_box"
+        android:text="@string/signOut"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
 
     <Button
+        android:id="@+id/bRegister"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:text="@string/register"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+    <Button
         android:id="@+id/bLogin"
-        android:layout_width="125dp"
+        android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/whiteBox"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="157dp"
+        android:layout_alignLeft="@+id/bLogout"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:background="@drawable/signin_box"
         android:text="@string/signIn"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
 
-    <Button
-        android:id="@+id/bLogout"
-        android:layout_width="125dp"
-        android:layout_height="50dp"
-        android:layout_alignBaseline="@+id/bLogin"
-        android:layout_alignBottom="@+id/bLogin"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="17dp"
-        android:background="@drawable/signout_box"
-        android:text="@string/signOut"
-        android:textColor="#FFFFFF"
-        android:textSize="25dp" />
-    
-    <Button
-        android:id="@+id/bRegister"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="38dp"
+    <TextView
+        android:id="@+id/logState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/whiteBox"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/signout_box"
-        android:text="@string/register"
+        android:layout_marginTop="49dp"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:text="@string/signedOut"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
-    
-        
 
 </RelativeLayout>
