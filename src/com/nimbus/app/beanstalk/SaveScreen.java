@@ -197,7 +197,8 @@ public class SaveScreen extends Activity {
 		        authToken = prefs.getString(Constants.PREFS_KEY_AUTH_TOKEN, null);
 		        if (authToken == null) {
 		            Toast.makeText(getApplicationContext(), "Shucks! I can't see anything over here. Try logging in again.", Toast.LENGTH_SHORT).show();
-		            finish();
+		            //finish();
+		            cloudService = "nothing";
 		            return;
 		        }
 		        else {
