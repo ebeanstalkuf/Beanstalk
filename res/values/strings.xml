@@ -12,5 +12,7 @@
     <string name="signedIn">You are signed in.</string>
     <string name="signedOut">You are NOT signed in.</string>
     <string name="checking_login_status">Checking login status...</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">i.e. Sunset.jpg</string>
 
 </resources>
