@@ -3,6 +3,7 @@ package com.nimbus.app.beanstalk;
 import com.nimbus.app.beanstalk.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -13,6 +14,7 @@ import java.util.Stack;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -22,6 +24,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +32,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,6 +43,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -122,7 +128,6 @@ public class SaveScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen5_download);
-        
       
     	    
     	welcomeText = (TextView) findViewById(R.id.initialText);
@@ -138,7 +143,35 @@ public class SaveScreen extends Activity {
 				updateSD(Environment.getExternalStorageDirectory());
 			}
 		});
-                        
+              
+        //Objects accepted from other Apps
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        
+        //Below is code used when another application sends a file to our application.
+        //It should receive an intent and check the corresponding file type. Not all file types are accepted.
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("application/zip".equals(type)) {
+                handleSendFile(intent, "zip"); // Handle zip being sent
+            } else if (type.startsWith("image/")) {
+                handleSendFile(intent, "image"); // Handle single image being sent 
+            } else if (type.startsWith("audio/")){
+            	handleSendFile(intent, "audio"); //Handle audio content
+            } else if (type.startsWith("video/")){
+            	handleSendFile(intent, "video"); //Handle Video content
+            } else if (type.startsWith("application/vnd.openxmlformats")){
+            	handleSendFile(intent, "doc"); //Handle MS Word/Powerpoint/Excel docs 2007+
+            } else if (type.startsWith("application/vnd.ms-")){
+            	handleSendFile(intent, "doc"); //Handles MS docs prior to 2007
+            } else {
+            	showToast("Well this is embarassing...I don't know how to upload that! Please go back and select a different file.");
+            	return;
+            }
+        }
+        
+        
+        
         //Create listener for Dropbox file update button
         dropboxfiles = (Button) findViewById(R.id.dropbox_fileb);
         // Find the ListView resource.
@@ -246,6 +279,50 @@ public class SaveScreen extends Activity {
          finish();
       }
   }
+    
+    public void handleSendFile(Intent thisIntent, String extensionType) {
+        Uri fileUri = (Uri) thisIntent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (fileUri != null) {  	   
+        	    //need to make sharefile obtain the URI from thisIntent
+        		//showToast("I received a fileUri successfully");
+        		
+        		String sdcardstatus = Environment.getExternalStorageState();
+	            if(sdcardstatus.equals(Environment.MEDIA_MOUNTED_READ_ONLY))
+	            {
+	            	mErrorMsg = "Error: Your SD card has been mounted as Read Only. Please re-mount with write access.";
+	            	return;
+	            }
+	            else if(sdcardstatus.equals(Environment.MEDIA_REMOVED))
+	            {
+	            	mErrorMsg ="Error: Your device is not showing an SD Card. Beanstalk can only download a file to an SD card";
+	            	return;
+	            }
+	            
+	            showToast(fileUri.toString() + "is the directory that the File is made from");
+	            
+	            File sharedFileFromOtherApp = new File(fileUri.toString());
+	            
+                UploadScreen.sharefile = sharedFileFromOtherApp;
+    			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
+    			startActivity(openUploadScreen);
+        }
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                 (SearchView) menu.findItem(R.id.search).getActionView();
+         searchView.setSearchableInfo(
+                 searchManager.getSearchableInfo(getComponentName()));
+        
+        return true;
+    }
     
     public void boxSetShit(ListView x)
     {
@@ -760,6 +837,7 @@ public class SaveScreen extends Activity {
 
 		 return ext;
 		}
+    
     public void updateSD(final File folder)
     {
     	sdAdapter = new SDCardListAdapter(this);

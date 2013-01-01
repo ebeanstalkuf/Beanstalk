@@ -99,13 +99,15 @@ OnItemLongClickListener {
         
        //animScale = AnimationUtils.loadAnimation(this, R.anim.anim_scale);
         
+        
         //array list for collision
         filesToshare = new ArrayList();
         if(sharefile == null)
         {
         	displayToast("Well this is embarassing...I don't know what to upload! Please go back to the file browser and select your file again.");
         	return;
-        }
+        }    
+        
 		String fileName = sharefile.getName();
         String extensionType = filename(fileName);
         
