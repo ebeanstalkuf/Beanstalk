@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +24,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -29,6 +33,7 @@ import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -298,16 +303,33 @@ public class SaveScreen extends Activity {
 	            	return;
 	            }
 	            
-	            showToast(fileUri.toString() + "is the directory that the File is made from");
+	            //showToast(fileUri.toString() + "is the directory that the File is made from");
+	            String filePath = getPathfromUri(fileUri);
 	            
-	            File sharedFileFromOtherApp = new File(fileUri.toString());
+	            File sharedFileFromOtherApp = null;
+				sharedFileFromOtherApp = new File(filePath);
+
 	            
-                UploadScreen.sharefile = sharedFileFromOtherApp;
-    			Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
-    			startActivity(openUploadScreen);
+				if(sharedFileFromOtherApp != null){
+					UploadScreen.sharefile = sharedFileFromOtherApp;
+					Intent openUploadScreen = new Intent(SaveScreen.this.getApplicationContext(), UploadScreen.class);
+					startActivity(openUploadScreen);
+				}
         }
     }
     
+    public String getPathfromUri(Uri uri) {
+    	 if(uri.toString().startsWith("file://")) 
+    	       return uri.getPath();
+    	 String[] projection = { MediaStore.Images.Media.DATA };
+    	 Cursor cursor = managedQuery(uri, projection, null, null, null);
+    	 startManagingCursor(cursor);
+    	 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+    	 cursor.moveToFirst();
+    	 String path= cursor.getString(column_index);
+    	 //cursor.close();
+    	 return path;
+    	}
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
