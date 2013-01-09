@@ -304,7 +304,7 @@ public class SaveScreen extends Activity {
 	            }
 	            
 	            //showToast(fileUri.toString() + "is the directory that the File is made from");
-	            String filePath = getPathfromUri(fileUri);
+	            String filePath = getPathfromUri(fileUri, extensionType);
 	            
 	            File sharedFileFromOtherApp = null;
 				sharedFileFromOtherApp = new File(filePath);
@@ -318,13 +318,36 @@ public class SaveScreen extends Activity {
         }
     }
     
-    public String getPathfromUri(Uri uri) {
+    public String getPathfromUri(Uri uri, String extensionType) {
+    	 Cursor cursor = null;
+    	 int column_index = 0;
     	 if(uri.toString().startsWith("file://")) 
     	       return uri.getPath();
-    	 String[] projection = { MediaStore.Images.Media.DATA };
-    	 Cursor cursor = managedQuery(uri, projection, null, null, null);
-    	 startManagingCursor(cursor);
-    	 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+    	 else if( extensionType.equals("image")){
+    		 String[] projection = { MediaStore.Images.Media.DATA };
+    		 cursor = managedQuery(uri, projection, null, null, null);
+    		 startManagingCursor(cursor);
+    		 column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+    	 }
+    	 else if( extensionType.equals("audio")){
+    		 String[] projection = { MediaStore.Audio.Media.DATA };
+    		 cursor = managedQuery(uri, projection, null, null, null);
+    		 startManagingCursor(cursor);
+    		 column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+    	 }
+    	 else if( extensionType.equals("video")){
+    		 String[] projection = { MediaStore.Video.Media.DATA };
+    		 cursor = managedQuery(uri, projection, null, null, null);
+    		 startManagingCursor(cursor);
+    		 column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+    	 }
+    	 else{
+    		 /*Should be used for documents/zip files
+    		 String[] projection = { MediaStore.Files.Media.DATA };
+    		 cursor = managedQuery(uri, projection, null, null, null);
+    		 startManagingCursor(cursor);
+    		 column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);*/
+    	 }
     	 cursor.moveToFirst();
     	 String path= cursor.getString(column_index);
     	 //cursor.close();
