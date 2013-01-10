@@ -354,7 +354,8 @@ public class SaveScreen extends Activity {
     	 //cursor.close();
     	 return path;
     	}
-    /*
+    
+    /*THE FOLLOWING IS FOR SEARCH FUNCTIONALITY. IT HAS BEEN DISABLED FOR V1.1.2 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

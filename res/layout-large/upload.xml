@@ -56,6 +56,8 @@
             android:layout_centerVertical="true"
             android:background="@drawable/select_file"
             android:columnWidth="120dp"
+            android:verticalSpacing="30dp"
+    		android:horizontalSpacing="30dp"
             android:numColumns="auto_fit"
             android:visibility="visible" >
         </GridView>
