@@ -308,7 +308,7 @@ public class SaveScreen extends Activity {
 	            
 	            File sharedFileFromOtherApp = null;
 				sharedFileFromOtherApp = new File(filePath);
-
+				UploadScreen.fileSharedFromOtherApp = true;
 	            
 				if(sharedFileFromOtherApp != null){
 					UploadScreen.sharefile = sharedFileFromOtherApp;
@@ -342,6 +342,7 @@ public class SaveScreen extends Activity {
     		 column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
     	 }
     	 else{
+    		 showToast("Oh no! The file you chose could not be properly shared to Beanstalk.");
     		 /*Should be used for documents/zip files
     		 String[] projection = { MediaStore.Files.Media.DATA };
     		 cursor = managedQuery(uri, projection, null, null, null);
@@ -353,7 +354,7 @@ public class SaveScreen extends Activity {
     	 //cursor.close();
     	 return path;
     	}
-    
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -367,7 +368,7 @@ public class SaveScreen extends Activity {
                  searchManager.getSearchableInfo(getComponentName()));
         
         return true;
-    }
+    }*/
     
     public void boxSetShit(ListView x)
     {

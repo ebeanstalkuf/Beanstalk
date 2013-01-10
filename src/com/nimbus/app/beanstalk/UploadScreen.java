@@ -80,6 +80,7 @@ OnItemLongClickListener {
     GridView uploadcloud, cloudcontainer;
     static File sharefile = null;
     static int remove = 1;
+	public static boolean fileSharedFromOtherApp = false;
     
     //variables for collision test
     ArrayList filesToshare;
@@ -218,9 +219,13 @@ OnItemLongClickListener {
     }
 	public void onPause()
     {
-    	super.onPause();
+		super.onPause();
+		if(fileSharedFromOtherApp){
+			fileSharedFromOtherApp = false;
+			closeDatShit(); }
+		else{
     	remove();
-    	sharefile = null;
+    	sharefile = null; }
     }
     public void onDestroy()
     {
